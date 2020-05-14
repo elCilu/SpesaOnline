@@ -1,9 +1,3 @@
-create table PaymentMethod
-(
-    id   tinyint primary key,
-    name varchar(20)
-);
-
 create table [User]
 (
     id              int identity (1, 1) primary key,
@@ -14,7 +8,7 @@ create table [User]
     phoneNumber     bigint      not null check (phoneNumber between 0 and 9999999999), --Aggiungere zerofill
     email           varchar(50) not null,
     admin           bit         not null,
-    idPaymentMethod tinyint foreign key references PaymentMethod (id)
+    idPaymentMethod tinyint
 );
 
 create table LoyaltyCard
@@ -41,8 +35,7 @@ create table Product
     dep      varchar(20) not null,
     qtyStock tinyint     not null,
     prize    smallmoney  not null,
-    tag      varchar(20),
-    tag      varchar(20)
+    tag tinyint
 );
 
 create table Shopping
@@ -54,7 +47,7 @@ create table Shopping
     earnedPoints    smallint   not null,
     status          tinyint    not null check (status between 0 and 3),
     idUser          int foreign key references [User] (id),
-    idPaymentMethod tinyint foreign key references PaymentMethod (id)
+    idPaymentMethod tinyint
 );
 
 create table ProductShopping

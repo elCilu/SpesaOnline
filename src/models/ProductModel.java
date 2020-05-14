@@ -8,6 +8,7 @@ public class ProductModel {
     private String dep;
     private int qtyStock;
     private float prize;
+    private int tag;
 
     public int getId() {
         return id;
