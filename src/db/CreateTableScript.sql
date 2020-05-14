@@ -41,6 +41,7 @@ create table Product
     dep      varchar(20),
     qtyStock tinyint     not null,
     prize    smallmoney  not null,
+    tag      varchar(20),
     [image]  binary(70)
 );
 
