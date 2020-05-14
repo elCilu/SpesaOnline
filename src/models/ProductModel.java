@@ -73,4 +73,10 @@ public class ProductModel {
     public void setTag(int tag) {
         this.tag = tag;
     }
+
+    public String toString() {
+        return String.format("Id: %d\nNome: %s\nMarca: %s\nQta Conf: %d\nReparto: %s\nQta Scorta: %d" +
+                        "\nPrezzo: %f\nTag: %s", getId(), getName(), getBrand(), getQtyPack(), getDep(),
+                getQtyStock(), getPrize(), getTag());
+    }
 }
