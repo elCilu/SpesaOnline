@@ -1,14 +1,14 @@
 create table [User]
 (
-    id              int identity (1, 1) primary key,
-    name            varchar(50) not null,
-    surname         varchar(50) not null,
-    address         varchar(50) not null,
-    ZIP             int         not null check (ZIP between 0 and 99999),              --Aggiungere zerofill
-    phoneNumber     bigint      not null check (phoneNumber between 0 and 9999999999), --Aggiungere zerofill
-    email           varchar(50) not null,
-    admin           bit         not null,
-    idPaymentMethod tinyint
+    id            int identity (1, 1) primary key,
+    name          varchar(50) not null,
+    surname       varchar(50) not null,
+    address       varchar(50) not null,
+    ZIP           int         not null check (ZIP between 10000 and 99999),                   --Aggiungere zerofill
+    phoneNumber   bigint      not null check (phoneNumber between 1000000000 and 9999999999), --Aggiungere zerofill
+    email         varchar(50) not null,
+    paymentMethod tinyint,
+    idPassword    int foreign key references Password (id)
 );
 
 create table LoyaltyCard
@@ -21,9 +21,9 @@ create table LoyaltyCard
 
 create table Password
 (
-    idUser int                 not null foreign key references [User] (id),
-    hash   varchar(250) unique not null,
-    salt   varchar(250) default '!Pr0g3Tt01S20_20#'
+    id   int primary key,
+    hash varchar(250) unique not null,
+    salt varchar(250) default '!Pr0g3Tt01S20_20#'
 );
 
 create table Product
@@ -57,3 +57,13 @@ create table ProductShopping
     idShopping int foreign key references Shopping (id),
     qty        smallint not null
 );
+
+create table Admin
+(
+    id         int identity (1, 1) primary key,
+    name       varchar(50) not null,
+    surname    varchar(50) not null,
+    email      varchar(50) not null,
+    idPassword int foreign key references Password (id)
+    -- ruolo FK o string
+)

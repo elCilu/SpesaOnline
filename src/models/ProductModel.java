@@ -65,4 +65,12 @@ public class ProductModel {
     public void setPrize(float prize) {
         this.prize = prize;
     }
+
+    public int getTag() {
+        return tag;
+    }
+
+    public void setTag(int tag) {
+        this.tag = tag;
+    }
 }

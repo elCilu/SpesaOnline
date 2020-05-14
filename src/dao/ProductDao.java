@@ -1,21 +1,23 @@
 package dao;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public class ProductDao extends DatabaseConnection {
-    private static ResultSet resultSet;
+public class ProductDao extends BaseDao {
 
-    /*public static List<ProductModel> getAlLProducts() {
-        List<ProductDao> products = null;
+    static void getAllProducts() {
         String query = "SELECT * FROM product";
-
         try {
-            resultSet = statement.executeQuery(query);
-            //for ()
+            ResultSet resultSet = createConnection().createStatement().executeQuery(query);
+            if (resultSet != null) {
+                while (resultSet.next()) {
+                    System.out.println(resultSet.getString(2));
+                }
+            } else {
+                System.out.println("FAIL");
+            }
         } catch (SQLException e) {
-
+            e.printStackTrace();
         }
-
-        return products;
-    }*/
+    }
 }
