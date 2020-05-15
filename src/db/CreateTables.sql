@@ -1,8 +1,8 @@
 create table Password
 (
     id   int primary key,
-    hash varchar(250) unique not null,
-    salt varchar(250) default '!Pr0g3Tt01S20_20#'
+    hash varchar(64) unique not null,
+    salt varchar(25)        not null
 );
 
 create table Admin
