@@ -1,3 +1,20 @@
+create table Password
+(
+    id   int primary key,
+    hash varchar(64) unique not null,
+    salt varchar(25)        not null
+);
+
+create table Admin
+(
+    id         int identity (1, 1) primary key,
+    name       varchar(50) not null,
+    surname    varchar(50) not null,
+    email      varchar(50) not null,
+    idPassword int foreign key references Password (id)
+    -- ruolo FK o string
+);
+
 create table [User]
 (
     id            int identity (1, 1) primary key,
@@ -19,13 +36,6 @@ create table LoyaltyCard
     idUser       int foreign key references [User] (id)
 );
 
-create table Password
-(
-    id   int primary key,
-    hash varchar(250) unique not null,
-    salt varchar(250) default '!Pr0g3Tt01S20_20#'
-);
-
 create table Product
 (
     id       int identity (1, 1) primary key,
@@ -41,7 +51,7 @@ create table Product
 create table Shopping
 (
     id              int identity (1, 1) primary key,
-    carriedDate     datetime,
+    purchasedDate     datetime,
     deliveryDate    datetime,
     totalCost       smallmoney not null,
     earnedPoints    smallint   not null,
@@ -57,13 +67,3 @@ create table ProductShopping
     idShopping int foreign key references Shopping (id),
     qty        smallint not null
 );
-
-create table Admin
-(
-    id         int identity (1, 1) primary key,
-    name       varchar(50) not null,
-    surname    varchar(50) not null,
-    email      varchar(50) not null,
-    idPassword int foreign key references Password (id)
-    -- ruolo FK o string
-)

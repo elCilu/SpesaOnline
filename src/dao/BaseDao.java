@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 abstract class BaseDao {
+    static Connection connection = createConnection();
     private static final String connectionUrl =
             "jdbc:sqlserver://localhost:1433;"
                     + "database=spesaonline;" //nome db su mssql
@@ -13,7 +14,6 @@ abstract class BaseDao {
                     + "loginTimeout=30;";
 
     static Connection createConnection() {
-        Connection connection = null;
         try {
             connection = DriverManager.getConnection(connectionUrl);
         } catch (SQLException e) {
