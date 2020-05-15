@@ -51,7 +51,7 @@ create table Product
 create table Shopping
 (
     id              int identity (1, 1) primary key,
-    carriedDate     datetime,
+    purchasedDate     datetime,
     deliveryDate    datetime,
     totalCost       smallmoney not null,
     earnedPoints    smallint   not null,

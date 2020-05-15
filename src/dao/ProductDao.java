@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ProductDao extends BaseDao {
+public final class ProductDao extends BaseDao{
 
     private static final String SELECT_ALL = "select * from product";
     private static final String SELECT_BY_ID = "select * from product where id = %d";
