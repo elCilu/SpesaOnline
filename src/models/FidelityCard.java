@@ -1,0 +1,40 @@
+package models;
+
+public class FidelityCard {
+    private int idCard;
+    private String emissionDate;
+    private int totalPoints;
+    private int idUser;
+
+    public int getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(int idCard) {
+        this.idCard = idCard;
+    }
+
+    public String getEmissionDate() {
+        return emissionDate;
+    }
+
+    public void setEmissionDate(String issuingDate) {
+        this.emissionDate = emissionDate;
+    }
+
+    public int getTotalPoints() {
+        return totalPoints;
+    }
+
+    public void setTotalPoints(int totalPoints) {
+        this.totalPoints = totalPoints;
+    }
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
+}

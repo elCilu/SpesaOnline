@@ -1,0 +1,76 @@
+package models;
+
+public class ShoppingModel {
+    private int id;
+    private Date purchaseDate;
+    private Date deliveryDate;
+    private int totalCost;
+    private int earnedPoints;
+    private int status;
+    private int idClient;
+    private int idPaymentMethod;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Date getPurchaseDate() {
+        return purchaseDate;
+    }
+
+    public void setPurchaseDate(Date purchaseDate) {
+        this.purchaseDate = purchaseDate;
+    }
+
+    public Date getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(Date deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
+    public int getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(int totalCost) {
+        this.totalCost = totalCost;
+    }
+
+    public int getEarnedPoints() {
+        return earnedPoints;
+    }
+
+    public void setEarnedPoints(int earnedPoints) {
+        this.earnedPoints = earnedPoints;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getIdClient() {
+        return idClient;
+    }
+
+    public void setIdClient(int idClient) {
+        this.idClient = idClient;
+    }
+
+    public int getIdPaymentMethod() {
+        return idPaymentMethod;
+    }
+
+    public void setIdPaymentMethod(int idPaymentMethod) {
+        this.idPaymentMethod = idPaymentMethod;
+    }
+}
