@@ -1,1 +1,1 @@
-drop table LoyaltyCard, ProductShopping, Product, Shopping, [User], Admin, Password;
+drop table LoyaltyCard, ProductShopping, Product, Shopping, Client, Admin, Password;

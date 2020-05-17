@@ -4,11 +4,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-public final class HashUtil {
+public final class PasswordUtil {
     private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
     private static final String ALGORITHM = "SHA-256";
 
-    private HashUtil() {
+    private PasswordUtil() {
     }
 
     public static boolean checkPassword(String password, byte[] salt, String hash) {
@@ -17,6 +17,7 @@ public final class HashUtil {
 
     public static String generateHash(String password, byte[] salt) {
         String hashString = null;
+        System.out.println("Generating hash with SHA-256...");
         try {
             MessageDigest digest = MessageDigest.getInstance(ALGORITHM);
             digest.reset();
@@ -31,6 +32,7 @@ public final class HashUtil {
     }
 
     public static byte[] createSalt() {
+        System.out.println("Generating salt...");
         byte[] bytes = new byte[25];
         SecureRandom random = new SecureRandom();
         random.nextBytes(bytes);

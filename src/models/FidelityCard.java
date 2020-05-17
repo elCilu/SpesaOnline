@@ -6,6 +6,13 @@ public class FidelityCard {
     private int totalPoints;
     private int idUser;
 
+    public FidelityCard(int idCard, String emissionDate, int totalPoints, int idUser) {
+        this.idCard = idCard;
+        this.emissionDate = emissionDate;
+        this.totalPoints = totalPoints;
+        this.idUser = idUser;
+    }
+
     public int getIdCard() {
         return idCard;
     }
@@ -18,7 +25,7 @@ public class FidelityCard {
         return emissionDate;
     }
 
-    public void setEmissionDate(String issuingDate) {
+    public void setEmissionDate(String emissionDate) {
         this.emissionDate = emissionDate;
     }
 

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class ProductDao extends BaseDao{
+    //TODO: arrange whole class
 
     private static final String SELECT_ALL = "select * from product";
     private static final String SELECT_BY_ID = "select * from product where id = %d";
@@ -58,6 +59,7 @@ public final class ProductDao extends BaseDao{
     }
 
     private static ProductModel createProductModel(@NotNull ResultSet resultSet) {
+        //TODO: replace it with Product constructor
         ProductModel product = new ProductModel();
         try {
             product.setId(resultSet.getInt(1));
