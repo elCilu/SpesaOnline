@@ -7,15 +7,20 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+    //TODO: think how to display errors (System.err, Log...) in the whole application
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
+    public void init() throws Exception {
+        //TODO DBSeeder
+        super.init();
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
+        primaryStage.setTitle("Spesa Online");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
-
-        // AGGIUNTA COMMENTO DEL CAZZO PER FARVI CAPIRE
     }
 
 

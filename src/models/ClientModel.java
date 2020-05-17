@@ -5,10 +5,23 @@ public class ClientModel {
     private String name;
     private String surname;
     private String address;
-    private int zip;
-    private int phoneNumber;
+    private String zip;
+    private String phoneNumber;
     private String email;
     private int idPaymentMethod;
+    private int idPassword;
+
+    public ClientModel(int id, String name, String surname, String address, String zip, String phoneNumber, String email, int idPaymentMethod, int idPassword) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.address = address;
+        this.zip = zip;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.idPaymentMethod = idPaymentMethod;
+        this.idPassword = idPassword;
+    }
 
     public int getId() {
         return id;
@@ -42,19 +55,19 @@ public class ClientModel {
         this.address = address;
     }
 
-    public int getZip() {
+    public String getZip() {
         return zip;
     }
 
-    public void setZip(int zip) {
+    public void setZip(String zip) {
         this.zip = zip;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -72,6 +85,14 @@ public class ClientModel {
 
     public void setIdPaymentMethod(int idPaymentMethod) {
         this.idPaymentMethod = idPaymentMethod;
+    }
+
+    public int getPasswordId() {
+        return idPassword;
+    }
+
+    public void setPasswordId(int passwordId) {
+        this.idPassword = passwordId;
     }
 }
 

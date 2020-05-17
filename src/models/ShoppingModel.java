@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Date;
+
 public class ShoppingModel {
     private int id;
     private Date purchaseDate;
@@ -9,6 +11,17 @@ public class ShoppingModel {
     private int status;
     private int idClient;
     private int idPaymentMethod;
+
+    public ShoppingModel(int id, Date purchaseDate, Date deliveryDate, int totalCost, int earnedPoints, int status, int idClient, int idPaymentMethod) {
+        this.id = id;
+        this.purchaseDate = purchaseDate;
+        this.deliveryDate = deliveryDate;
+        this.totalCost = totalCost;
+        this.earnedPoints = earnedPoints;
+        this.status = status;
+        this.idClient = idClient;
+        this.idPaymentMethod = idPaymentMethod;
+    }
 
     public int getId() {
         return id;

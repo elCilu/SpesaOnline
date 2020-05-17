@@ -10,6 +10,20 @@ public class ProductModel {
     private float prize;
     private int tag;
 
+    public ProductModel() {
+    }
+
+    public ProductModel(int id, String name, String brand, int qtyPack, String dep, int qtyStock, float prize, int tag) {
+        this.id = id;
+        this.name = name;
+        this.brand = brand;
+        this.qtyPack = qtyPack;
+        this.dep = dep;
+        this.qtyStock = qtyStock;
+        this.prize = prize;
+        this.tag = tag;
+    }
+
     public int getId() {
         return id;
     }

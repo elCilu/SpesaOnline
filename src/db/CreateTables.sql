@@ -1,29 +1,29 @@
 create table Password
 (
-    id   int primary key,
+    id   int identity (1, 1) primary key,
     hash varchar(64) unique not null,
-    salt varchar(25)        not null
+    salt binary(25)         not null
 );
 
 create table Admin
 (
     id         int identity (1, 1) primary key,
-    name       varchar(50) not null,
-    surname    varchar(50) not null,
-    email      varchar(50) not null,
+    name       varchar(50)        not null,
+    surname    varchar(50)        not null,
+    email      varchar(50) unique not null,
     idPassword int foreign key references Password (id)
     -- ruolo FK o string
 );
 
-create table [User]
+create table Client
 (
     id            int identity (1, 1) primary key,
-    name          varchar(50) not null,
-    surname       varchar(50) not null,
-    address       varchar(50) not null,
-    ZIP           int         not null check (ZIP between 10000 and 99999),                   --Aggiungere zerofill
-    phoneNumber   bigint      not null check (phoneNumber between 1000000000 and 9999999999), --Aggiungere zerofill
-    email         varchar(50) not null,
+    name          varchar(50)        not null,
+    surname       varchar(50)        not null,
+    address       varchar(50)        not null,
+    ZIP           varchar(5)         not null,
+    phoneNumber   varchar(10)        not null,
+    email         varchar(50) unique not null,
     paymentMethod tinyint,
     idPassword    int foreign key references Password (id)
 );
@@ -33,7 +33,7 @@ create table LoyaltyCard
     id           int identity (1, 1) primary key,
     emissionDate date,
     points       int default 0,
-    idUser       int foreign key references [User] (id)
+    idUser int foreign key references Client (id)
 );
 
 create table Product
@@ -51,12 +51,12 @@ create table Product
 create table Shopping
 (
     id              int identity (1, 1) primary key,
-    purchasedDate     datetime,
+    purchasedDate   datetime,
     deliveryDate    datetime,
     totalCost       smallmoney not null,
     earnedPoints    smallint   not null,
     status          tinyint    not null check (status between 0 and 3),
-    idUser          int foreign key references [User] (id),
+    idUser          int foreign key references Client (id),
     idPaymentMethod tinyint
 );
 
