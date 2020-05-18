@@ -9,9 +9,8 @@ public class ClientModel {
     private String phoneNumber;
     private String email;
     private int idPaymentMethod;
-    private int idPassword;
 
-    public ClientModel(int id, String name, String surname, String address, String zip, String phoneNumber, String email, int idPaymentMethod, int idPassword) {
+    public ClientModel(int id, String name, String surname, String address, String zip, String phoneNumber, String email, int idPaymentMethod) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -20,7 +19,6 @@ public class ClientModel {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.idPaymentMethod = idPaymentMethod;
-        this.idPassword = idPassword;
     }
 
     public int getId() {
@@ -87,13 +85,6 @@ public class ClientModel {
         this.idPaymentMethod = idPaymentMethod;
     }
 
-    public int getPasswordId() {
-        return idPassword;
-    }
-
-    public void setPasswordId(int passwordId) {
-        this.idPassword = passwordId;
-    }
 }
 
 

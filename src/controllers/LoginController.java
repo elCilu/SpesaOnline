@@ -1,7 +1,6 @@
 package controllers;
 
-import dao.ClientDao;
-import dao.PasswordDao;
+import dao.CredentialDao;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,8 +9,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import models.PasswordModel;
-import utils.PasswordUtil;
+import models.CredentialModel;
+import utils.CredentialUtil;
 
 public class LoginController {
 
@@ -29,7 +28,7 @@ public class LoginController {
         try {
             Stage stage = (Stage) loginPage.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("../views/signup.fxml"));
-            stage.setScene(new Scene(root, 400, 300));
+            stage.setScene(new Scene(root, 400, 350));
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -38,26 +37,36 @@ public class LoginController {
 
     @FXML
     protected void logIn() {
-        //TODO: add controls (not null, isEmpty...)
-        //TODO: 1 query w/ join statement instead of execute 2 queries
         boolean logged = false;
-        int clientIdPassword = ClientDao.selectUserIdPasswordByUsername(emailField.getText());
-        if (clientIdPassword == 0) {
-            System.out.println("No client found");
-        } else {
-            PasswordModel password = PasswordDao.selectById(clientIdPassword);
-            if (password == null) {
-                System.out.println("No password found");
-            } else {
-                if (PasswordUtil.checkPassword(passwordField.getText(), password.getSalt(), password.getHash()))
-                    logged = true;
+        String email = emailField.getText();
+        String password = passwordField.getText();
+        try {
+            if (email.trim().isEmpty() || !email.matches("[a-zA-Z.0-9]+@[a-zA-Z]+\\.[a-z]{2,3}$")) {
+                actionTarget.setText("Campo email non valido!");
+                throw new Exception("Campo email non valido.");
             }
+            if (password.isEmpty()) {
+                actionTarget.setText("Inserisci password");
+                throw new Exception("Campo password vuoto.");
+            }
+            CredentialModel credentials = CredentialDao.selectByEmail(email);
+            if (credentials != null) {
+                if (CredentialUtil.checkPassword(password, credentials.getSalt(), credentials.getHash())) {
+                    logged = true;
+                    actionTarget.setText("Sei loggato.");
+                }
+            } else {
+                actionTarget.setText("Registrati");
+                throw new Exception("User not signed");
+            }
+            if(!logged) {
+                actionTarget.setText("Credenziali sbagliate.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        if (logged) {
-            actionTarget.setText("Logged");
-        } else {
-            actionTarget.setText("No logged");
-        }
+
     }
+
 
 }

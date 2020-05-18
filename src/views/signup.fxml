@@ -2,6 +2,8 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import javafx.geometry.Insets?>
 <GridPane xmlns:fx="http://javafx.com/fxml"
           fx:id="signupPage"
           xmlns="http://javafx.com/javafx"
@@ -59,17 +61,35 @@
     <Label text="Metodo di pagamento:"
            GridPane.columnIndex="0" GridPane.rowIndex="9"/>
 
-    <RadioButton fx:id="creditCardRadio"
-                 text="Carta di credito"
-                 GridPane.columnIndex="1" GridPane.rowIndex="9"/>
-
-    <RadioButton fx:id="paypalRadio"
-                 text="PayPal"
-                 GridPane.columnIndex="1" GridPane.rowIndex="10"/>
-
-    <RadioButton fx:id="cashRadio"
-                 text="Alla consegna"
-                 GridPane.columnIndex="1" GridPane.rowIndex="11"/>
+    <RadioButton fx:id="creditCardRadio" text="Carta di credito"
+                 GridPane.columnIndex="1" GridPane.rowIndex="9">
+        <HBox.margin>
+            <Insets right="3.0"/>
+        </HBox.margin>
+        <toggleGroup>
+            <ToggleGroup fx:id="paymentMethodGroup"/>
+        </toggleGroup>
+    </RadioButton>
+    <RadioButton fx:id="paypalRadio" text="PayPal"
+                 GridPane.columnIndex="1" GridPane.rowIndex="10">
+        <HBox.margin>
+            <Insets right="30.0"/>
+            <Insets bottom="10.0"/>
+        </HBox.margin>
+        <toggleGroup>
+            <fx:reference source="paymentMethodGroup"/>
+        </toggleGroup>
+    </RadioButton>
+    <RadioButton fx:id="cashRadio" text="Alla consegna"
+                 GridPane.columnIndex="1" GridPane.rowIndex="11">
+        <HBox.margin>
+            <Insets right="30.0"/>
+            <Insets bottom="10.0"/>
+        </HBox.margin>
+        <toggleGroup>
+            <fx:reference source="paymentMethodGroup"/>
+        </toggleGroup>
+    </RadioButton>
 
     <HBox
             spacing="10" alignment="bottom_right"
@@ -83,5 +103,7 @@
         <Button text="Registrati" fx:id="signUpButton"
                 onAction="#signUp"/>
     </HBox>
+    <Text fx:id="actionTarget"
+          GridPane.columnIndex="1" GridPane.rowIndex="13"/>
 
 </GridPane>

@@ -7,20 +7,18 @@ public class ProductModel {
     private int qtyPack;
     private String dep;
     private int qtyStock;
-    private float prize;
+    private float price;
     private int tag;
 
-    public ProductModel() {
-    }
 
-    public ProductModel(int id, String name, String brand, int qtyPack, String dep, int qtyStock, float prize, int tag) {
+    public ProductModel(int id, String name, String brand, int qtyPack, String dep, int qtyStock, float price, int tag) {
         this.id = id;
         this.name = name;
         this.brand = brand;
         this.qtyPack = qtyPack;
         this.dep = dep;
         this.qtyStock = qtyStock;
-        this.prize = prize;
+        this.price = price;
         this.tag = tag;
     }
 
@@ -72,12 +70,12 @@ public class ProductModel {
         this.qtyStock = qtyStock;
     }
 
-    public float getPrize() {
-        return prize;
+    public float getprice() {
+        return price;
     }
 
-    public void setPrize(float prize) {
-        this.prize = prize;
+    public void setprice(float price) {
+        this.price = price;
     }
 
     public int getTag() {
@@ -91,6 +89,6 @@ public class ProductModel {
     public String toString() {
         return String.format("Id: %d\nNome: %s\nMarca: %s\nQta Conf: %d\nReparto: %s\nQta Scorta: %d" +
                         "\nPrezzo: %f\nTag: %s", getId(), getName(), getBrand(), getQtyPack(), getDep(),
-                getQtyStock(), getPrize(), getTag());
+                getQtyStock(), getprice(), getTag());
     }
 }
