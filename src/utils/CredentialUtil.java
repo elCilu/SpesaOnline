@@ -4,11 +4,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-public final class PasswordUtil {
+public final class CredentialUtil {
     private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
     private static final String ALGORITHM = "SHA-256";
 
-    private PasswordUtil() {
+    private CredentialUtil() {
     }
 
     public static boolean checkPassword(String password, byte[] salt, String hash) {

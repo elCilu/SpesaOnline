@@ -12,6 +12,7 @@ public class Main extends Application {
     @Override
     public void init() throws Exception {
         //TODO DBSeeder
+        //TODO create db connection
         super.init();
     }
 
@@ -21,6 +22,12 @@ public class Main extends Application {
         primaryStage.setTitle("Spesa Online");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        //TODO close db connection
+        super.stop();
     }
 
 

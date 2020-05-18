@@ -1,6 +1,7 @@
-create table Password
+create table Credentials
 (
     id   int identity (1, 1) primary key,
+    email varchar(50) unique not null,
     hash varchar(64) unique not null,
     salt binary(25)         not null
 );
@@ -10,8 +11,8 @@ create table Admin
     id         int identity (1, 1) primary key,
     name       varchar(50)        not null,
     surname    varchar(50)        not null,
+    role       int, -- ??????
     email      varchar(50) unique not null,
-    idPassword int foreign key references Password (id)
     -- ruolo FK o string
 );
 
@@ -24,8 +25,7 @@ create table Client
     ZIP           varchar(5)         not null,
     phoneNumber   varchar(10)        not null,
     email         varchar(50) unique not null,
-    paymentMethod tinyint,
-    idPassword    int foreign key references Password (id)
+    paymentMethod tinyint
 );
 
 create table LoyaltyCard
@@ -44,7 +44,7 @@ create table Product
     qtyPack  smallint    not null,
     dep      varchar(20) not null,
     qtyStock tinyint     not null,
-    prize    smallmoney  not null,
+    price    smallmoney  not null,
     tag tinyint
 );
 
