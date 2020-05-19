@@ -2,7 +2,6 @@ package dao;
 
 import models.CredentialModel;
 
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,13 +16,14 @@ public final class CredentialDao extends BaseDao {
 
     public static int  insertCredentials(CredentialModel credential) {
         int result = 0;
+        System.out.print("Inserting credentials into Credentials table... ");
         try {
             PreparedStatement statement = connection.prepareStatement(INSERT);
             statement.setString(1, credential.getEmail());
             statement.setString(2, credential.getHash());
             statement.setBytes(3, credential.getSalt());
-            System.out.println("Inserting credentials into Credentials table...");
             result = statement.executeUpdate();
+            System.out.println("Credentials inserted.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -35,27 +35,28 @@ public final class CredentialDao extends BaseDao {
         try {
             PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID);
             statement.setInt(1, id);
-            System.out.println("Selecting credentials by id...");
+            System.out.print("Selecting credentials by id... ");
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 password = new CredentialModel(resultSet.getInt(1),
                         resultSet.getString(2),
                         resultSet.getString(3),
                         resultSet.getBytes(4));
-                System.out.println("Selected credential with given id");
+                System.out.println("Credentials inserted.");
             }
         } catch (SQLException e) {
+            System.err.println("Error while selecting product.");
             e.printStackTrace();
         }
         return password;
     }
 
-    public static int getIdBySalt(byte[] salt) {
+    /*public static int getIdBySalt(byte[] salt) {
         int id = 0;
         try {
             PreparedStatement statement = connection.prepareStatement(SELECT_ID_BY_SALT);
             statement.setBytes(1, salt);
-            System.out.println("Selecting");//aggiungi se si usa func
+            System.out.print("Selecting");//aggiungi se si usa func
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next())
                 id = resultSet.getInt(1);
@@ -63,21 +64,22 @@ public final class CredentialDao extends BaseDao {
             e.printStackTrace();
         }
         return id;
-    }
+    }*/
 
     public static CredentialModel selectByEmail(String email) {
         CredentialModel credentials = null;
         try{
             PreparedStatement statement = connection.prepareStatement(SELECT_BY_EMAIL);
             statement.setString(1, email);
-            System.out.println("Selecting credentials with given email...");
+            System.out.print("Selecting credentials with given email... ");
             ResultSet resultSet = statement.executeQuery();
             if(resultSet.next()){
                 credentials = new CredentialModel(resultSet.getInt(1), resultSet.getString(2),
                         resultSet.getString(3), resultSet.getBytes(4));
-                System.out.println("Credentials with this email have been selected.");
+                System.out.println("Credentials selected!");
             }
         }catch (SQLException e){
+            System.err.println("Error while selecting credentials.");
             e.printStackTrace();
         }
         return credentials;

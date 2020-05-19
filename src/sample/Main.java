@@ -1,5 +1,6 @@
 package sample;
 
+import dao.DatabaseHandler;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,27 +8,39 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+    private boolean isCreatedPopulated;
     //TODO: think how to display errors (System.err, Log...) in the whole application
 
     @Override
     public void init() throws Exception {
-        //TODO DBSeeder
-        //TODO create db connection
+        System.out.println("Opening application... ");
+        isCreatedPopulated = DatabaseHandler.createAndPopulateTables();
         super.init();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
-        primaryStage.setTitle("Spesa Online");
-        primaryStage.setScene(new Scene(root, 300, 275));
-        primaryStage.show();
+        if (isCreatedPopulated) {
+            Parent root = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
+            primaryStage.setTitle("Spesa Online");
+            primaryStage.setScene(new Scene(root, 300, 275));
+            primaryStage.show();
+            System.out.println("Application opened!");
+        } else {
+            Parent root = FXMLLoader.load(getClass().getResource("../views/errorOnStart.fxml"));
+            primaryStage.setTitle("Spesa Online");
+            primaryStage.setScene(new Scene(root, 275, 50));
+            primaryStage.show();
+            System.out.println("Error during setting up database!");
+        }
     }
 
     @Override
     public void stop() throws Exception {
-        //TODO close db connection
+        System.out.println("Closing application...");
+        DatabaseHandler.closeConnection();
         super.stop();
+        System.out.println("Application closed.");
     }
 
 

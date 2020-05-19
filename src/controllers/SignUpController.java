@@ -6,7 +6,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -123,7 +126,7 @@ public class SignUpController {
                 throw new Exception("Email già presente nella tabella");
             }
 
-            int resultQuery = ClientDao.insertUser(new ClientModel(0, StringUtil.formatName(name),
+            int resultQuery = ClientDao.insertClient(new ClientModel(0, StringUtil.formatName(name),
                     StringUtil.formatName(surname), address, zip, phoneNumber, email, paymentMethod));
             if (resultQuery != 0) {
                 byte[] salt = CredentialUtil.createSalt();
