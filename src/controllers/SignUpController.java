@@ -66,7 +66,6 @@ public class SignUpController {
         String confirmedPassword;
         int paymentMethod;
 
-
         try{
             name = nameField.getText();
             surname = surnameField.getText();

@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 import models.CredentialModel;
 import utils.CredentialUtil;
 
+import static utils.StringUtil.isValidEmail;
+
 public class LoginController {
 
     @FXML
@@ -41,7 +43,7 @@ public class LoginController {
         String email = emailField.getText();
         String password = passwordField.getText();
         try {
-            if (email.trim().isEmpty() || !email.matches("[a-zA-Z.0-9]+@[a-zA-Z]+\\.[a-z]{2,3}$")) {
+            if (email.trim().isEmpty() || !isValidEmail(email)) {
                 actionTarget.setText("Campo email non valido!");
                 throw new Exception("Campo email non valido.");
             }
