@@ -12,4 +12,24 @@ public final class StringUtil {
         return result;
     }
 
+    public static boolean isValidName(String name){
+        return name.matches("([A-Za-z]+ [A-Za-z]+)|([A-Za-z]+)$");
+    }
+
+    public static boolean isValidSurname(String surname){
+        return isValidName(surname);
+    }
+
+    public static boolean isValidZip(String zip){
+        return zip.matches("[(0-9)]{5}$");
+    }
+
+    public static boolean isValidPhone(String phoneNumber){
+        return phoneNumber.matches("[(0-9)]{9,10}$");
+    }
+
+    public static boolean isValidEmail(String email){
+        return email.matches("[a-zA-Z.0-9]+@[a-zA-Z]+\\.[a-z]{2,3}$");
+    }
+
 }
