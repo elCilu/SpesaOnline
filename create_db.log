@@ -1,0 +1,2468 @@
+
+-------
+19/03/2020 19:03:48
+-------
+
+-- Check if table credentials exists, if not creates it
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'credentials'))
+    BEGIN
+        CREATE TABLE credentials
+        (
+            id    INT IDENTITY (1, 1) PRIMARY KEY,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            hash  VARCHAR(64) UNIQUE NOT NULL,
+            salt  BINARY(25)         NOT NULL
+        ) 
+
+-------
+19/05/2020 19:05:18
+-------
+
+-- Check if table credentials exists, if not creates it
+-- Check if table admins exists, if not creates it
+-- ruolo FK o string
+-- Check if table clients exists, if not creates it
+-- Check if table loyaltycards exists, if not creates it
+-- Check if table products exists, if not creates it
+-- Check if table shopping exists, if not creates it
+-- Check if table productsShopping exists, if not creates it
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'credentials'))
+    BEGIN
+        CREATE TABLE credentials
+        (
+            id    INT IDENTITY (1, 1) PRIMARY KEY,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            hash  VARCHAR(64) UNIQUE NOT NULL,
+            salt  BINARY(25)         NOT NULL
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'admins'))
+    BEGIN
+        create table admins
+        (
+            id      INT IDENTITY (1, 1) PRIMARY KEY,
+            name    VARCHAR(50)        NOT NULL,
+            surname VARCHAR(50)        NOT NULL,
+            role    INT, -- ??????
+            email   VARCHAR(50) UNIQUE NOT NULL,
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'clients'))
+    BEGIN
+        CREATE TABLE clients
+        (
+            id            INT IDENTITY (1, 1) PRIMARY KEY,
+            name          VARCHAR(50)        NOT NULL,
+            surname       VARCHAR(50)        NOT NULL,
+            address       VARCHAR(50)        NOT NULL,
+            ZIP           VARCHAR(5)         NOT NULL,
+            phoneNumber   VARCHAR(10)        NOT NULL,
+            email         VARCHAR(50) UNIQUE NOT NULL,
+            paymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'loyaltyCards'))
+    BEGIN
+        CREATE TABLE loyaltyCards
+        (
+            id           INT IDENTITY (1, 1) PRIMARY KEY,
+            emissionDate DATE,
+            points       INT DEFAULT 0,
+            idUser       INT FOREIGN KEY REFERENCES clients (id)
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'products'))
+    BEGIN
+        CREATE TABLE products
+        (
+            id       INT IDENTITY (1, 1) PRIMARY KEY,
+            name     VARCHAR(50) NOT NULL,
+            brand    VARCHAR(50) NOT NULL,
+            qtyPack  SMALLINT    NOT NULL,
+            dep      VARCHAR(20) NOT NULL,
+            qtyStock TINYINT     NOT NULL,
+            price    SMALLMONEY  not null,
+            tag      TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'shopping'))
+    BEGIN
+        CREATE TABLE shopping
+        (
+            id              INT IDENTITY (1, 1) PRIMARY KEY,
+            purchasedDate   DATETIME,
+            deliveryDate    DATETIME,
+            totalCost       SMALLMONEY NOT NULL,
+            earnedPoints    SMALLINT   NOT NULL,
+            status          TINYINT    NOT NULL,
+            idUser          INT FOREIGN KEY REFERENCES clients (id),
+            idPaymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'productsShopping'))
+    BEGIN
+        CREATE TABLE productsShopping
+        (
+            id         INT IDENTITY (1, 1) PRIMARY KEY,
+            idProduct  INT FOREIGN KEY REFERENCES products (id),
+            idShopping INT FOREIGN KEY REFERENCES shopping (id),
+            qty        SMALLINT NOT NULL
+        )
+    END
+
+
+-------
+19/10/2020 19:10:16
+-------
+
+-- Check if table credentials exists, if not creates it
+-- Check if table admins exists, if not creates it
+-- ruolo FK o string
+-- Check if table clients exists, if not creates it
+-- Check if table loyaltycards exists, if not creates it
+-- Check if table products exists, if not creates it
+-- Check if table shopping exists, if not creates it
+-- Check if table productsShopping exists, if not creates it
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'credentials'))
+    BEGIN
+        CREATE TABLE credentials
+        (
+            id    INT IDENTITY (1, 1) PRIMARY KEY,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            hash  VARCHAR(64) UNIQUE NOT NULL,
+            salt  BINARY(25)         NOT NULL
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'admins'))
+    BEGIN
+        create table admins
+        (
+            id      INT IDENTITY (1, 1) PRIMARY KEY,
+            name    VARCHAR(50)        NOT NULL,
+            surname VARCHAR(50)        NOT NULL,
+            role    INT, -- ??????
+            email   VARCHAR(50) UNIQUE NOT NULL,
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'clients'))
+    BEGIN
+        CREATE TABLE clients
+        (
+            id            INT IDENTITY (1, 1) PRIMARY KEY,
+            name          VARCHAR(50)        NOT NULL,
+            surname       VARCHAR(50)        NOT NULL,
+            address       VARCHAR(50)        NOT NULL,
+            ZIP           VARCHAR(5)         NOT NULL,
+            phoneNumber   VARCHAR(10)        NOT NULL,
+            email         VARCHAR(50) UNIQUE NOT NULL,
+            paymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'loyaltyCards'))
+    BEGIN
+        CREATE TABLE loyaltyCards
+        (
+            id           INT IDENTITY (1, 1) PRIMARY KEY,
+            emissionDate DATE,
+            points       INT DEFAULT 0,
+            idUser       INT FOREIGN KEY REFERENCES clients (id)
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'products'))
+    BEGIN
+        CREATE TABLE products
+        (
+            id       INT IDENTITY (1, 1) PRIMARY KEY,
+            name     VARCHAR(50) NOT NULL,
+            brand    VARCHAR(50) NOT NULL,
+            qtyPack  SMALLINT    NOT NULL,
+            dep      VARCHAR(20) NOT NULL,
+            qtyStock TINYINT     NOT NULL,
+            price    SMALLMONEY  not null,
+            tag      TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'shopping'))
+    BEGIN
+        CREATE TABLE shopping
+        (
+            id              INT IDENTITY (1, 1) PRIMARY KEY,
+            purchasedDate   DATETIME,
+            deliveryDate    DATETIME,
+            totalCost       SMALLMONEY NOT NULL,
+            earnedPoints    SMALLINT   NOT NULL,
+            status          TINYINT    NOT NULL,
+            idUser          INT FOREIGN KEY REFERENCES clients (id),
+            idPaymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'productsShopping'))
+    BEGIN
+        CREATE TABLE productsShopping
+        (
+            id         INT IDENTITY (1, 1) PRIMARY KEY,
+            idProduct  INT FOREIGN KEY REFERENCES products (id),
+            idShopping INT FOREIGN KEY REFERENCES shopping (id),
+            qty        SMALLINT NOT NULL
+        )
+    END
+
+
+-------
+19/13/2020 19:13:40
+-------
+
+-- Check if table credentials exists, if not creates it
+-- Check if table admins exists, if not creates it
+-- ruolo FK o string
+-- Check if table clients exists, if not creates it
+-- Check if table loyaltycards exists, if not creates it
+-- Check if table products exists, if not creates it
+-- Check if table shopping exists, if not creates it
+-- Check if table productsShopping exists, if not creates it
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'credentials'))
+    BEGIN
+        CREATE TABLE credentials
+        (
+            id    INT IDENTITY (1, 1) PRIMARY KEY,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            hash  VARCHAR(64) UNIQUE NOT NULL,
+            salt  BINARY(25)         NOT NULL
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'admins'))
+    BEGIN
+        create table admins
+        (
+            id      INT IDENTITY (1, 1) PRIMARY KEY,
+            name    VARCHAR(50)        NOT NULL,
+            surname VARCHAR(50)        NOT NULL,
+            role    INT, -- ??????
+            email   VARCHAR(50) UNIQUE NOT NULL,
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'clients'))
+    BEGIN
+        CREATE TABLE clients
+        (
+            id            INT IDENTITY (1, 1) PRIMARY KEY,
+            name          VARCHAR(50)        NOT NULL,
+            surname       VARCHAR(50)        NOT NULL,
+            address       VARCHAR(50)        NOT NULL,
+            ZIP           VARCHAR(5)         NOT NULL,
+            phoneNumber   VARCHAR(10)        NOT NULL,
+            email         VARCHAR(50) UNIQUE NOT NULL,
+            paymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'loyaltyCards'))
+    BEGIN
+        CREATE TABLE loyaltyCards
+        (
+            id           INT IDENTITY (1, 1) PRIMARY KEY,
+            emissionDate DATE,
+            points       INT DEFAULT 0,
+            idUser       INT FOREIGN KEY REFERENCES clients (id)
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'products'))
+    BEGIN
+        CREATE TABLE products
+        (
+            id       INT IDENTITY (1, 1) PRIMARY KEY,
+            name     VARCHAR(50) NOT NULL,
+            brand    VARCHAR(50) NOT NULL,
+            qtyPack  SMALLINT    NOT NULL,
+            dep      VARCHAR(20) NOT NULL,
+            qtyStock TINYINT     NOT NULL,
+            price    SMALLMONEY  not null,
+            tag      TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'shopping'))
+    BEGIN
+        CREATE TABLE shopping
+        (
+            id              INT IDENTITY (1, 1) PRIMARY KEY,
+            purchasedDate   DATETIME,
+            deliveryDate    DATETIME,
+            totalCost       SMALLMONEY NOT NULL,
+            earnedPoints    SMALLINT   NOT NULL,
+            status          TINYINT    NOT NULL,
+            idUser          INT FOREIGN KEY REFERENCES clients (id),
+            idPaymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'productsShopping'))
+    BEGIN
+        CREATE TABLE productsShopping
+        (
+            id         INT IDENTITY (1, 1) PRIMARY KEY,
+            idProduct  INT FOREIGN KEY REFERENCES products (id),
+            idShopping INT FOREIGN KEY REFERENCES shopping (id),
+            qty        SMALLINT NOT NULL
+        )
+    END
+
+
+-------
+19/16/2020 19:16:29
+-------
+
+-- Check if table credentials exists, if not creates it
+-- Check if table admins exists, if not creates it
+-- ruolo FK o string
+-- Check if table clients exists, if not creates it
+-- Check if table loyaltycards exists, if not creates it
+-- Check if table products exists, if not creates it
+-- Check if table shopping exists, if not creates it
+-- Check if table productsShopping exists, if not creates it
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'credentials'))
+    BEGIN
+        CREATE TABLE credentials
+        (
+            id    INT IDENTITY (1, 1) PRIMARY KEY,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            hash  VARCHAR(64) UNIQUE NOT NULL,
+            salt  BINARY(25)         NOT NULL
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'admins'))
+    BEGIN
+        create table admins
+        (
+            id      INT IDENTITY (1, 1) PRIMARY KEY,
+            name    VARCHAR(50)        NOT NULL,
+            surname VARCHAR(50)        NOT NULL,
+            role    INT, -- ??????
+            email   VARCHAR(50) UNIQUE NOT NULL,
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'clients'))
+    BEGIN
+        CREATE TABLE clients
+        (
+            id            INT IDENTITY (1, 1) PRIMARY KEY,
+            name          VARCHAR(50)        NOT NULL,
+            surname       VARCHAR(50)        NOT NULL,
+            address       VARCHAR(50)        NOT NULL,
+            ZIP           VARCHAR(5)         NOT NULL,
+            phoneNumber   VARCHAR(10)        NOT NULL,
+            email         VARCHAR(50) UNIQUE NOT NULL,
+            paymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'loyaltyCards'))
+    BEGIN
+        CREATE TABLE loyaltyCards
+        (
+            id           INT IDENTITY (1, 1) PRIMARY KEY,
+            emissionDate DATE,
+            points       INT DEFAULT 0,
+            idUser       INT FOREIGN KEY REFERENCES clients (id)
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'products'))
+    BEGIN
+        CREATE TABLE products
+        (
+            id       INT IDENTITY (1, 1) PRIMARY KEY,
+            name     VARCHAR(50) NOT NULL,
+            brand    VARCHAR(50) NOT NULL,
+            qtyPack  SMALLINT    NOT NULL,
+            dep      VARCHAR(20) NOT NULL,
+            qtyStock TINYINT     NOT NULL,
+            price    SMALLMONEY  not null,
+            tag      TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'shopping'))
+    BEGIN
+        CREATE TABLE shopping
+        (
+            id              INT IDENTITY (1, 1) PRIMARY KEY,
+            purchasedDate   DATETIME,
+            deliveryDate    DATETIME,
+            totalCost       SMALLMONEY NOT NULL,
+            earnedPoints    SMALLINT   NOT NULL,
+            status          TINYINT    NOT NULL,
+            idUser          INT FOREIGN KEY REFERENCES clients (id),
+            idPaymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'productsShopping'))
+    BEGIN
+        CREATE TABLE productsShopping
+        (
+            id         INT IDENTITY (1, 1) PRIMARY KEY,
+            idProduct  INT FOREIGN KEY REFERENCES products (id),
+            idShopping INT FOREIGN KEY REFERENCES shopping (id),
+            qty        SMALLINT NOT NULL
+        )
+    END
+
+
+-------
+19/18/2020 19:18:06
+-------
+
+-- Check if table credentials exists, if not creates it
+-- Check if table admins exists, if not creates it
+-- ruolo FK o string
+-- Check if table clients exists, if not creates it
+-- Check if table loyaltycards exists, if not creates it
+-- Check if table products exists, if not creates it
+-- Check if table shopping exists, if not creates it
+-- Check if table productsShopping exists, if not creates it
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'credentials'))
+    BEGIN
+        CREATE TABLE credentials
+        (
+            id    INT IDENTITY (1, 1) PRIMARY KEY,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            hash  VARCHAR(64) UNIQUE NOT NULL,
+            salt  BINARY(25)         NOT NULL
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'admins'))
+    BEGIN
+        create table admins
+        (
+            id      INT IDENTITY (1, 1) PRIMARY KEY,
+            name    VARCHAR(50)        NOT NULL,
+            surname VARCHAR(50)        NOT NULL,
+            role    INT, -- ??????
+            email   VARCHAR(50) UNIQUE NOT NULL,
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'clients'))
+    BEGIN
+        CREATE TABLE clients
+        (
+            id            INT IDENTITY (1, 1) PRIMARY KEY,
+            name          VARCHAR(50)        NOT NULL,
+            surname       VARCHAR(50)        NOT NULL,
+            address       VARCHAR(50)        NOT NULL,
+            ZIP           VARCHAR(5)         NOT NULL,
+            phoneNumber   VARCHAR(10)        NOT NULL,
+            email         VARCHAR(50) UNIQUE NOT NULL,
+            paymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'loyaltyCards'))
+    BEGIN
+        CREATE TABLE loyaltyCards
+        (
+            id           INT IDENTITY (1, 1) PRIMARY KEY,
+            emissionDate DATE,
+            points       INT DEFAULT 0,
+            idUser       INT FOREIGN KEY REFERENCES clients (id)
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'products'))
+    BEGIN
+        CREATE TABLE products
+        (
+            id       INT IDENTITY (1, 1) PRIMARY KEY,
+            name     VARCHAR(50) NOT NULL,
+            brand    VARCHAR(50) NOT NULL,
+            qtyPack  SMALLINT    NOT NULL,
+            dep      VARCHAR(20) NOT NULL,
+            qtyStock TINYINT     NOT NULL,
+            price    SMALLMONEY  not null,
+            tag      TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'shopping'))
+    BEGIN
+        CREATE TABLE shopping
+        (
+            id              INT IDENTITY (1, 1) PRIMARY KEY,
+            purchasedDate   DATETIME,
+            deliveryDate    DATETIME,
+            totalCost       SMALLMONEY NOT NULL,
+            earnedPoints    SMALLINT   NOT NULL,
+            status          TINYINT    NOT NULL,
+            idUser          INT FOREIGN KEY REFERENCES clients (id),
+            idPaymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'productsShopping'))
+    BEGIN
+        CREATE TABLE productsShopping
+        (
+            id         INT IDENTITY (1, 1) PRIMARY KEY,
+            idProduct  INT FOREIGN KEY REFERENCES products (id),
+            idShopping INT FOREIGN KEY REFERENCES shopping (id),
+            qty        SMALLINT NOT NULL
+        )
+    END
+
+
+-------
+19/19/2020 19:19:41
+-------
+
+-- Check if table credentials exists, if not creates it
+-- Check if table admins exists, if not creates it
+-- ruolo FK o string
+-- Check if table clients exists, if not creates it
+-- Check if table loyaltycards exists, if not creates it
+-- Check if table products exists, if not creates it
+-- Check if table shopping exists, if not creates it
+-- Check if table productsShopping exists, if not creates it
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'credentials'))
+    BEGIN
+        CREATE TABLE credentials
+        (
+            id    INT IDENTITY (1, 1) PRIMARY KEY,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            hash  VARCHAR(64) UNIQUE NOT NULL,
+            salt  BINARY(25)         NOT NULL
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'admins'))
+    BEGIN
+        create table admins
+        (
+            id      INT IDENTITY (1, 1) PRIMARY KEY,
+            name    VARCHAR(50)        NOT NULL,
+            surname VARCHAR(50)        NOT NULL,
+            role    INT, -- ??????
+            email   VARCHAR(50) UNIQUE NOT NULL,
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'clients'))
+    BEGIN
+        CREATE TABLE clients
+        (
+            id            INT IDENTITY (1, 1) PRIMARY KEY,
+            name          VARCHAR(50)        NOT NULL,
+            surname       VARCHAR(50)        NOT NULL,
+            address       VARCHAR(50)        NOT NULL,
+            ZIP           VARCHAR(5)         NOT NULL,
+            phoneNumber   VARCHAR(10)        NOT NULL,
+            email         VARCHAR(50) UNIQUE NOT NULL,
+            paymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'loyaltyCards'))
+    BEGIN
+        CREATE TABLE loyaltyCards
+        (
+            id           INT IDENTITY (1, 1) PRIMARY KEY,
+            emissionDate DATE,
+            points       INT DEFAULT 0,
+            idUser       INT FOREIGN KEY REFERENCES clients (id)
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'products'))
+    BEGIN
+        CREATE TABLE products
+        (
+            id       INT IDENTITY (1, 1) PRIMARY KEY,
+            name     VARCHAR(50) NOT NULL,
+            brand    VARCHAR(50) NOT NULL,
+            qtyPack  SMALLINT    NOT NULL,
+            dep      VARCHAR(20) NOT NULL,
+            qtyStock TINYINT     NOT NULL,
+            price    SMALLMONEY  not null,
+            tag      TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'shopping'))
+    BEGIN
+        CREATE TABLE shopping
+        (
+            id              INT IDENTITY (1, 1) PRIMARY KEY,
+            purchasedDate   DATETIME,
+            deliveryDate    DATETIME,
+            totalCost       SMALLMONEY NOT NULL,
+            earnedPoints    SMALLINT   NOT NULL,
+            status          TINYINT    NOT NULL,
+            idUser          INT FOREIGN KEY REFERENCES clients (id),
+            idPaymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'productsShopping'))
+    BEGIN
+        CREATE TABLE productsShopping
+        (
+            id         INT IDENTITY (1, 1) PRIMARY KEY,
+            idProduct  INT FOREIGN KEY REFERENCES products (id),
+            idShopping INT FOREIGN KEY REFERENCES shopping (id),
+            qty        SMALLINT NOT NULL
+        )
+    END
+
+
+-------
+19/22/2020 19:22:17
+-------
+
+-- Check if table credentials exists, if not creates it
+-- Check if table admins exists, if not creates it
+-- ruolo FK o string
+-- Check if table clients exists, if not creates it
+-- Check if table loyaltycards exists, if not creates it
+-- Check if table products exists, if not creates it
+-- Check if table shopping exists, if not creates it
+-- Check if table productsShopping exists, if not creates it
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'credentials'))
+    BEGIN
+        CREATE TABLE credentials
+        (
+            id    INT IDENTITY (1, 1) PRIMARY KEY,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            hash  VARCHAR(64) UNIQUE NOT NULL,
+            salt  BINARY(25)         NOT NULL
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'admins'))
+    BEGIN
+        create table admins
+        (
+            id      INT IDENTITY (1, 1) PRIMARY KEY,
+            name    VARCHAR(50)        NOT NULL,
+            surname VARCHAR(50)        NOT NULL,
+            role    INT, -- ??????
+            email   VARCHAR(50) UNIQUE NOT NULL,
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'clients'))
+    BEGIN
+        CREATE TABLE clients
+        (
+            id            INT IDENTITY (1, 1) PRIMARY KEY,
+            name          VARCHAR(50)        NOT NULL,
+            surname       VARCHAR(50)        NOT NULL,
+            address       VARCHAR(50)        NOT NULL,
+            ZIP           VARCHAR(5)         NOT NULL,
+            phoneNumber   VARCHAR(10)        NOT NULL,
+            email         VARCHAR(50) UNIQUE NOT NULL,
+            paymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'loyaltyCards'))
+    BEGIN
+        CREATE TABLE loyaltyCards
+        (
+            id           INT IDENTITY (1, 1) PRIMARY KEY,
+            emissionDate DATE,
+            points       INT DEFAULT 0,
+            idUser       INT FOREIGN KEY REFERENCES clients (id)
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'products'))
+    BEGIN
+        CREATE TABLE products
+        (
+            id       INT IDENTITY (1, 1) PRIMARY KEY,
+            name     VARCHAR(50) NOT NULL,
+            brand    VARCHAR(50) NOT NULL,
+            qtyPack  SMALLINT    NOT NULL,
+            dep      VARCHAR(20) NOT NULL,
+            qtyStock TINYINT     NOT NULL,
+            price    SMALLMONEY  not null,
+            tag      TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'shopping'))
+    BEGIN
+        CREATE TABLE shopping
+        (
+            id              INT IDENTITY (1, 1) PRIMARY KEY,
+            purchasedDate   DATETIME,
+            deliveryDate    DATETIME,
+            totalCost       SMALLMONEY NOT NULL,
+            earnedPoints    SMALLINT   NOT NULL,
+            status          TINYINT    NOT NULL,
+            idUser          INT FOREIGN KEY REFERENCES clients (id),
+            idPaymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'productsShopping'))
+    BEGIN
+        CREATE TABLE productsShopping
+        (
+            id         INT IDENTITY (1, 1) PRIMARY KEY,
+            idProduct  INT FOREIGN KEY REFERENCES products (id),
+            idShopping INT FOREIGN KEY REFERENCES shopping (id),
+            qty        SMALLINT NOT NULL
+        )
+    END
+
+
+-------
+19/24/2020 19:24:35
+-------
+
+-- Check if table credentials exists, if not creates it
+-- Check if table admins exists, if not creates it
+-- ruolo FK o string
+-- Check if table clients exists, if not creates it
+-- Check if table loyaltycards exists, if not creates it
+-- Check if table products exists, if not creates it
+-- Check if table shopping exists, if not creates it
+-- Check if table productsShopping exists, if not creates it
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'credentials'))
+    BEGIN
+        CREATE TABLE credentials
+        (
+            id    INT IDENTITY (1, 1) PRIMARY KEY,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            hash  VARCHAR(64) UNIQUE NOT NULL,
+            salt  BINARY(25)         NOT NULL
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'admins'))
+    BEGIN
+        create table admins
+        (
+            id      INT IDENTITY (1, 1) PRIMARY KEY,
+            name    VARCHAR(50)        NOT NULL,
+            surname VARCHAR(50)        NOT NULL,
+            role    INT, -- ??????
+            email   VARCHAR(50) UNIQUE NOT NULL,
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'clients'))
+    BEGIN
+        CREATE TABLE clients
+        (
+            id            INT IDENTITY (1, 1) PRIMARY KEY,
+            name          VARCHAR(50)        NOT NULL,
+            surname       VARCHAR(50)        NOT NULL,
+            address       VARCHAR(50)        NOT NULL,
+            ZIP           VARCHAR(5)         NOT NULL,
+            phoneNumber   VARCHAR(10)        NOT NULL,
+            email         VARCHAR(50) UNIQUE NOT NULL,
+            paymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'loyaltyCards'))
+    BEGIN
+        CREATE TABLE loyaltyCards
+        (
+            id           INT IDENTITY (1, 1) PRIMARY KEY,
+            emissionDate DATE,
+            points       INT DEFAULT 0,
+            idUser       INT FOREIGN KEY REFERENCES clients (id)
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'products'))
+    BEGIN
+        CREATE TABLE products
+        (
+            id       INT IDENTITY (1, 1) PRIMARY KEY,
+            name     VARCHAR(50) NOT NULL,
+            brand    VARCHAR(50) NOT NULL,
+            qtyPack  SMALLINT    NOT NULL,
+            dep      VARCHAR(20) NOT NULL,
+            qtyStock TINYINT     NOT NULL,
+            price    SMALLMONEY  not null,
+            tag      TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'shopping'))
+    BEGIN
+        CREATE TABLE shopping
+        (
+            id              INT IDENTITY (1, 1) PRIMARY KEY,
+            purchasedDate   DATETIME,
+            deliveryDate    DATETIME,
+            totalCost       SMALLMONEY NOT NULL,
+            earnedPoints    SMALLINT   NOT NULL,
+            status          TINYINT    NOT NULL,
+            idUser          INT FOREIGN KEY REFERENCES clients (id),
+            idPaymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'productsShopping'))
+    BEGIN
+        CREATE TABLE productsShopping
+        (
+            id         INT IDENTITY (1, 1) PRIMARY KEY,
+            idProduct  INT FOREIGN KEY REFERENCES products (id),
+            idShopping INT FOREIGN KEY REFERENCES shopping (id),
+            qty        SMALLINT NOT NULL
+        )
+    END
+
+
+-------
+19/29/2020 19:29:01
+-------
+
+-- Check if table credentials exists, if not creates it
+-- Check if table admins exists, if not creates it
+-- ruolo FK o string
+-- Check if table clients exists, if not creates it
+-- Check if table loyaltycards exists, if not creates it
+-- Check if table products exists, if not creates it
+-- Check if table shopping exists, if not creates it
+-- Check if table productsShopping exists, if not creates it
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'credentials'))
+    BEGIN
+        CREATE TABLE credentials
+        (
+            id    INT IDENTITY (1, 1) PRIMARY KEY,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            hash  VARCHAR(64) UNIQUE NOT NULL,
+            salt  BINARY(25)         NOT NULL
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'admins'))
+    BEGIN
+        create table admins
+        (
+            id      INT IDENTITY (1, 1) PRIMARY KEY,
+            name    VARCHAR(50)        NOT NULL,
+            surname VARCHAR(50)        NOT NULL,
+            role    INT, -- ??????
+            email   VARCHAR(50) UNIQUE NOT NULL,
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'clients'))
+    BEGIN
+        CREATE TABLE clients
+        (
+            id            INT IDENTITY (1, 1) PRIMARY KEY,
+            name          VARCHAR(50)        NOT NULL,
+            surname       VARCHAR(50)        NOT NULL,
+            address       VARCHAR(50)        NOT NULL,
+            ZIP           VARCHAR(5)         NOT NULL,
+            phoneNumber   VARCHAR(10)        NOT NULL,
+            email         VARCHAR(50) UNIQUE NOT NULL,
+            paymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'loyaltyCards'))
+    BEGIN
+        CREATE TABLE loyaltyCards
+        (
+            id           INT IDENTITY (1, 1) PRIMARY KEY,
+            emissionDate DATE,
+            points       INT DEFAULT 0,
+            idUser       INT FOREIGN KEY REFERENCES clients (id)
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'products'))
+    BEGIN
+        CREATE TABLE products
+        (
+            id       INT IDENTITY (1, 1) PRIMARY KEY,
+            name     VARCHAR(50) NOT NULL,
+            brand    VARCHAR(50) NOT NULL,
+            qtyPack  SMALLINT    NOT NULL,
+            dep      VARCHAR(20) NOT NULL,
+            qtyStock TINYINT     NOT NULL,
+            price    SMALLMONEY  not null,
+            tag      TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'shopping'))
+    BEGIN
+        CREATE TABLE shopping
+        (
+            id              INT IDENTITY (1, 1) PRIMARY KEY,
+            purchasedDate   DATETIME,
+            deliveryDate    DATETIME,
+            totalCost       SMALLMONEY NOT NULL,
+            earnedPoints    SMALLINT   NOT NULL,
+            status          TINYINT    NOT NULL,
+            idUser          INT FOREIGN KEY REFERENCES clients (id),
+            idPaymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'productsShopping'))
+    BEGIN
+        CREATE TABLE productsShopping
+        (
+            id         INT IDENTITY (1, 1) PRIMARY KEY,
+            idProduct  INT FOREIGN KEY REFERENCES products (id),
+            idShopping INT FOREIGN KEY REFERENCES shopping (id),
+            qty        SMALLINT NOT NULL
+        )
+    END
+
+
+-------
+19/32/2020 19:32:43
+-------
+
+-- Check if table credentials exists, if not creates it
+-- Check if table admins exists, if not creates it
+-- ruolo FK o string
+-- Check if table clients exists, if not creates it
+-- Check if table loyaltycards exists, if not creates it
+-- Check if table products exists, if not creates it
+-- Check if table shopping exists, if not creates it
+-- Check if table productsShopping exists, if not creates it
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'credentials'))
+    BEGIN
+        CREATE TABLE credentials
+        (
+            id    INT IDENTITY (1, 1) PRIMARY KEY,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            hash  VARCHAR(64) UNIQUE NOT NULL,
+            salt  BINARY(25)         NOT NULL
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'admins'))
+    BEGIN
+        create table admins
+        (
+            id      INT IDENTITY (1, 1) PRIMARY KEY,
+            name    VARCHAR(50)        NOT NULL,
+            surname VARCHAR(50)        NOT NULL,
+            role    INT, -- ??????
+            email   VARCHAR(50) UNIQUE NOT NULL,
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'clients'))
+    BEGIN
+        CREATE TABLE clients
+        (
+            id            INT IDENTITY (1, 1) PRIMARY KEY,
+            name          VARCHAR(50)        NOT NULL,
+            surname       VARCHAR(50)        NOT NULL,
+            address       VARCHAR(50)        NOT NULL,
+            ZIP           VARCHAR(5)         NOT NULL,
+            phoneNumber   VARCHAR(10)        NOT NULL,
+            email         VARCHAR(50) UNIQUE NOT NULL,
+            paymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'loyaltyCards'))
+    BEGIN
+        CREATE TABLE loyaltyCards
+        (
+            id           INT IDENTITY (1, 1) PRIMARY KEY,
+            emissionDate DATE,
+            points       INT DEFAULT 0,
+            idUser       INT FOREIGN KEY REFERENCES clients (id)
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'products'))
+    BEGIN
+        CREATE TABLE products
+        (
+            id       INT IDENTITY (1, 1) PRIMARY KEY,
+            name     VARCHAR(50) NOT NULL,
+            brand    VARCHAR(50) NOT NULL,
+            qtyPack  SMALLINT    NOT NULL,
+            dep      VARCHAR(20) NOT NULL,
+            qtyStock TINYINT     NOT NULL,
+            price    SMALLMONEY  not null,
+            tag      TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'shopping'))
+    BEGIN
+        CREATE TABLE shopping
+        (
+            id              INT IDENTITY (1, 1) PRIMARY KEY,
+            purchasedDate   DATETIME,
+            deliveryDate    DATETIME,
+            totalCost       SMALLMONEY NOT NULL,
+            earnedPoints    SMALLINT   NOT NULL,
+            status          TINYINT    NOT NULL,
+            idUser          INT FOREIGN KEY REFERENCES clients (id),
+            idPaymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'productsShopping'))
+    BEGIN
+        CREATE TABLE productsShopping
+        (
+            id         INT IDENTITY (1, 1) PRIMARY KEY,
+            idProduct  INT FOREIGN KEY REFERENCES products (id),
+            idShopping INT FOREIGN KEY REFERENCES shopping (id),
+            qty        SMALLINT NOT NULL
+        )
+    END
+
+
+-------
+19/57/2020 19:57:18
+-------
+
+-- Check if table credentials exists, if not creates it
+-- Check if table admins exists, if not creates it
+-- ruolo FK o string
+-- Check if table clients exists, if not creates it
+-- Check if table loyaltycards exists, if not creates it
+-- Check if table products exists, if not creates it
+-- Check if table shopping exists, if not creates it
+-- Check if table productsShopping exists, if not creates it
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'credentials'))
+    BEGIN
+        CREATE TABLE credentials
+        (
+            id    INT IDENTITY (1, 1) PRIMARY KEY,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            hash  VARCHAR(64) UNIQUE NOT NULL,
+            salt  BINARY(25)         NOT NULL
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'admins'))
+    BEGIN
+        create table admins
+        (
+            id      INT IDENTITY (1, 1) PRIMARY KEY,
+            name    VARCHAR(50)        NOT NULL,
+            surname VARCHAR(50)        NOT NULL,
+            role    INT, -- ??????
+            email   VARCHAR(50) UNIQUE NOT NULL,
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'clients'))
+    BEGIN
+        CREATE TABLE clients
+        (
+            id            INT IDENTITY (1, 1) PRIMARY KEY,
+            name          VARCHAR(50)        NOT NULL,
+            surname       VARCHAR(50)        NOT NULL,
+            address       VARCHAR(50)        NOT NULL,
+            ZIP           VARCHAR(5)         NOT NULL,
+            phoneNumber   VARCHAR(10)        NOT NULL,
+            email         VARCHAR(50) UNIQUE NOT NULL,
+            paymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'loyaltyCards'))
+    BEGIN
+        CREATE TABLE loyaltyCards
+        (
+            id           INT IDENTITY (1, 1) PRIMARY KEY,
+            emissionDate DATE,
+            points       INT DEFAULT 0,
+            idUser       INT FOREIGN KEY REFERENCES clients (id)
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'products'))
+    BEGIN
+        CREATE TABLE products
+        (
+            id       INT IDENTITY (1, 1) PRIMARY KEY,
+            name     VARCHAR(50) NOT NULL,
+            brand    VARCHAR(50) NOT NULL,
+            qtyPack  SMALLINT    NOT NULL,
+            dep      VARCHAR(20) NOT NULL,
+            qtyStock TINYINT     NOT NULL,
+            price    SMALLMONEY  not null,
+            tag      TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'shopping'))
+    BEGIN
+        CREATE TABLE shopping
+        (
+            id              INT IDENTITY (1, 1) PRIMARY KEY,
+            purchasedDate   DATETIME,
+            deliveryDate    DATETIME,
+            totalCost       SMALLMONEY NOT NULL,
+            earnedPoints    SMALLINT   NOT NULL,
+            status          TINYINT    NOT NULL,
+            idUser          INT FOREIGN KEY REFERENCES clients (id),
+            idPaymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'productsShopping'))
+    BEGIN
+        CREATE TABLE productsShopping
+        (
+            id         INT IDENTITY (1, 1) PRIMARY KEY,
+            idProduct  INT FOREIGN KEY REFERENCES products (id),
+            idShopping INT FOREIGN KEY REFERENCES shopping (id),
+            qty        SMALLINT NOT NULL
+        )
+    END
+
+
+-------
+19/57/2020 19:57:50
+-------
+
+-- Check if table credentials exists, if not creates it
+-- Check if table admins exists, if not creates it
+-- ruolo FK o string
+-- Check if table clients exists, if not creates it
+-- Check if table loyaltycards exists, if not creates it
+-- Check if table products exists, if not creates it
+-- Check if table shopping exists, if not creates it
+-- Check if table productsShopping exists, if not creates it
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'credentials'))
+    BEGIN
+        CREATE TABLE credentials
+        (
+            id    INT IDENTITY (1, 1) PRIMARY KEY,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            hash  VARCHAR(64) UNIQUE NOT NULL,
+            salt  BINARY(25)         NOT NULL
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'admins'))
+    BEGIN
+        create table admins
+        (
+            id      INT IDENTITY (1, 1) PRIMARY KEY,
+            name    VARCHAR(50)        NOT NULL,
+            surname VARCHAR(50)        NOT NULL,
+            role    INT, -- ??????
+            email   VARCHAR(50) UNIQUE NOT NULL,
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'clients'))
+    BEGIN
+        CREATE TABLE clients
+        (
+            id            INT IDENTITY (1, 1) PRIMARY KEY,
+            name          VARCHAR(50)        NOT NULL,
+            surname       VARCHAR(50)        NOT NULL,
+            address       VARCHAR(50)        NOT NULL,
+            ZIP           VARCHAR(5)         NOT NULL,
+            phoneNumber   VARCHAR(10)        NOT NULL,
+            email         VARCHAR(50) UNIQUE NOT NULL,
+            paymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'loyaltyCards'))
+    BEGIN
+        CREATE TABLE loyaltyCards
+        (
+            id           INT IDENTITY (1, 1) PRIMARY KEY,
+            emissionDate DATE,
+            points       INT DEFAULT 0,
+            idUser       INT FOREIGN KEY REFERENCES clients (id)
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'products'))
+    BEGIN
+        CREATE TABLE products
+        (
+            id       INT IDENTITY (1, 1) PRIMARY KEY,
+            name     VARCHAR(50) NOT NULL,
+            brand    VARCHAR(50) NOT NULL,
+            qtyPack  SMALLINT    NOT NULL,
+            dep      VARCHAR(20) NOT NULL,
+            qtyStock TINYINT     NOT NULL,
+            price    SMALLMONEY  not null,
+            tag      TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'shopping'))
+    BEGIN
+        CREATE TABLE shopping
+        (
+            id              INT IDENTITY (1, 1) PRIMARY KEY,
+            purchasedDate   DATETIME,
+            deliveryDate    DATETIME,
+            totalCost       SMALLMONEY NOT NULL,
+            earnedPoints    SMALLINT   NOT NULL,
+            status          TINYINT    NOT NULL,
+            idUser          INT FOREIGN KEY REFERENCES clients (id),
+            idPaymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'productsShopping'))
+    BEGIN
+        CREATE TABLE productsShopping
+        (
+            id         INT IDENTITY (1, 1) PRIMARY KEY,
+            idProduct  INT FOREIGN KEY REFERENCES products (id),
+            idShopping INT FOREIGN KEY REFERENCES shopping (id),
+            qty        SMALLINT NOT NULL
+        )
+    END
+
+
+-------
+19/59/2020 19:59:08
+-------
+
+-- Check if table credentials exists, if not creates it
+-- Check if table admins exists, if not creates it
+-- ruolo FK o string
+-- Check if table clients exists, if not creates it
+-- Check if table loyaltycards exists, if not creates it
+-- Check if table products exists, if not creates it
+-- Check if table shopping exists, if not creates it
+-- Check if table productsShopping exists, if not creates it
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'credentials'))
+    BEGIN
+        CREATE TABLE credentials
+        (
+            id    INT IDENTITY (1, 1) PRIMARY KEY,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            hash  VARCHAR(64) UNIQUE NOT NULL,
+            salt  BINARY(25)         NOT NULL
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'admins'))
+    BEGIN
+        create table admins
+        (
+            id      INT IDENTITY (1, 1) PRIMARY KEY,
+            name    VARCHAR(50)        NOT NULL,
+            surname VARCHAR(50)        NOT NULL,
+            role    INT, -- ??????
+            email   VARCHAR(50) UNIQUE NOT NULL,
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'clients'))
+    BEGIN
+        CREATE TABLE clients
+        (
+            id            INT IDENTITY (1, 1) PRIMARY KEY,
+            name          VARCHAR(50)        NOT NULL,
+            surname       VARCHAR(50)        NOT NULL,
+            address       VARCHAR(50)        NOT NULL,
+            ZIP           VARCHAR(5)         NOT NULL,
+            phoneNumber   VARCHAR(10)        NOT NULL,
+            email         VARCHAR(50) UNIQUE NOT NULL,
+            paymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'loyaltyCards'))
+    BEGIN
+        CREATE TABLE loyaltyCards
+        (
+            id           INT IDENTITY (1, 1) PRIMARY KEY,
+            emissionDate DATE,
+            points       INT DEFAULT 0,
+            idUser       INT FOREIGN KEY REFERENCES clients (id)
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'products'))
+    BEGIN
+        CREATE TABLE products
+        (
+            id       INT IDENTITY (1, 1) PRIMARY KEY,
+            name     VARCHAR(50) NOT NULL,
+            brand    VARCHAR(50) NOT NULL,
+            qtyPack  SMALLINT    NOT NULL,
+            dep      VARCHAR(20) NOT NULL,
+            qtyStock TINYINT     NOT NULL,
+            price    SMALLMONEY  not null,
+            tag      TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'shopping'))
+    BEGIN
+        CREATE TABLE shopping
+        (
+            id              INT IDENTITY (1, 1) PRIMARY KEY,
+            purchasedDate   DATETIME,
+            deliveryDate    DATETIME,
+            totalCost       SMALLMONEY NOT NULL,
+            earnedPoints    SMALLINT   NOT NULL,
+            status          TINYINT    NOT NULL,
+            idUser          INT FOREIGN KEY REFERENCES clients (id),
+            idPaymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'productsShopping'))
+    BEGIN
+        CREATE TABLE productsShopping
+        (
+            id         INT IDENTITY (1, 1) PRIMARY KEY,
+            idProduct  INT FOREIGN KEY REFERENCES products (id),
+            idShopping INT FOREIGN KEY REFERENCES shopping (id),
+            qty        SMALLINT NOT NULL
+        )
+    END
+
+
+-------
+19/00/2020 20:00:17
+-------
+
+-- Check if table credentials exists, if not creates it
+-- Check if table admins exists, if not creates it
+-- ruolo FK o string
+-- Check if table clients exists, if not creates it
+-- Check if table loyaltycards exists, if not creates it
+-- Check if table products exists, if not creates it
+-- Check if table shopping exists, if not creates it
+-- Check if table productsShopping exists, if not creates it
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'credentials'))
+    BEGIN
+        CREATE TABLE credentials
+        (
+            id    INT IDENTITY (1, 1) PRIMARY KEY,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            hash  VARCHAR(64) UNIQUE NOT NULL,
+            salt  BINARY(25)         NOT NULL
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'admins'))
+    BEGIN
+        create table admins
+        (
+            id      INT IDENTITY (1, 1) PRIMARY KEY,
+            name    VARCHAR(50)        NOT NULL,
+            surname VARCHAR(50)        NOT NULL,
+            role    INT, -- ??????
+            email   VARCHAR(50) UNIQUE NOT NULL,
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'clients'))
+    BEGIN
+        CREATE TABLE clients
+        (
+            id            INT IDENTITY (1, 1) PRIMARY KEY,
+            name          VARCHAR(50)        NOT NULL,
+            surname       VARCHAR(50)        NOT NULL,
+            address       VARCHAR(50)        NOT NULL,
+            ZIP           VARCHAR(5)         NOT NULL,
+            phoneNumber   VARCHAR(10)        NOT NULL,
+            email         VARCHAR(50) UNIQUE NOT NULL,
+            paymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'loyaltyCards'))
+    BEGIN
+        CREATE TABLE loyaltyCards
+        (
+            id           INT IDENTITY (1, 1) PRIMARY KEY,
+            emissionDate DATE,
+            points       INT DEFAULT 0,
+            idUser       INT FOREIGN KEY REFERENCES clients (id)
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'products'))
+    BEGIN
+        CREATE TABLE products
+        (
+            id       INT IDENTITY (1, 1) PRIMARY KEY,
+            name     VARCHAR(50) NOT NULL,
+            brand    VARCHAR(50) NOT NULL,
+            qtyPack  SMALLINT    NOT NULL,
+            dep      VARCHAR(21) NOT NULL,
+            qtyStock TINYINT     NOT NULL,
+            price    SMALLMONEY  not null,
+            tag      TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'shopping'))
+    BEGIN
+        CREATE TABLE shopping
+        (
+            id              INT IDENTITY (1, 1) PRIMARY KEY,
+            purchasedDate   DATETIME,
+            deliveryDate    DATETIME,
+            totalCost       SMALLMONEY NOT NULL,
+            earnedPoints    SMALLINT   NOT NULL,
+            status          TINYINT    NOT NULL,
+            idUser          INT FOREIGN KEY REFERENCES clients (id),
+            idPaymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'productsShopping'))
+    BEGIN
+        CREATE TABLE productsShopping
+        (
+            id         INT IDENTITY (1, 1) PRIMARY KEY,
+            idProduct  INT FOREIGN KEY REFERENCES products (id),
+            idShopping INT FOREIGN KEY REFERENCES shopping (id),
+            qty        SMALLINT NOT NULL
+        )
+    END
+
+
+-------
+19/02/2020 20:02:13
+-------
+
+-- Check if table credentials exists, if not creates it
+-- Check if table admins exists, if not creates it
+-- ruolo FK o string
+-- Check if table clients exists, if not creates it
+-- Check if table loyaltycards exists, if not creates it
+-- Check if table products exists, if not creates it
+-- Check if table shopping exists, if not creates it
+-- Check if table productsShopping exists, if not creates it
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'credentials'))
+    BEGIN
+        CREATE TABLE credentials
+        (
+            id    INT IDENTITY (1, 1) PRIMARY KEY,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            hash  VARCHAR(64) UNIQUE NOT NULL,
+            salt  BINARY(25)         NOT NULL
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'admins'))
+    BEGIN
+        create table admins
+        (
+            id      INT IDENTITY (1, 1) PRIMARY KEY,
+            name    VARCHAR(50)        NOT NULL,
+            surname VARCHAR(50)        NOT NULL,
+            role    INT, -- ??????
+            email   VARCHAR(50) UNIQUE NOT NULL,
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'clients'))
+    BEGIN
+        CREATE TABLE clients
+        (
+            id            INT IDENTITY (1, 1) PRIMARY KEY,
+            name          VARCHAR(50)        NOT NULL,
+            surname       VARCHAR(50)        NOT NULL,
+            address       VARCHAR(50)        NOT NULL,
+            ZIP           VARCHAR(5)         NOT NULL,
+            phoneNumber   VARCHAR(10)        NOT NULL,
+            email         VARCHAR(50) UNIQUE NOT NULL,
+            paymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'loyaltyCards'))
+    BEGIN
+        CREATE TABLE loyaltyCards
+        (
+            id           INT IDENTITY (1, 1) PRIMARY KEY,
+            emissionDate DATE,
+            points       INT DEFAULT 0,
+            idUser       INT FOREIGN KEY REFERENCES clients (id)
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'products'))
+    BEGIN
+        CREATE TABLE products
+        (
+            id       INT IDENTITY (1, 1) PRIMARY KEY,
+            name     VARCHAR(50) NOT NULL,
+            brand    VARCHAR(50) NOT NULL,
+            qtyPack  SMALLINT    NOT NULL,
+            dep      VARCHAR(24) NOT NULL,
+            qtyStock TINYINT     NOT NULL,
+            price    SMALLMONEY  not null,
+            tag      TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'shopping'))
+    BEGIN
+        CREATE TABLE shopping
+        (
+            id              INT IDENTITY (1, 1) PRIMARY KEY,
+            purchasedDate   DATETIME,
+            deliveryDate    DATETIME,
+            totalCost       SMALLMONEY NOT NULL,
+            earnedPoints    SMALLINT   NOT NULL,
+            status          TINYINT    NOT NULL,
+            idUser          INT FOREIGN KEY REFERENCES clients (id),
+            idPaymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'productsShopping'))
+    BEGIN
+        CREATE TABLE productsShopping
+        (
+            id         INT IDENTITY (1, 1) PRIMARY KEY,
+            idProduct  INT FOREIGN KEY REFERENCES products (id),
+            idShopping INT FOREIGN KEY REFERENCES shopping (id),
+            qty        SMALLINT NOT NULL
+        )
+    END
+
+
+-------
+19/02/2020 20:02:38
+-------
+
+-- Check if table credentials exists, if not creates it
+-- Check if table admins exists, if not creates it
+-- ruolo FK o string
+-- Check if table clients exists, if not creates it
+-- Check if table loyaltycards exists, if not creates it
+-- Check if table products exists, if not creates it
+-- Check if table shopping exists, if not creates it
+-- Check if table productsShopping exists, if not creates it
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'credentials'))
+    BEGIN
+        CREATE TABLE credentials
+        (
+            id    INT IDENTITY (1, 1) PRIMARY KEY,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            hash  VARCHAR(64) UNIQUE NOT NULL,
+            salt  BINARY(25)         NOT NULL
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'admins'))
+    BEGIN
+        create table admins
+        (
+            id      INT IDENTITY (1, 1) PRIMARY KEY,
+            name    VARCHAR(50)        NOT NULL,
+            surname VARCHAR(50)        NOT NULL,
+            role    INT, -- ??????
+            email   VARCHAR(50) UNIQUE NOT NULL,
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'clients'))
+    BEGIN
+        CREATE TABLE clients
+        (
+            id            INT IDENTITY (1, 1) PRIMARY KEY,
+            name          VARCHAR(50)        NOT NULL,
+            surname       VARCHAR(50)        NOT NULL,
+            address       VARCHAR(50)        NOT NULL,
+            ZIP           VARCHAR(5)         NOT NULL,
+            phoneNumber   VARCHAR(10)        NOT NULL,
+            email         VARCHAR(50) UNIQUE NOT NULL,
+            paymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'loyaltyCards'))
+    BEGIN
+        CREATE TABLE loyaltyCards
+        (
+            id           INT IDENTITY (1, 1) PRIMARY KEY,
+            emissionDate DATE,
+            points       INT DEFAULT 0,
+            idUser       INT FOREIGN KEY REFERENCES clients (id)
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'products'))
+    BEGIN
+        CREATE TABLE products
+        (
+            id       INT IDENTITY (1, 1) PRIMARY KEY,
+            name     VARCHAR(50) NOT NULL,
+            brand    VARCHAR(50) NOT NULL,
+            qtyPack  SMALLINT    NOT NULL,
+            dep      VARCHAR(24) NOT NULL,
+            qtyStock TINYINT     NOT NULL,
+            price    SMALLMONEY  not null,
+            tag      TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'shopping'))
+    BEGIN
+        CREATE TABLE shopping
+        (
+            id              INT IDENTITY (1, 1) PRIMARY KEY,
+            purchasedDate   DATETIME,
+            deliveryDate    DATETIME,
+            totalCost       SMALLMONEY NOT NULL,
+            earnedPoints    SMALLINT   NOT NULL,
+            status          TINYINT    NOT NULL,
+            idUser          INT FOREIGN KEY REFERENCES clients (id),
+            idPaymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'productsShopping'))
+    BEGIN
+        CREATE TABLE productsShopping
+        (
+            id         INT IDENTITY (1, 1) PRIMARY KEY,
+            idProduct  INT FOREIGN KEY REFERENCES products (id),
+            idShopping INT FOREIGN KEY REFERENCES shopping (id),
+            qty        SMALLINT NOT NULL
+        )
+    END
+
+
+-------
+19/04/2020 20:04:38
+-------
+
+-- Check if table credentials exists, if not creates it
+-- Check if table admins exists, if not creates it
+-- ruolo FK o string
+-- Check if table clients exists, if not creates it
+-- Check if table loyaltycards exists, if not creates it
+-- Check if table products exists, if not creates it
+-- Check if table shopping exists, if not creates it
+-- Check if table productsShopping exists, if not creates it
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'credentials'))
+    BEGIN
+        CREATE TABLE credentials
+        (
+            id    INT IDENTITY (1, 1) PRIMARY KEY,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            hash  VARCHAR(64) UNIQUE NOT NULL,
+            salt  BINARY(25)         NOT NULL
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'admins'))
+    BEGIN
+        create table admins
+        (
+            id      INT IDENTITY (1, 1) PRIMARY KEY,
+            name    VARCHAR(50)        NOT NULL,
+            surname VARCHAR(50)        NOT NULL,
+            role    INT, -- ??????
+            email   VARCHAR(50) UNIQUE NOT NULL,
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'clients'))
+    BEGIN
+        CREATE TABLE clients
+        (
+            id            INT IDENTITY (1, 1) PRIMARY KEY,
+            name          VARCHAR(50)        NOT NULL,
+            surname       VARCHAR(50)        NOT NULL,
+            address       VARCHAR(50)        NOT NULL,
+            ZIP           VARCHAR(5)         NOT NULL,
+            phoneNumber   VARCHAR(10)        NOT NULL,
+            email         VARCHAR(50) UNIQUE NOT NULL,
+            paymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'loyaltyCards'))
+    BEGIN
+        CREATE TABLE loyaltyCards
+        (
+            id           INT IDENTITY (1, 1) PRIMARY KEY,
+            emissionDate DATE,
+            points       INT DEFAULT 0,
+            idUser       INT FOREIGN KEY REFERENCES clients (id)
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'products'))
+    BEGIN
+        CREATE TABLE products
+        (
+            id       INT IDENTITY (1, 1) PRIMARY KEY,
+            name     VARCHAR(50) NOT NULL,
+            brand    VARCHAR(50) NOT NULL,
+            qtyPack  SMALLINT    NOT NULL,
+            dep      VARCHAR(24) NOT NULL,
+            qtyStock TINYINT     NOT NULL,
+            price    SMALLMONEY  not null,
+            tag      TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'shopping'))
+    BEGIN
+        CREATE TABLE shopping
+        (
+            id              INT IDENTITY (1, 1) PRIMARY KEY,
+            purchasedDate   DATETIME,
+            deliveryDate    DATETIME,
+            totalCost       SMALLMONEY NOT NULL,
+            earnedPoints    SMALLINT   NOT NULL,
+            status          TINYINT    NOT NULL,
+            idUser          INT FOREIGN KEY REFERENCES clients (id),
+            idPaymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'productsShopping'))
+    BEGIN
+        CREATE TABLE productsShopping
+        (
+            id         INT IDENTITY (1, 1) PRIMARY KEY,
+            idProduct  INT FOREIGN KEY REFERENCES products (id),
+            idShopping INT FOREIGN KEY REFERENCES shopping (id),
+            qty        SMALLINT NOT NULL
+        )
+    END
+
+
+-------
+19/19/2020 20:19:39
+-------
+
+-- Check if table credentials exists, if not creates it
+-- Check if table admins exists, if not creates it
+-- ruolo FK o string
+-- Check if table clients exists, if not creates it
+-- Check if table loyaltycards exists, if not creates it
+-- Check if table products exists, if not creates it
+-- Check if table shopping exists, if not creates it
+-- Check if table productsShopping exists, if not creates it
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'credentials'))
+    BEGIN
+        CREATE TABLE credentials
+        (
+            id    INT IDENTITY (1, 1) PRIMARY KEY,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            hash  VARCHAR(64) UNIQUE NOT NULL,
+            salt  BINARY(25)         NOT NULL
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'admins'))
+    BEGIN
+        create table admins
+        (
+            id      INT IDENTITY (1, 1) PRIMARY KEY,
+            name    VARCHAR(50)        NOT NULL,
+            surname VARCHAR(50)        NOT NULL,
+            role    INT, -- ??????
+            email   VARCHAR(50) UNIQUE NOT NULL,
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'clients'))
+    BEGIN
+        CREATE TABLE clients
+        (
+            id            INT IDENTITY (1, 1) PRIMARY KEY,
+            name          VARCHAR(50)        NOT NULL,
+            surname       VARCHAR(50)        NOT NULL,
+            address       VARCHAR(50)        NOT NULL,
+            ZIP           VARCHAR(5)         NOT NULL,
+            phoneNumber   VARCHAR(10)        NOT NULL,
+            email         VARCHAR(50) UNIQUE NOT NULL,
+            paymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'loyaltyCards'))
+    BEGIN
+        CREATE TABLE loyaltyCards
+        (
+            id           INT IDENTITY (1, 1) PRIMARY KEY,
+            emissionDate DATE,
+            points       INT DEFAULT 0,
+            idUser       INT FOREIGN KEY REFERENCES clients (id)
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'products'))
+    BEGIN
+        CREATE TABLE products
+        (
+            id       INT IDENTITY (1, 1) PRIMARY KEY,
+            name     VARCHAR(50) NOT NULL,
+            brand    VARCHAR(50) NOT NULL,
+            qtyPack  SMALLINT    NOT NULL,
+            dep      VARCHAR(24) NOT NULL,
+            qtyStock TINYINT     NOT NULL,
+            price    SMALLMONEY  not null,
+            tag      TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'shopping'))
+    BEGIN
+        CREATE TABLE shopping
+        (
+            id              INT IDENTITY (1, 1) PRIMARY KEY,
+            purchasedDate   DATETIME,
+            deliveryDate    DATETIME,
+            totalCost       SMALLMONEY NOT NULL,
+            earnedPoints    SMALLINT   NOT NULL,
+            status          TINYINT    NOT NULL,
+            idUser          INT FOREIGN KEY REFERENCES clients (id),
+            idPaymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'productsShopping'))
+    BEGIN
+        CREATE TABLE productsShopping
+        (
+            id         INT IDENTITY (1, 1) PRIMARY KEY,
+            idProduct  INT FOREIGN KEY REFERENCES products (id),
+            idShopping INT FOREIGN KEY REFERENCES shopping (id),
+            qty        SMALLINT NOT NULL
+        )
+    END
+
+
+-------
+19/21/2020 20:21:00
+-------
+
+-- Check if table credentials exists, if not creates it
+-- Check if table admins exists, if not creates it
+-- ruolo FK o string
+-- Check if table clients exists, if not creates it
+-- Check if table loyaltycards exists, if not creates it
+-- Check if table products exists, if not creates it
+-- Check if table shopping exists, if not creates it
+-- Check if table productsShopping exists, if not creates it
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'credentials'))
+    BEGIN
+        CREATE TABLE credentials
+        (
+            id    INT IDENTITY (1, 1) PRIMARY KEY,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            hash  VARCHAR(64) UNIQUE NOT NULL,
+            salt  BINARY(25)         NOT NULL
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'admins'))
+    BEGIN
+        create table admins
+        (
+            id      INT IDENTITY (1, 1) PRIMARY KEY,
+            name    VARCHAR(50)        NOT NULL,
+            surname VARCHAR(50)        NOT NULL,
+            role    INT, -- ??????
+            email   VARCHAR(50) UNIQUE NOT NULL,
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'clients'))
+    BEGIN
+        CREATE TABLE clients
+        (
+            id            INT IDENTITY (1, 1) PRIMARY KEY,
+            name          VARCHAR(50)        NOT NULL,
+            surname       VARCHAR(50)        NOT NULL,
+            address       VARCHAR(50)        NOT NULL,
+            ZIP           VARCHAR(5)         NOT NULL,
+            phoneNumber   VARCHAR(10)        NOT NULL,
+            email         VARCHAR(50) UNIQUE NOT NULL,
+            paymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'loyaltyCards'))
+    BEGIN
+        CREATE TABLE loyaltyCards
+        (
+            id           INT IDENTITY (1, 1) PRIMARY KEY,
+            emissionDate DATE,
+            points       INT DEFAULT 0,
+            idUser       INT FOREIGN KEY REFERENCES clients (id)
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'products'))
+    BEGIN
+        CREATE TABLE products
+        (
+            id       INT IDENTITY (1, 1) PRIMARY KEY,
+            name     VARCHAR(50) NOT NULL,
+            brand    VARCHAR(50) NOT NULL,
+            qtyPack  SMALLINT    NOT NULL,
+            dep      VARCHAR(24) NOT NULL,
+            qtyStock TINYINT     NOT NULL,
+            price    SMALLMONEY  not null,
+            tag      TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'shopping'))
+    BEGIN
+        CREATE TABLE shopping
+        (
+            id              INT IDENTITY (1, 1) PRIMARY KEY,
+            purchasedDate   DATETIME,
+            deliveryDate    DATETIME,
+            totalCost       SMALLMONEY NOT NULL,
+            earnedPoints    SMALLINT   NOT NULL,
+            status          TINYINT    NOT NULL,
+            idUser          INT FOREIGN KEY REFERENCES clients (id),
+            idPaymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'productsShopping'))
+    BEGIN
+        CREATE TABLE productsShopping
+        (
+            id         INT IDENTITY (1, 1) PRIMARY KEY,
+            idProduct  INT FOREIGN KEY REFERENCES products (id),
+            idShopping INT FOREIGN KEY REFERENCES shopping (id),
+            qty        SMALLINT NOT NULL
+        )
+    END
+
+
+-------
+19/28/2020 20:28:04
+-------
+
+-- Check if table credentials exists, if not creates it
+-- Check if table admins exists, if not creates it
+-- ruolo FK o string
+-- Check if table clients exists, if not creates it
+-- Check if table loyaltycards exists, if not creates it
+-- Check if table products exists, if not creates it
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'credentials'))
+    BEGIN
+        CREATE TABLE credentials
+        (
+            id    INT IDENTITY (1, 1) PRIMARY KEY,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            hash  VARCHAR(64) UNIQUE NOT NULL,
+            salt  BINARY(25)         NOT NULL
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'admins'))
+    BEGIN
+        create table admins
+        (
+            id      INT IDENTITY (1, 1) PRIMARY KEY,
+            name    VARCHAR(50)        NOT NULL,
+            surname VARCHAR(50)        NOT NULL,
+            role    INT, -- ??????
+            email   VARCHAR(50) UNIQUE NOT NULL,
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'clients'))
+    BEGIN
+        CREATE TABLE clients
+        (
+            id            INT IDENTITY (1, 1) PRIMARY KEY,
+            name          VARCHAR(50)        NOT NULL,
+            surname       VARCHAR(50)        NOT NULL,
+            address       VARCHAR(50)        NOT NULL,
+            ZIP           VARCHAR(5)         NOT NULL,
+            phoneNumber   VARCHAR(10)        NOT NULL,
+            email         VARCHAR(50) UNIQUE NOT NULL,
+            paymentMethod TINYINT
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'loyaltyCards'))
+    BEGIN
+        CREATE TABLE loyaltyCards
+        (
+            id           INT IDENTITY (1, 1) PRIMARY KEY,
+            emissionDate DATE,
+            points       INT DEFAULT 0,
+            idUser       INT FOREIGN KEY REFERENCES clients (id)
+        )
+    END
+IF (NOT EXISTS(SELECT 1
+           FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA = 'dbo'
+             AND TABLE_NAME = 'products'))
+    BEGIN
+        CREATE TABLE products
+        (
+            id       INT IDENTITY (1, 1) PRIMARY KEY,
+            name     VARCHAR(50) NOT NULL,
+            brand    VARCHAR(50) NOT NULL,
+            qtyPack  SMALLINT    NOT NULL,
+            dep      VARCHAR(24) NOT NULL,
+            qtyStock TINYINT     NOT NULL,
+            price    SMALLMONEY  not null,
+            tag      TINYINT
+        ) 
+
+-------
+19/05/2020 20:54:03
+-------
+
+-- Check if table credentials exists, if not creates it
+-- Check if table admins exists, if not creates it
+-- ruolo FK o string
+-- Check if table clients exists, if not creates it
+-- Check if table loyaltycards exists, if not creates it
+-- Check if table products exists, if not creates it
+-- Check if table shopping exists, if not creates it
+-- Check if table productsShopping exists, if not creates it
+IF (NOT EXISTS(SELECT 1
+               FROM INFORMATION_SCHEMA.TABLES
+               WHERE TABLE_SCHEMA = 'dbo'
+                 AND TABLE_NAME = 'credentials'))
+    BEGIN
+        CREATE TABLE credentials
+        (
+            id    INT IDENTITY (1, 1) PRIMARY KEY,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            hash  VARCHAR(64) UNIQUE NOT NULL,
+            salt  BINARY(25)         NOT NULL
+        )
+    END
+
+IF (NOT EXISTS(SELECT 1
+               FROM INFORMATION_SCHEMA.TABLES
+               WHERE TABLE_SCHEMA = 'dbo'
+                 AND TABLE_NAME = 'admins'))
+    BEGIN
+        create table admins
+        (
+            id      INT IDENTITY (1, 1) PRIMARY KEY,
+            name    VARCHAR(50)        NOT NULL,
+            surname VARCHAR(50)        NOT NULL,
+            role    INT, -- ??????
+            email   VARCHAR(50) UNIQUE NOT NULL,
+        )
+    END
+
+IF (NOT EXISTS(SELECT 1
+               FROM INFORMATION_SCHEMA.TABLES
+               WHERE TABLE_SCHEMA = 'dbo'
+                 AND TABLE_NAME = 'clients'))
+    BEGIN
+        CREATE TABLE clients
+        (
+            id            INT IDENTITY (1, 1) PRIMARY KEY,
+            name          VARCHAR(50)        NOT NULL,
+            surname       VARCHAR(50)        NOT NULL,
+            address       VARCHAR(50)        NOT NULL,
+            ZIP           VARCHAR(5)         NOT NULL,
+            phoneNumber   VARCHAR(10)        NOT NULL,
+            email         VARCHAR(50) UNIQUE NOT NULL,
+            paymentMethod TINYINT
+        )
+    END
+
+IF (NOT EXISTS(SELECT 1
+               FROM INFORMATION_SCHEMA.TABLES
+               WHERE TABLE_SCHEMA = 'dbo'
+                 AND TABLE_NAME = 'loyaltyCards'))
+    BEGIN
+        CREATE TABLE loyaltyCards
+        (
+            id           INT IDENTITY (1, 1) PRIMARY KEY,
+            emissionDate DATE,
+            points       INT DEFAULT 0,
+            idUser       INT FOREIGN KEY REFERENCES clients (id)
+        )
+    END
+
+IF (NOT EXISTS(SELECT 1
+               FROM INFORMATION_SCHEMA.TABLES
+               WHERE TABLE_SCHEMA = 'dbo'
+                 AND TABLE_NAME = 'products'))
+    BEGIN
+        CREATE TABLE products
+        (
+            id       INT IDENTITY (1, 1) PRIMARY KEY,
+            name     VARCHAR(50) NOT NULL,
+            brand    VARCHAR(50) NOT NULL,
+            qtyPack  SMALLINT    NOT NULL,
+            dep      VARCHAR(24) NOT NULL,
+            qtyStock TINYINT     NOT NULL,
+            price    SMALLMONEY  not null,
+            tag      TINYINT
+        )
+    END
+
+IF (NOT EXISTS(SELECT 1
+               FROM INFORMATION_SCHEMA.TABLES
+               WHERE TABLE_SCHEMA = 'dbo'
+                 AND TABLE_NAME = 'shopping'))
+    BEGIN
+        CREATE TABLE shopping
+        (
+            id              INT IDENTITY (1, 1) PRIMARY KEY,
+            purchasedDate   DATETIME,
+            deliveryDate    DATETIME,
+            totalCost       SMALLMONEY NOT NULL,
+            earnedPoints    SMALLINT   NOT NULL,
+            status          TINYINT    NOT NULL,
+            idUser          INT FOREIGN KEY REFERENCES clients (id),
+            idPaymentMethod TINYINT
+        )
+    END
+
+IF (NOT EXISTS(SELECT 1
+               FROM INFORMATION_SCHEMA.TABLES
+               WHERE TABLE_SCHEMA = 'dbo'
+                 AND TABLE_NAME = 'productsShopping'))
+    BEGIN
+        CREATE TABLE productsShopping
+        (
+            id         INT IDENTITY (1, 1) PRIMARY KEY,
+            idProduct  INT FOREIGN KEY REFERENCES products (id),
+            idShopping INT FOREIGN KEY REFERENCES shopping (id),
+            qty        SMALLINT NOT NULL
+        )
+    END
+

@@ -1,14 +1,14 @@
 select *
-from Product;
+from Products;
 select *
-from Product
+from Products
 where id = ?;
 select *
-from Product
+from Products
 where name like ?;
 select *
-from Product
+from Products
 where dep = ?;
 select *
-from Product
+from Products
 where tag = ?
