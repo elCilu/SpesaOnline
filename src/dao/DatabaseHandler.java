@@ -43,7 +43,6 @@ public final class DatabaseHandler extends BaseDao {
             Reader reader = new BufferedReader(new FileReader(path.concat("CreateTables.sql")));
             System.out.print("Creating tables... ");
             ScriptRunner scriptRunner = new ScriptRunner(connection, false, true);
-            scriptRunner.setErrorLogWriter(new PrintWriter(System.err));
             scriptRunner.runScript(reader);
             System.out.println("Tables have been created.");
             reader.close();

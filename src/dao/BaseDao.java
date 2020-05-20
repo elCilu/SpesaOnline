@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-class BaseDao {
+abstract class BaseDao {
     //TODO: for every DAO class: print db status (executing query, returned x rows, etc.)
     static Connection connection = createConnection();
     private static final String connectionUrl =
