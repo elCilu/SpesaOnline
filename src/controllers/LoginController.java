@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 import models.CredentialModel;
 import utils.CredentialUtil;
 
+import static utils.StringUtil.isValidEmail;
+
 public class LoginController {
 
     @FXML
@@ -37,36 +39,31 @@ public class LoginController {
 
     @FXML
     protected void logIn() {
-        boolean validEmail = false;
-        boolean validPassword = false;
+        boolean logged = false;
         String email = emailField.getText();
         String password = passwordField.getText();
         try {
+            if (email.trim().isEmpty() || !isValidEmail(email)) {
+                actionTarget.setText("Campo email non valido!");
+                throw new Exception("Campo email non valido.");
+            }
             if (password.isEmpty()) {
                 actionTarget.setText("Inserisci password");
-                System.err.println("Campo password vuoto.");
-            } else {
-                validPassword = true;
+                throw new Exception("Campo password vuoto.");
             }
-            if (email.trim().isEmpty() || !email.matches("[a-zA-Z.0-9]+@[a-zA-Z]+\\.[a-z]{2,3}$")) {
-                actionTarget.setText("Campo email non valido!");
-                System.err.println("Campo email non valido.");
-            } else {
-                validEmail = true;
-            }
-            if (validEmail && validPassword) {
-                CredentialModel credentials = CredentialDao.selectByEmail(email);
-                if (credentials != null) {
-                    if (CredentialUtil.checkPassword(password, credentials.getSalt(), credentials.getHash())) {
-                        actionTarget.setText("Sei loggato.");
-                    } else {
-                        actionTarget.setText("Credenziali errate.");
-                    }
-                } else {
-                    actionTarget.setText("Utente non registrato.");
+            CredentialModel credentials = CredentialDao.selectByEmail(email);
+            if (credentials != null) {
+                if (CredentialUtil.checkPassword(password, credentials.getSalt(), credentials.getHash())) {
+                    logged = true;
+                    actionTarget.setText("Sei loggato.");
                 }
+            } else {
+                actionTarget.setText("Registrati");
+                throw new Exception("User not signed");
             }
-
+            if(!logged) {
+                actionTarget.setText("Credenziali sbagliate.");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
