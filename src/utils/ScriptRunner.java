@@ -91,15 +91,6 @@ public class ScriptRunner {
     }
 
     /**
-     * Setter for errorLogWriter property
-     *
-     * @param errorLogWriter - the new value of the errorLogWriter property
-     */
-    public void setErrorLogWriter(PrintWriter errorLogWriter) {
-        this.errorLogWriter = errorLogWriter;
-    }
-
-    /**
      * Runs an SQL script (read in using the Reader parameter)
      *
      * @param reader - the source of the script

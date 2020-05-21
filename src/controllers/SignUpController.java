@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -47,13 +46,8 @@ public class SignUpController {
     @FXML
     private RadioButton cashRadio;
     @FXML
-    private ToggleGroup paymentMethodGroup;
-    @FXML
-    private Button signUpButton;
-    @FXML
-    private Button backButton;
-    @FXML
     private Text actionTarget;
+    public ToggleGroup paymentMethodGroup;
 
     public void signUp() {
         String name;

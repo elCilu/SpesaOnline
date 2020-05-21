@@ -8,9 +8,8 @@ import java.sql.SQLException;
 
 public final class CredentialDao extends BaseDao {
     private static final String INSERT = "insert into credentials values (?, ?, ?)";
-    private static final String SELECT_BY_ID = "select * from credentials where id = ?";
+    //private static final String SELECT_BY_ID = "select * from credentials where id = ?";
     private static final String SELECT_BY_EMAIL = "select * from credentials where email = ?";
-    private static final String SELECT_ID_BY_SALT = "select * from credentials where salt = ?";
 
     private CredentialDao(){}
 
@@ -30,7 +29,7 @@ public final class CredentialDao extends BaseDao {
         return result;
     }
 
-    public static CredentialModel selectById(int id) {
+    /*public static CredentialModel selectById(int id) {
         CredentialModel password = null;
         try {
             PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID);
@@ -49,21 +48,6 @@ public final class CredentialDao extends BaseDao {
             e.printStackTrace();
         }
         return password;
-    }
-
-    /*public static int getIdBySalt(byte[] salt) {
-        int id = 0;
-        try {
-            PreparedStatement statement = connection.prepareStatement(SELECT_ID_BY_SALT);
-            statement.setBytes(1, salt);
-            System.out.print("Selecting");//aggiungi se si usa func
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next())
-                id = resultSet.getInt(1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return id;
     }*/
 
     public static CredentialModel selectByEmail(String email) {
