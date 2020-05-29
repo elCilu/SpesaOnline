@@ -91,4 +91,5 @@ public class ProductModel {
                         "\nPrezzo: %f\nTag: %s", getId(), getName(), getBrand(), getQtyPack(), getDep(),
                 getQtyStock(), getprice(), getTag());
     }
+
 }
