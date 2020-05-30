@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<SplitPane dividerPositions="0.5" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CheckOutController">
+    <items>
+        <GridPane fx:id="CheckOutPage" alignment="CENTER" hgap="15.0" vgap="15.0">
+
+            <Text style="-fx-arc-height: 200%" text="CheckOut" textOrigin="CENTER" wrappingWidth="178.908203125">
+                <font>
+                    <Font size="24.0" />
+                </font>
+            </Text>
+
+            <Label prefHeight="25" prefWidth="180" text="Totalespesa: " GridPane.rowIndex="2" />
+
+            <Label prefHeight="25" prefWidth="180" text="Puntispesa: " GridPane.rowIndex="3" />
+
+            <Label prefHeight="25" prefWidth="180" text="Data consegna: " GridPane.rowIndex="4" />
+            <ChoiceBox prefHeight="25.0" prefWidth="165.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <DatePicker fx:id="dataConsegna" prefHeight="25.0" prefWidth="166.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+            <Label prefHeight="25" prefWidth="180" text="Orario consegna: " GridPane.rowIndex="5" />
+
+            <Label prefHeight="25" prefWidth="180" text="Metodo di pagamento: " GridPane.rowIndex="6" />
+
+            <RadioButton fx:id="creditCardRadio" text="Carta di credito" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                <HBox.margin>
+                    <Insets right="3.0" />
+                </HBox.margin>
+                <toggleGroup>
+                    <ToggleGroup fx:id="paymentMethodGroup" />
+                </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="paypalRadio" text="PayPal" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                <HBox.margin>
+                    <Insets right="30.0" />
+                    <Insets bottom="10.0" />
+                </HBox.margin>
+                <toggleGroup>
+                    <fx:reference source="paymentMethodGroup" />
+                </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="cashRadio" text="Alla consegna" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                <HBox.margin>
+                    <Insets right="30.0" />
+                    <Insets bottom="10.0" />
+                </HBox.margin>
+                <toggleGroup>
+                    <fx:reference source="paymentMethodGroup" />
+                </toggleGroup>
+            </RadioButton>
+
+            <HBox alignment="BOTTOM_CENTER" prefHeight="40" prefWidth="150" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="10">
+                <Button prefHeight="40" prefWidth="180" text="Conferma" />
+            </HBox>
+
+            <HBox alignment="BOTTOM_CENTER" prefHeight="40" prefWidth="150" spacing="10" GridPane.rowIndex="10">
+                <Button prefHeight="40" prefWidth="150" text="Torna al carrello" />
+            </HBox>
+
+            <Text fx:id="actionTarget" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+            <columnConstraints>
+                <ColumnConstraints />
+                <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints />
+                <RowConstraints maxHeight="28.0" minHeight="6.0" prefHeight="21.0" />
+                <RowConstraints maxHeight="30.0" minHeight="17.0" prefHeight="24.0" />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+            </rowConstraints>
+            <opaqueInsets>
+                <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+            </opaqueInsets>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+        </GridPane>
+        <GridPane>
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+        </GridPane>
+    </items>
+</SplitPane>

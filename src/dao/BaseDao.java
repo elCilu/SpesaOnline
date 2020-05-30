@@ -8,11 +8,7 @@ abstract class BaseDao {
     //TODO: for every DAO class: print db status (executing query, returned x rows, etc.)
     static Connection connection = createConnection();
     private static final String connectionUrl =
-            "jdbc:sqlserver://localhost:1433;"
-                    + "database=spesaonline;" //nome db su mssql
-                    + "user=SA;" //username di mssql
-                    + "password=_secret_1234;" //vostra password al mssql
-                    + "loginTimeout=30;";
+            "jdbc:jtds:sqlserver://LAPTOP-BNV4BFEE/ProgettoSpesa;instance=MSSQLSERVER";
 
     static Connection createConnection() {
         try {
