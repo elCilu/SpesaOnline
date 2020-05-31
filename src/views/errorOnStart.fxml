@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
+<GridPane xmlns:fx="http://javafx.com/fxml"
+          fx:id="errorOnStart"
+          xmlns="http://javafx.com/javafx"
+          fx:controller="controllers.ErrorOnStartController"
+          prefHeight="400.0" prefWidth="600.0">
+
+    <Text text="Errore durante l'apertura del programma." GridPane.rowIndex="0"
+          textAlignment="JUSTIFY"/>
+
+    <HBox spacing="10" alignment="CENTER" GridPane.rowIndex="1">
+        <Button text="Chiudi" onAction="#closeApplication"/>
+    </HBox>
+
+</GridPane>

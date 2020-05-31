@@ -1,0 +1,1 @@
+drop table if exists loyaltyCards, productsShopping, products, shopping, clients, admins, credentials;

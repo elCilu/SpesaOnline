@@ -8,7 +8,7 @@ public class ProductModel {
     private String dep;
     private int qtyStock;
     private float price;
-    private int tag;
+    private int tag; //TODO: collegarlo a Tag Enum
 
 
     public ProductModel(int id, String name, String brand, int qtyPack, String dep, int qtyStock, float price, int tag) {

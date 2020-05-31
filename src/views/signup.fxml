@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-<?import javafx.geometry.Insets?>
 <GridPane xmlns:fx="http://javafx.com/fxml"
           fx:id="signupPage"
           xmlns="http://javafx.com/javafx"
@@ -94,14 +94,12 @@
     <HBox
             spacing="10" alignment="bottom_right"
             GridPane.columnIndex="0" GridPane.rowIndex="12">
-        <Button text="Indietro" fx:id="backButton"
-                onAction="#backToLogin"/>
+        <Button text="Indietro" onAction="#backToLogin"/>
     </HBox>
     <HBox
             spacing="10" alignment="bottom_right"
             GridPane.columnIndex="1" GridPane.rowIndex="12">
-        <Button text="Registrati" fx:id="signUpButton"
-                onAction="#signUp"/>
+        <Button text="Registrati" onAction="#signUp"/>
     </HBox>
     <Text fx:id="actionTarget"
           GridPane.columnIndex="1" GridPane.rowIndex="13"/>

@@ -10,11 +10,13 @@ abstract class BaseDao {
     private static final String connectionUrl =
             "jdbc:jtds:sqlserver://LAPTOP-BNV4BFEE/ProgettoSpesa;instance=MSSQLSERVER";
 
-    static Connection createConnection() {
+    protected static Connection createConnection() {
         try {
-            System.out.println("Connecting to database...");
+            System.out.print("Connecting to database...");
             connection = DriverManager.getConnection(connectionUrl);
+            System.out.println("Connected to database!");
         } catch (SQLException e) {
+            System.err.println("Error while connecting to database.");
             e.printStackTrace();
         }
         return connection;

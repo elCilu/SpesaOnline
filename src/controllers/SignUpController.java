@@ -6,7 +6,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -14,6 +16,8 @@ import models.ClientModel;
 import models.CredentialModel;
 import utils.CredentialUtil;
 import utils.StringUtil;
+
+import static utils.StringUtil.*;
 
 public class SignUpController {
 
@@ -42,13 +46,8 @@ public class SignUpController {
     @FXML
     private RadioButton cashRadio;
     @FXML
-    private ToggleGroup paymentMethodGroup;
-    @FXML
-    private Button signUpButton;
-    @FXML
-    private Button backButton;
-    @FXML
     private Text actionTarget;
+    public ToggleGroup paymentMethodGroup;
 
     public void signUp() {
         String name;
@@ -60,7 +59,6 @@ public class SignUpController {
         String password;
         String confirmedPassword;
         int paymentMethod;
-
 
         try{
             name = nameField.getText();
@@ -78,20 +76,19 @@ public class SignUpController {
                 actionTarget.setText("Tutti i campi sono obbligatori");
                 throw new Exception("Campi del sign up vuoti");
             } else {
-                //TODO: move string pattern check to StringUtil.java with appropriate functions
-                if (!name.matches("([A-Za-z]+ [A-Za-z]+)|([A-Za-z]+)$")) {
+                if (!isValidName(name)) {
                     actionTarget.setText("Nome deve essere composto solo da lettere");
                     throw new Exception("Nome non corretto");
-                } else if (!surname.matches("([A-Za-z]+ [A-Za-z]+)|([A-Za-z]+)$")){
+                } else if (!isValidSurname(surname)){
                     actionTarget.setText("Cognome deve essere composto solo da lettere");
                     throw new Exception("Cognome non corretto");
-                } else if (!zip.matches("[(0-9)]{5}$")) {
+                } else if (!isValidZip(zip)) {
                     actionTarget.setText("CAP non valido");
                     throw new Exception("CAP non corretto");
-                } else if (!phoneNumber.matches("[(0-9)]{9,10}$")) {
+                } else if (!isValidPhone(phoneNumber)) {
                     actionTarget.setText("Numero non valido");
                     throw new Exception("Numero non corretto");
-                } else if (!email.matches("[a-zA-Z.0-9]+@[a-zA-Z]+\\.[a-z]{2,3}$")) {
+                } else if (!isValidEmail(email)) {
                     actionTarget.setText("Email non valida");
                     throw new Exception("Email non corretta");
                 } else if (password.length() < 8) {
@@ -123,7 +120,7 @@ public class SignUpController {
                 throw new Exception("Email già presente nella tabella");
             }
 
-            int resultQuery = ClientDao.insertUser(new ClientModel(0, StringUtil.formatName(name),
+            int resultQuery = ClientDao.insertClient(new ClientModel(0, StringUtil.formatName(name),
                     StringUtil.formatName(surname), address, zip, phoneNumber, email, paymentMethod));
             if (resultQuery != 0) {
                 byte[] salt = CredentialUtil.createSalt();
