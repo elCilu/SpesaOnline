@@ -109,7 +109,6 @@ public class CartModel {
         return (int) subTotal();
     }
 
-   // chi è che aggiunge i punti alla fidelityCard?
     //fare il file FXML dinamico in modo da fare vedere più prodotti
 
 }

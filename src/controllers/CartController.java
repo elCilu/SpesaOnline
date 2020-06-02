@@ -14,6 +14,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import models.CartModel;
@@ -30,19 +31,17 @@ public class CartController implements Initializable {
     @FXML
     private AnchorPane cartPage;
     @FXML
-    private TextField prodName;
+    private VBox imgVBox;
     @FXML
-    private TextField prodCode;
+    private VBox nameCodeVBox;
     @FXML
-    private TextField unitPrice;
+    private VBox qtyVBox;
+    @FXML
+    private VBox priceVBox;
     @FXML
     private TextField totalShopping;
     @FXML
     private TextField fidelityPoints;
-    @FXML
-    private ImageView img;
-    @FXML
-    private ChoiceBox qtyBox;
     @FXML
     private TextField shipping;
     @FXML
@@ -52,9 +51,8 @@ public class CartController implements Initializable {
     @FXML
     private TextField promotion;
 
-
-    CartModel cart;
-    //ObservableList numberQty = FXCollections.observableArrayList();
+    private static CartModel cart;
+    private static final File prodImg = new File("");
 
 
     @FXML
@@ -95,12 +93,9 @@ public class CartController implements Initializable {
 
     //carico i dati iniziali sulla pagina
     private void loadData(){
-       // numberQty.removeAll(numberQty);
-        //devo chiedere al database la quantità disponibile del prodotto
-      /*  int a = 1, b = 2, c = 3, d =4;
-        numberQty.addAll(a, b, c, d);
 
-        for(Object p : products.keySet()){
+
+      /*  for(Object p : products.keySet()){
           //  new ChoiceBox ();
             int qty = products.get(p);
             qtyBox.getItems().add(10);
@@ -111,20 +106,33 @@ public class CartController implements Initializable {
         }
 
         qtyBox.getItems().addAll(numberQty);*/
-        URL path = getClass().getResource("../../images/01_melanzane.jpg");
 
-        //Image image = new Image("file:///home/king_cheikh/IdeaProjects/SpesaOnline/images/01_melanzane.jpg");//*************************************
-        Image image = new Image(String.valueOf(path));
-        img.setImage(image);
+        //product image
+        ImageView img = new ImageView();
+       // img.setImage(new Image("file:///home/king_cheikh/IdeaProjects/SpesaOnline/images/01_melanzane.jpg"));
+        img.setImage(new Image("file://" + prodImg.getAbsolutePath() + "/images/01_melanzane.jpg"));
+        img.setFitHeight(70);
+        img.setFitWidth(120);
+        imgVBox.getChildren().add(img);
 
+        //product name & code
+        TextField prodNameCode = new TextField();
+        prodNameCode.setText("Melanzane " + " 36");
+        nameCodeVBox.getChildren().add(prodNameCode);
+
+        //product quantity
+        ChoiceBox<Integer> qty = new ChoiceBox<Integer>();
         for(int i = 0; i <= 5; i++)
-            qtyBox.getItems().add(i);
+            qty.getItems().add(i);
 
-        qtyBox.setValue(0);
+        qty.setValue(0);
 
-        if((int)qtyBox.getValue() == 0){
-           System.out.print("la quantità selezionata è 0");
-        }
+        qtyVBox.getChildren().add(qty);
+
+        //product price per package
+        TextField prodPrice = new TextField();
+        prodPrice.setText("€"+"1.5");
+        priceVBox.getChildren().add(prodPrice);
 
         cart = new CartModel();
     }
@@ -136,13 +144,16 @@ public class CartController implements Initializable {
     public void setUpCart(){
         //cart.addToCart(/*....*/);
 
+
+
         /*String imageName;
         int imageId;
         imageId = prodotto.getId();
         imageName = prodotto.getName();
         Image image = new Image("file:///home/king_cheikh/IdeaProjects/SpesaOnline/images/" + String.valueOf(imageId) + "_" + imageName +  ".jpg");*/
-        Image image = new Image("file:///home/king_cheikh/IdeaProjects/SpesaOnline/images/01_melanzane.jpg");
-        img.setImage(image);
+
+        /*Image image = new Image("file:///home/king_cheikh/IdeaProjects/SpesaOnline/images/01_melanzane.jpg");
+        img.setImage(image);*/
 
         /*prodName = campoDellaChiara.getText();
         prodCode = campoDellaChiara.getText();
