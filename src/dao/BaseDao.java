@@ -8,9 +8,12 @@ abstract class BaseDao {
     //TODO: for every DAO class: print db status (executing query, returned x rows, etc.)
     static Connection connection = createConnection();
     private static final String connectionUrl =
-            "jdbc:jtds:sqlserver://LAPTOP-BNV4BFEE/ProgettoSpesa;instance=MSSQLSERVER";
+            "jdbc:jtds:sqlserver://LAPTOP-BNV4BFEE/ProgettoSpesa;instance=MSSQLSERVER;"
+                    + "user=HL99;" //username di mssql
+                    + "password=Huluigi99;"; //vostra password al mssql
 
     protected static Connection createConnection() {
+
         try {
             System.out.print("Connecting to database...");
             connection = DriverManager.getConnection(connectionUrl);
