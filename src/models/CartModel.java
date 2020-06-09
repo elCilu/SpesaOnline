@@ -8,9 +8,10 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class CartModel {
-    private static SortedMap<ProductModel, Integer> products = new TreeMap<>();  //WARNING: non-comparable elements given.....
-                                                                                //ProductModel have to implements comparable class
+    private static SortedMap<ProductModel, Integer> products = new TreeMap<>();
+
     //Il costruttore costruisce un carrello vuoto
+    //devo trovare il modo di stamparlo sulla GUI
     public CartModel() {
         new TextField("IL TUO CARRELLO È ANCORA VUOTO").setSize(100, 20);
     }

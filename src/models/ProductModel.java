@@ -1,6 +1,6 @@
 package models;
 
-public class ProductModel {
+public class ProductModel implements Comparable<ProductModel> {
     private int id;
     private String name;
     private String brand;
@@ -90,5 +90,10 @@ public class ProductModel {
         return String.format("Id: %d\nNome: %s\nMarca: %s\nQta Conf: %d\nReparto: %s\nQta Scorta: %d" +
                         "\nPrezzo: %f\nTag: %s", getId(), getName(), getBrand(), getQtyPack(), getDep(),
                 getQtyStock(), getprice(), getTag());
+    }
+
+    @Override
+    public int compareTo(ProductModel other) {
+        return this.getId() - other.getId();
     }
 }

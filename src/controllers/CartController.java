@@ -1,6 +1,10 @@
 package controllers;
 
 import dao.CartDao;
+import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,11 +16,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import models.CartModel;
 import models.ProductModel;
 
+import javax.swing.event.ChangeEvent;
+import java.awt.*;
+import java.awt.font.NumericShaper;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -128,6 +136,78 @@ public class CartController implements Initializable {
         priceVBox.getChildren().add(prodPrice);*/
 
         cart = new CartModel();
+        ProductModel p = new ProductModel(102, "Prova", "BrandProva", 200, "depProva", 5, 5F, 1);
+        cart.addToCart(p, 3);
+
+        //product image
+        ImageView img = new ImageView();
+        String imageName = p.getName();
+        int imageId = p.getId();
+
+        img.setImage(new Image("file:///home/king_cheikh/IdeaProjects/SpesaOnline/images/01_melanzane.jpg"));
+        //img.setImage(new Image("file://" + prodImg.getAbsolutePath() + "/images/"+ imageId + "_" + imageName +  ".jpg"));
+        img.setFitHeight(70);
+        img.setFitWidth(120);
+        imgVBox.getChildren().add(img);
+
+
+        //product name & code
+        TextField prodNameCode = new TextField();
+        prodNameCode.setText(p.getName() + "  " + p.getId());
+        nameCodeVBox.getChildren().add(prodNameCode);
+
+        //product total price
+        TextField prodPrice = new TextField();
+        prodPrice.setText("€"+ cart.getTotalProductPrice(p));
+        priceVBox.getChildren().add(prodPrice);
+
+        //product quantity
+        ChoiceBox<Integer> qtyBox = new ChoiceBox<>();
+        int tmp = CartDao.getQtyInStock(1);
+        for(int i = 0; i <= tmp; i++)
+            qtyBox.getItems().add(i);
+
+        qtyBox.setValue(3);
+        qtyVBox.getChildren().add(qtyBox);
+
+       qtyBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> ov, Number oldValue, Number newValue) {
+                System.out.println("Trying to change the quantity");
+                if(CartDao.getQtyInStock(1) < newValue.intValue()){
+                    System.out.println("Quantity not available for " + ov);
+                    qtyBox.setValue(oldValue.intValue());
+                }
+                else if(newValue.intValue() == 0){
+                    imgVBox.getChildren().remove(img);
+                    nameCodeVBox.getChildren().remove(prodNameCode);
+                    qtyVBox.getChildren().remove(qtyBox);
+                    priceVBox.getChildren().remove(prodPrice);
+                    Text tmp= new Text("Product removed!");
+                    nameCodeVBox.getChildren().add(tmp);
+                }
+                else
+                    qtyBox.setValue(newValue.intValue());
+            }
+        });
+
+
+        //shipping costs
+        //da sistemare...non funziona la selezione delle radio
+        String mod = "";
+        if(standardRadioButton.isSelected()) {
+            mod = "standardShipping";
+            shipping.setText(String.valueOf(cart.getShippingCost(mod)));
+        }
+        else if(expressRadioButton.isSelected()) {
+            mod = "expressShipping";
+            shipping.setText(String.valueOf(cart.getShippingCost(mod)));
+        }
+
+
+        // promotion.setText(String.valueOf(cart.getPromotion));
+        totalShopping.setText(String.valueOf(cart.getTotalShopping(mod))); // mancano i codici promozionali
+        fidelityPoints.setText(String.valueOf(cart.getPoints()));
     }
 
     @FXML
@@ -159,6 +239,19 @@ public class CartController implements Initializable {
 
         qtyBox.setValue(qty);
         qtyVBox.getChildren().add(qtyBox);
+
+        qtyBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> ov, Number oldValue, Number newValue) {
+                System.out.println("Trying to change the quantity");
+                if(CartDao.getQtyInStock(p.getId()) < newValue.intValue()){
+                    System.out.println("Quantity not available for " + ov);
+                    qtyBox.setValue(oldValue.intValue());
+                }
+                else
+                    qtyBox.setValue(newValue.intValue());
+            }
+        });
 
         //product total price
         TextField prodPrice = new TextField();

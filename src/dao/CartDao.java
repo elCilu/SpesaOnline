@@ -13,7 +13,7 @@ public class CartDao extends BaseDao{
         try{
             PreparedStatement statement = connection.prepareStatement(GET_QTY_IN_STOCK);
             statement.setInt(1, id);
-            System.out.printf("Selecting qty in stock of the product with id %d", id);
+            System.out.println("Selecting qty in stock of the product with id " + id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 qtyInStock = resultSet.getInt(1);
