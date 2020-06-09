@@ -1,8 +1,6 @@
 package models;
 
-import enums.Tag;
-
-public class ProductModel {
+public class ProductModel implements Comparable<ProductModel> {
     private int id;
     private String name;
     private String brand;
@@ -10,10 +8,10 @@ public class ProductModel {
     private String dep;
     private int qtyStock;
     private float price;
-    private Tag tag;
+    private int tag; //TODO: collegarlo a Tag Enum
 
 
-    public ProductModel(int id, String name, String brand, int qtyPack, String dep, int qtyStock, float price, Tag tag) {
+    public ProductModel(int id, String name, String brand, int qtyPack, String dep, int qtyStock, float price, int tag) {
         this.id = id;
         this.name = name;
         this.brand = brand;
@@ -80,11 +78,11 @@ public class ProductModel {
         this.price = price;
     }
 
-    public Tag getTag() {
+    public int getTag() {
         return tag;
     }
 
-    public void setTag(Tag tag) {
+    public void setTag(int tag) {
         this.tag = tag;
     }
 
@@ -94,4 +92,8 @@ public class ProductModel {
                 getQtyStock(), getprice(), getTag());
     }
 
+    @Override
+    public int compareTo(ProductModel other) {
+        return this.getId() - other.getId();
+    }
 }

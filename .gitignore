@@ -1,4 +1,5 @@
 .idea/
+.gitignore
 SpesaOnline.iml
 out/
 src/dao/BaseDao.java
