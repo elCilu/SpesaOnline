@@ -2,7 +2,7 @@ package models;
 
 import enums.Tag;
 
-public class ProductModel {
+public class ProductModel implements Comparable<ProductModel> {
     private int id;
     private String name;
     private String brand;
@@ -94,4 +94,22 @@ public class ProductModel {
                 getQtyStock(), getprice(), getTag());
     }
 
+    @Override
+    /**
+     * Ordina i prodotti in ordine di reparto..
+     * a parità di reparto li ordina per name
+     */
+    public int compareTo(ProductModel other) {
+        if(this.dep.compareTo(other.dep) < 0)
+            return -1;
+        else if(this.dep.compareTo(other.dep) > 0)
+            return 1;
+        else
+            if(this.name.compareTo(other.getName()) < 0)
+               return -1;
+            else if(this.name.compareTo(other.getName()) > 0)
+                return  1;
+             else
+                return 0;
+    }
 }
