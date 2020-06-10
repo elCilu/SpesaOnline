@@ -40,7 +40,7 @@ public final class ProductDao extends BaseDao {
         return result;
     }
 
-    static List<ProductModel> getAllProducts() {
+    public static List<ProductModel> getAllProducts() {
         List<ProductModel> products = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement(SELECT_ALL);
