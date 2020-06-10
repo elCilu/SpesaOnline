@@ -16,18 +16,37 @@
             </Text>
 
             <Label prefHeight="25" prefWidth="180" text="Totalespesa: " GridPane.rowIndex="2" />
+            <TextField fx:id="totSpesa" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <font>
+                    <Font size="14.0" />
+                </font>
+            </TextField>
 
             <Label prefHeight="25" prefWidth="180" text="Puntispesa: " GridPane.rowIndex="3" />
+            <TextField fx:id="puntiSpesa" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                <font>
+                    <Font size="14.0" />
+                </font>
+            </TextField>
 
             <Label prefHeight="25" prefWidth="180" text="Data consegna: " GridPane.rowIndex="4" />
-            <ChoiceBox prefHeight="25.0" prefWidth="165.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <DatePicker fx:id="dataConsegna" prefHeight="25.0" prefWidth="166.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
             <Label prefHeight="25" prefWidth="180" text="Orario consegna: " GridPane.rowIndex="5" />
+         <RadioButton fx:id="mattina" mnemonicParsing="false" text="Mattina (8:00 - 12:00)" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <toggleGroup>
+                <ToggleGroup fx:id="delivery" />
+            </toggleGroup>
+            </RadioButton>
+         <RadioButton fx:id="pomeriggio" layoutX="224.0" layoutY="236.0" mnemonicParsing="false" text="Pomeriggio (14:00 - 18:00)" GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <toggleGroup>
+                <fx:reference source="delivery" />
+            </toggleGroup>
+            </RadioButton>
 
-            <Label prefHeight="25" prefWidth="180" text="Metodo di pagamento: " GridPane.rowIndex="6" />
+            <Label prefHeight="25" prefWidth="180" text="Metodo di pagamento: " GridPane.rowIndex="8" />
 
-            <RadioButton fx:id="creditCardRadio" text="Carta di credito" GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <RadioButton fx:id="creditCardRadio" text="Carta di credito" GridPane.columnIndex="1" GridPane.rowIndex="8">
                 <HBox.margin>
                     <Insets right="3.0" />
                 </HBox.margin>
@@ -35,7 +54,7 @@
                     <ToggleGroup fx:id="paymentMethodGroup" />
                 </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="paypalRadio" text="PayPal" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <RadioButton fx:id="paypalRadio" text="PayPal" GridPane.columnIndex="1" GridPane.rowIndex="9">
                 <HBox.margin>
                     <Insets right="30.0" />
                     <Insets bottom="10.0" />
@@ -44,7 +63,7 @@
                     <fx:reference source="paymentMethodGroup" />
                 </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="cashRadio" text="Alla consegna" GridPane.columnIndex="1" GridPane.rowIndex="8">
+            <RadioButton fx:id="cashRadio" text="Alla consegna" GridPane.columnIndex="1" GridPane.rowIndex="10">
                 <HBox.margin>
                     <Insets right="30.0" />
                     <Insets bottom="10.0" />
@@ -54,32 +73,34 @@
                 </toggleGroup>
             </RadioButton>
 
-            <HBox alignment="BOTTOM_CENTER" prefHeight="40" prefWidth="150" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="10">
-                <Button prefHeight="40" prefWidth="180" text="Conferma" />
+            <HBox alignment="BOTTOM_CENTER" prefHeight="40" prefWidth="150" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="12">
+                <Button onAction="#addShopping" prefHeight="40" prefWidth="180" text="Conferma" />
             </HBox>
 
-            <HBox alignment="BOTTOM_CENTER" prefHeight="40" prefWidth="150" spacing="10" GridPane.rowIndex="10">
-                <Button prefHeight="40" prefWidth="150" text="Torna al carrello" />
+            <HBox alignment="BOTTOM_CENTER" prefHeight="40" prefWidth="150" spacing="10" GridPane.rowIndex="12">
+                <Button onAction="#goToCart" prefHeight="40" prefWidth="150" text="Torna al carrello" />
             </HBox>
 
-            <Text fx:id="actionTarget" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+            <Text fx:id="actionTarget" GridPane.columnIndex="1" GridPane.rowIndex="13" />
             <columnConstraints>
                 <ColumnConstraints />
                 <ColumnConstraints />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints />
-                <RowConstraints maxHeight="28.0" minHeight="6.0" prefHeight="21.0" />
-                <RowConstraints maxHeight="30.0" minHeight="17.0" prefHeight="24.0" />
+                <RowConstraints maxHeight="28.0" minHeight="6.0" prefHeight="18.0" />
+                <RowConstraints maxHeight="41.0" minHeight="8.0" prefHeight="29.0" />
+                <RowConstraints maxHeight="46.0" minHeight="12.0" prefHeight="28.0" />
+                <RowConstraints maxHeight="34.0" minHeight="13.0" prefHeight="25.0" />
                 <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
+                <RowConstraints maxHeight="34.0" minHeight="13.0" prefHeight="26.0" />
+                <RowConstraints maxHeight="29.0" minHeight="0.0" prefHeight="0.0" />
+                <RowConstraints maxHeight="42.0" minHeight="14.0" prefHeight="22.0" />
+                <RowConstraints maxHeight="39.0" minHeight="6.0" prefHeight="22.0" />
+                <RowConstraints maxHeight="37.0" minHeight="17.0" prefHeight="23.0" />
+                <RowConstraints maxHeight="14.0" minHeight="1.0" prefHeight="3.0" />
+            <RowConstraints maxHeight="41.0" minHeight="10.0" prefHeight="34.0" />
+            <RowConstraints maxHeight="33.0" minHeight="10.0" prefHeight="31.0" />
             </rowConstraints>
             <opaqueInsets>
                 <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
