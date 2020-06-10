@@ -1,5 +1,7 @@
 package models;
 
+import enums.Tag;
+
 public class ProductModel {
     private int id;
     private String name;
@@ -8,10 +10,10 @@ public class ProductModel {
     private String dep;
     private int qtyStock;
     private float price;
-    private int tag; //TODO: collegarlo a Tag Enum
+    private Tag tag;
 
 
-    public ProductModel(int id, String name, String brand, int qtyPack, String dep, int qtyStock, float price, int tag) {
+    public ProductModel(int id, String name, String brand, int qtyPack, String dep, int qtyStock, float price, Tag tag) {
         this.id = id;
         this.name = name;
         this.brand = brand;
@@ -78,11 +80,11 @@ public class ProductModel {
         this.price = price;
     }
 
-    public int getTag() {
+    public Tag getTag() {
         return tag;
     }
 
-    public void setTag(int tag) {
+    public void setTag(Tag tag) {
         this.tag = tag;
     }
 
@@ -91,4 +93,5 @@ public class ProductModel {
                         "\nPrezzo: %f\nTag: %s", getId(), getName(), getBrand(), getQtyPack(), getDep(),
                 getQtyStock(), getprice(), getTag());
     }
+
 }
