@@ -89,7 +89,7 @@
                                 <Font size="14.0" />
                             </font>
                         </TextField>
-                  <RadioButton fx:id="standardRadioButton" mnemonicParsing="false" text="Standart" GridPane.columnIndex="1" />
+                  <RadioButton fx:id="standardRadioButton" mnemonicParsing="false" text="Standard" GridPane.columnIndex="1" />
                   <RadioButton fx:id="expressRadioButton" mnemonicParsing="false" text="Express" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="shipping" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
