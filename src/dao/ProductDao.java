@@ -1,5 +1,6 @@
 package dao;
 
+import enums.Tag;
 import models.ProductModel;
 
 import java.sql.PreparedStatement;
@@ -12,6 +13,7 @@ public final class ProductDao extends BaseDao {
 
     private static final String INSERT_PRODUCT = "insert into products values (?, ?, ?, ? , ?, ?, ?)";
     private static final String SELECT_ALL = "select * from products";
+    private static final String SELECT_BY = "select * from products where name = ? or brand = ?";
     private static final String SELECT_BY_ID = "select * from products where id = ?";
     private static final String SELECT_BY_DEP = "select * from products where dep = ?";
     private static final String SELECT_BY_TAG = "select * from products where tag = ?";
@@ -31,7 +33,7 @@ public final class ProductDao extends BaseDao {
             statement.setString(4, productModel.getDep());
             statement.setInt(5, productModel.getQtyStock());
             statement.setFloat(6, productModel.getprice());
-            statement.setInt(7, productModel.getTag());
+            statement.setInt(7, 1);
             result = statement.executeUpdate();
             System.out.println("Product inserted.");
         } catch (SQLException e) {
@@ -49,9 +51,31 @@ public final class ProductDao extends BaseDao {
             while (resultSet.next()) {
                 products.add(new ProductModel(resultSet.getInt(1), resultSet.getString(2),
                         resultSet.getString(3), resultSet.getInt(4), resultSet.getString(5),
-                        resultSet.getInt(6), resultSet.getFloat(7), resultSet.getInt(8)));
+                        resultSet.getInt(6), resultSet.getFloat(7), Tag.BIO));
             }
             System.out.println("All products selected!");
+        } catch (SQLException e) {
+            System.err.println("Error while selecting products.");
+            e.printStackTrace();
+        }
+        return products;
+    }
+
+    public static List<ProductModel> searchBy(String search) {
+        List<ProductModel> products = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(SELECT_BY);
+            statement.setString(1, search);
+            statement.setString(2, search);
+            System.out.print("Selecting products with given parameter... ");
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                products.add(new ProductModel(resultSet.getInt(1), resultSet.getString(2),
+                        resultSet.getString(3), resultSet.getInt(4), resultSet.getString(5),
+                        resultSet.getInt(6), resultSet.getFloat(7), Tag.BIO));
+            }
+            System.out.println("Products selected!");
         } catch (SQLException e) {
             System.err.println("Error while selecting products.");
             e.printStackTrace();
@@ -69,7 +93,7 @@ public final class ProductDao extends BaseDao {
             while (resultSet.next()) {
                 product = new ProductModel(resultSet.getInt(1), resultSet.getString(2),
                         resultSet.getString(3), resultSet.getInt(4), resultSet.getString(5),
-                        resultSet.getInt(6), resultSet.getFloat(7), resultSet.getInt(8));
+                        resultSet.getInt(6), resultSet.getFloat(7), Tag.BIO);
             }
             System.out.println("Product selected!");
         } catch (SQLException e) {
@@ -89,7 +113,7 @@ public final class ProductDao extends BaseDao {
             while (resultSet.next()) {
                 products.add(new ProductModel(resultSet.getInt(1), resultSet.getString(2),
                         resultSet.getString(3), resultSet.getInt(4), resultSet.getString(5),
-                        resultSet.getInt(6), resultSet.getFloat(7), resultSet.getInt(8)));
+                        resultSet.getInt(6), resultSet.getFloat(7), Tag.BIO));
             }
             System.out.println("Products selected!");
         } catch (SQLException e) {
@@ -99,7 +123,7 @@ public final class ProductDao extends BaseDao {
         return products;
     }
 
-    static List<ProductModel> getProductsByTag(int tag) {
+    public static List<ProductModel> getProductsByTag(int tag) {
         List<ProductModel> products = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement(SELECT_BY_TAG);
@@ -109,7 +133,7 @@ public final class ProductDao extends BaseDao {
             while (resultSet.next()) {
                 products.add(new ProductModel(resultSet.getInt(1), resultSet.getString(2),
                         resultSet.getString(3), resultSet.getInt(4), resultSet.getString(5),
-                        resultSet.getInt(6), resultSet.getFloat(7), resultSet.getInt(8)));
+                        resultSet.getInt(6), resultSet.getFloat(7), Tag.BIO));
             }
             System.out.println("Products selected!");
         } catch (SQLException e) {
