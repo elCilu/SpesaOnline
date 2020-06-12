@@ -26,6 +26,7 @@ public class Main extends Application {
             primaryStage.setScene(new Scene(root));
             primaryStage.sizeToScene();
             primaryStage.show();
+
             System.out.println("Application opened!");
         } else {
             Parent root = FXMLLoader.load(getClass().getResource("../views/errorOnStart.fxml"));

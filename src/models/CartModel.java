@@ -2,6 +2,7 @@ package models;
 
 import controllers.CartController;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.layout.VBox;
 
 import java.awt.*;
 import java.util.SortedMap;
@@ -28,17 +29,29 @@ public class CartModel {
      * @param p: prodotto che devo rimuovere dal carrello
      * */
     public void remove(ProductModel p){
-       // int value = products.remove(p);
         products.remove(p, products.get(p));
-        //return value;
     }
 
     /**
      * rimuove tutti i prodotti dal carrello
      */
-    public void removeAll(){
-        for(ProductModel p : products.keySet())
-            remove(p);
+    public void removeAll(VBox imgVBox, VBox nameCodeVBox, VBox qtyVBox, VBox priceVBox){
+        products.clear();
+
+        //clear delle vBox
+        imgVBox.getChildren().clear();
+        nameCodeVBox.getChildren().clear();
+        qtyVBox.getChildren().clear();
+        priceVBox.getChildren().clear();
+    }
+
+    /**
+     * imposta la nuova quantità di un prodotto
+     * @param p prodotto
+     * @param qty nuova quantità
+     */
+    public void setProductQty(ProductModel p, int qty){
+        products.replace(p, products.get(p), qty);
     }
 
     /**
@@ -105,7 +118,5 @@ public class CartModel {
     public int getPoints(){
         return (int) subTotal();
     }
-
-    //fare il file FXML dinamico in modo da fare vedere più prodotti
 
 }
