@@ -1,25 +1,26 @@
 package controllers;
 
 import dao.ProductShoppingDao;
+import dao.ShoppingDao;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.ProductShoppingModel;
+import models.ShoppingModel;
 
 import java.util.Date;
 
 public class CheckOutController {
 
     @FXML
-    private GridPane CheckOutPage;
+    private SplitPane CheckOutPage;
     @FXML
     private DatePicker dataConsegna;
     @FXML
@@ -35,9 +36,9 @@ public class CheckOutController {
     @FXML
     private Text actionTarget;
     @FXML
-    private TextField totSpesa;
+    private Text totSpesa;
     @FXML
-    private TextField puntiSpesa;
+    private Text puntiSpesa;
 
     public ToggleGroup paymentMethodGroup;
     public ToggleGroup delivery;
@@ -53,18 +54,31 @@ public class CheckOutController {
             e.printStackTrace();
         }
     }
+    @FXML
+    protected void goToConfermed() {
+        try {
+            Stage stage = (Stage) CheckOutPage.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("../views/confirmed.fxml"));
+            stage.setScene(new Scene(root, 400, 350));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void addShopping() {
         Date purchaseDate;
         Date deliveryDate;
         int deliveryH;
-        int totalCost;
-        int earnedPoints;
-        int status;
-        int idClient;
+        int totalCost = 0;
+        int earnedPoints = 0;
+        int status = 0;
+        int idClient = 0;
         int paymentMethod;
 
         try{
+            purchaseDate = null;//dataConsegna.getValue();
             deliveryDate = null;
 
 
@@ -89,13 +103,21 @@ public class CheckOutController {
                 deliveryH = 2;
             }
             else {
-                actionTarget.setText("Seleziona metodo di pagamento");
-                throw new Exception("Metodo pagamento non selezionato");
+                actionTarget.setText("Seleziona orario di consegna");
+                throw new Exception("Orario di consegna non selezionato");
             }
-            int resultQuery = 0; //ShoppingDao.insertShopping(new ShoppingModel(0,));
+
+            /*for()
+
+            addProductShopping();
+
+            * */
+
+            int resultQuery = 0;
+            ShoppingDao.insertShopping(new ShoppingModel(0, purchaseDate, deliveryDate, totalCost, earnedPoints, status, idClient, paymentMethod));
 
             if (resultQuery != 0){
-                actionTarget.setText("Spesa aggiunta correttamente");
+                goToConfermed();
             }
 
         }catch (Exception e){
@@ -103,10 +125,10 @@ public class CheckOutController {
         }
     }
 
-    public void addProductShopping() {
-        int idProduct = 0;
-        int idShopping = 0;
-        int qty = 1;
+    public void addProductShopping(int idProduct, int idShopping, int qty) {
+        idProduct = 0;
+        idShopping = 0;
+        qty = 1;
 
         try{
             int resultQuery = ProductShoppingDao.insertProductShopping(new ProductShoppingModel(0, idProduct,
