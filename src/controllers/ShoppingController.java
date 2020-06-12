@@ -137,4 +137,16 @@ public class ShoppingController implements Initializable {
         //se nessun tag è stato selezionato, lascia invariata la ricerca
         return result;
     }
+    @FXML
+    protected void cartButton(){
+        //TODO
+        /*
+        1. questo funzione è collegata al tuo button
+        2. deve passare un ProductModel e un qty al metodo del cart "SetupCart(ProductModel p, int qty)"
+        sugg: siccome non so se il #OnAction del Button accetta parametri puoi fare una funzione nel ProductModel che usi per passare i parametri
+              p e qty nel metodo del carrello.....dovresti collegate anche una button ad ogni prodotto così puoi sapere quale prodotto devi passare
+              al carrello tramite questo collegamento...
+         NB: non lo faccio perché non ho capito dove metti i prodotti haha...la tua pagina è strana haha
+         */
+    }
 }

@@ -69,7 +69,8 @@ public final class DatabaseHandler extends BaseDao {
             while ((line = bufferedReader.readLine()) != null) {
                 data = line.split(",");
                 resultQuery = ProductDao.insertProduct(new ProductModel(0, data[0], data[1],
-                        Integer.parseInt(data[2]), data[3], Integer.parseInt(data[4]), Float.parseFloat(data[5]), Tag.BIO));
+                        Integer.parseInt(data[2]), data[3], Integer.parseInt(data[4]), Float.parseFloat(data[5]),
+                        Tag.values()[Integer.parseInt(data[6])]));
                 if (resultQuery == 0) {
                     connection.rollback();
                     break;
