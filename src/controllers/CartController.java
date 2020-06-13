@@ -40,15 +40,13 @@ public class CartController implements Initializable {
     @FXML
     private AnchorPane cartPage;
     @FXML
-    private ScrollPane scrollPane;
-    @FXML
-    private AnchorPane productsPane;
-    @FXML
     private VBox imgVBox;
     @FXML
     private VBox nameCodeVBox;
     @FXML
     private VBox qtyVBox;
+    @FXML
+    private VBox trashVBox;
     @FXML
     private VBox priceVBox;
     @FXML
@@ -70,26 +68,35 @@ public class CartController implements Initializable {
 
     private static CartModel cart;
     private static final File prodImg = new File("");
-    private String mod = "";
+    private int mod = 0;
 
 
     @FXML
     public void cleanCart(){
-        cart.removeAll(imgVBox, nameCodeVBox, qtyVBox, priceVBox);
-        totalPriceLabel.setVisible(false);
-        productsPane.getChildren().removeAll(imgVBox, nameCodeVBox, qtyVBox, priceVBox);
-        //Text message = new Text("\t\t\t\n\nIL TUO CARRELLO È VUOTO!");
-       // productsPane.getChildren().add(message);
-       // message.setX(500);
-        //message.setY(200);
-        messages.setText("IL TUO CARRELLO È VUOTO!");//trovare il modo di stamparlo proprio al centro della pagina
+       if(!cart.getProducts().isEmpty()) {
+           cart.removeAll();
+
+           //clear delle vBox
+           imgVBox.getChildren().clear();
+           nameCodeVBox.getChildren().clear();
+           qtyVBox.getChildren().clear();
+           priceVBox.getChildren().clear();
+           trashVBox.getChildren().clear();
+
+           //clear del totale del carrello e dei punti fedeltà
+           totalShopping.setText("00.0");
+           fidelityPoints.setText("00.0");
+
+           totalPriceLabel.setVisible(false);
+           messages.setText("IL TUO CARRELLO È VUOTO!");//trovare il modo di stamparlo proprio al centro della pagina in modo dinamico
+       }
     }
 
     @FXML
     public void backToShopping() {
         try {
             Stage stage = (Stage) cartPage.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("../views/Shopping.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../views/shopping.fxml"));
             stage.setScene(new Scene(root, 300, 275));
             stage.show();
         } catch (Exception e) {
@@ -100,15 +107,32 @@ public class CartController implements Initializable {
 
     @FXML
     public void checkout(){
-        try {
-            Stage stage = (Stage) cartPage.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("../views/Checkout.fxml"));
-            stage.setScene(new Scene(root, 300, 275));
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(cart.getProducts().isEmpty()){
+            System.out.println("Il tuo carrello è vuoto!");
         }
+        else {
 
+            try {
+                Stage stage = (Stage) cartPage.getScene().getWindow();
+                FXMLLoader Loader = new FXMLLoader();
+                Loader.setLocation(getClass().getResource("../views/checkout.fxml"));
+
+                //load the parent
+                Loader.load();
+                CheckOutController checkout = Loader.getController();
+
+                //sending cart to the checkout page
+                checkout.setCart(cart, mod);
+
+
+                stage.setScene(new Scene(Loader.getRoot()));
+                stage.sizeToScene();
+                stage.show();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
@@ -120,7 +144,7 @@ public class CartController implements Initializable {
     //carico i dati iniziali sulla pagina
     private void loadData(){
 
-        cart = new CartModel();
+        cart = new CartModel(messages);
 
         //converting al png images in jpg image
         PngToJpg.changeExtension();
@@ -129,7 +153,7 @@ public class CartController implements Initializable {
         List<ProductModel> products = new ArrayList<>();
         products.addAll(ProductDao.getAllProducts());
 
-        for(int j = 0; j < products.size(); j++) {
+        for(int j = 0; j < products.size()/4; j++) {
             ProductModel p = products.get(j);
             cart.addToCart(p, p.getQtyStock());
 
@@ -165,7 +189,7 @@ public class CartController implements Initializable {
             //product quantity
             ChoiceBox<Integer> qtyBox = new ChoiceBox<>();
             int tmp = CartDao.getQtyInStock(p.getId());
-            for (int i = 0; i <= tmp; i++)
+            for (int i = 1; i <= tmp; i++)
                 qtyBox.getItems().add(i);
 
             qtyBox.setValue(p.getQtyStock());
@@ -176,33 +200,58 @@ public class CartController implements Initializable {
                 public void changed(ObservableValue<? extends Number> ov, Number oldValue, Number newValue) {
                     System.out.println("Trying to change the quantity");
                     cart.setProductQty(p, newValue.intValue());
+                    productTotalPrice(prodPrice, p);
+                    setShipping();
                     totals();
-
-                    if (newValue.intValue() == 0) {
-                        cart.remove(p);
-                        imgVBox.getChildren().remove(img);
-                        nameCodeVBox.getChildren().remove(prodNameCode);
-                        qtyVBox.getChildren().remove(qtyBox);
-                        priceVBox.getChildren().remove(prodPrice);
-                        Text tmp = new Text("Product removed!");
-                        nameCodeVBox.getChildren().add(tmp);
-                    }
                 }
+            });
+
+            Button trash = new Button();
+            ImageView trashImage = new ImageView();
+            trashImage.setImage(new Image("file://" + prodImg.getAbsolutePath() + "/images/trash.jpg"));
+            trashImage.setFitHeight(25);
+            trashImage.setFitWidth(25);
+            trash.setGraphic(trashImage);
+            trashVBox.setAlignment(Pos.CENTER);
+            trashVBox.getChildren().add(trash);
+
+            trash.setOnAction(actionEvent -> {cart.remove(p);//non funziona bene
+                imgVBox.getChildren().remove(img);
+                nameCodeVBox.getChildren().remove(prodNameCode);
+                qtyVBox.getChildren().remove(qtyBox);
+                trashVBox.getChildren().remove(trash);
+                priceVBox.getChildren().remove(prodPrice);
+               Text t = new Text("Product removed!");
+                //nameCodeVBox.getChildren().add(t);
+                totals();
             });
         }
 
-
-        //shipping costs
-        //da sistemare...non funziona la selezione delle radio
-        if (standardRadioButton.isSelected()) {
-            mod = "standardShipping";
-            shipping.setText(String.valueOf(cart.getShippingCost(mod)));
-        } else if (expressRadioButton.isSelected()) {
-            mod = "expressShipping";
-            shipping.setText(String.valueOf(cart.getShippingCost(mod)));
-        }
+        standardRadioButton.setSelected(true);
+        setShipping();
+        shipping.setBackground(Background.EMPTY);
 
         totals();
+        totalShopping.setBackground(Background.EMPTY);
+        promotion.setBackground(Background.EMPTY);
+        fidelityPoints.setBackground(Background.EMPTY);
+
+        if(!cart.getProducts().isEmpty())
+            messages.setText("");
+    }
+
+    @FXML
+    public void setShipping(){
+        if (standardRadioButton.isSelected()) {
+            mod = 1;
+            shipping.setText(String.valueOf(cart.getShippingCost(mod)));
+            totals();
+        }
+        if (expressRadioButton.isSelected()) {
+            mod = 2;
+            shipping.setText(String.valueOf(cart.getShippingCost(mod)));
+            totals();
+        }
     }
 
     private void productTotalPrice(TextField prodPrice, ProductModel p){
@@ -211,12 +260,16 @@ public class CartController implements Initializable {
 
     private void totals(){
         // promotion.setText(String.valueOf(cart.getPromotion));
-        totalShopping.setText(String.valueOf(cart.getTotalShopping(mod))); // mancano i codici promozionali
-        fidelityPoints.setText(String.valueOf(cart.getPoints()));
+        totalShopping.setText(String.format("€ %.2f", cart.getTotalShopping(mod))); // mancano i codici promozionali
+        fidelityPoints.setText(String.valueOf(cart.getPoints() + " punti"));
     }
 
     @FXML
     //collegato alla button di Chiara
+    //mi passa sempre un cart invece di un ProductModel e qty alla volta
+    //quando un cliente clicca su aggiunti al carrello,i prodotti vengono aggiunti a un CartModel e compare un messaggio che dice "prodotto aggiunto al carrello" con 2 tasti: uno che dice "vai al carrello" e l'altro che dice "continua con gli acquisti",
+    //quando viene cliccato vai al carrello mi passi il CartModel che contengono tutti i prodotti mentre lanci il cart.fxml, mentre se si clicca "continua con gli acquisti" si torna alla pagina dei prodotti...
+    // (quindi possiamo fare in modo che il messaggio sia una specie di popup)
     public void setUpCart(ProductModel p, int qty){
         cart.addToCart(p, qty);
 
@@ -264,11 +317,11 @@ public class CartController implements Initializable {
         priceVBox.getChildren().add(prodPrice);
 
         //shipping costs
-        String mod = "";
+
         if(standardRadioButton.isSelected())
-            mod = "standardShipping";
+            mod = 1;
         else if(expressRadioButton.isSelected())
-            mod = "expressShipping";
+            mod = 2;
         shipping.setText(String.valueOf(cart.getShippingCost(mod)));
 
         // promotion.setText(String.valueOf(cart.getPromotion));
