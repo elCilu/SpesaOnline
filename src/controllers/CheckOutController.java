@@ -12,6 +12,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import models.CartModel;
 import models.ProductShoppingModel;
 import models.ShoppingModel;
 
@@ -42,13 +43,17 @@ public class CheckOutController {
 
     public ToggleGroup paymentMethodGroup;
     public ToggleGroup delivery;
+    private CartModel cart;
+    private int mod;
+
 
     @FXML
     protected void goToCart() {
         try {
             Stage stage = (Stage) CheckOutPage.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("../views/cart.fxml"));
-            stage.setScene(new Scene(root, 400, 350));
+            stage.setScene(new Scene(root));
+            stage.sizeToScene();
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -66,6 +71,13 @@ public class CheckOutController {
         }
     }
 
+    public void setCart(CartModel cart, int mod){
+        this.cart = cart;
+        this.mod = mod;
+        totSpesa.setText(String.format("%.2f",cart.subTotal()));
+        puntiSpesa.setText(String.format("%02d",cart.getPoints()));
+    }
+
 
     public void addShopping() {
         Date purchaseDate;
@@ -78,8 +90,10 @@ public class CheckOutController {
         int paymentMethod;
 
         try{
+
             purchaseDate = null;//dataConsegna.getValue();
             deliveryDate = null;
+
 
 
             if (creditCardRadio.isSelected()) {

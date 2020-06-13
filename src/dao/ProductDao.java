@@ -33,7 +33,7 @@ public final class ProductDao extends BaseDao {
             statement.setString(4, productModel.getDep());
             statement.setInt(5, productModel.getQtyStock());
             statement.setFloat(6, productModel.getprice());
-            statement.setInt(7, 1);
+            statement.setInt(7, productModel.getTag().ordinal());
             result = statement.executeUpdate();
             System.out.println("Product inserted.");
         } catch (SQLException e) {
@@ -51,7 +51,7 @@ public final class ProductDao extends BaseDao {
             while (resultSet.next()) {
                 products.add(new ProductModel(resultSet.getInt(1), resultSet.getString(2),
                         resultSet.getString(3), resultSet.getInt(4), resultSet.getString(5),
-                        resultSet.getInt(6), resultSet.getFloat(7), Tag.BIO));
+                        resultSet.getInt(6), resultSet.getFloat(7), Tag.values()[resultSet.getInt(8)]));
             }
             System.out.println("All products selected!");
         } catch (SQLException e) {
@@ -73,7 +73,7 @@ public final class ProductDao extends BaseDao {
             while (resultSet.next()) {
                 products.add(new ProductModel(resultSet.getInt(1), resultSet.getString(2),
                         resultSet.getString(3), resultSet.getInt(4), resultSet.getString(5),
-                        resultSet.getInt(6), resultSet.getFloat(7), Tag.BIO));
+                        resultSet.getInt(6), resultSet.getFloat(7), Tag.values()[resultSet.getInt(8)]));
             }
             System.out.println("Products selected!");
         } catch (SQLException e) {
@@ -93,7 +93,7 @@ public final class ProductDao extends BaseDao {
             while (resultSet.next()) {
                 product = new ProductModel(resultSet.getInt(1), resultSet.getString(2),
                         resultSet.getString(3), resultSet.getInt(4), resultSet.getString(5),
-                        resultSet.getInt(6), resultSet.getFloat(7), Tag.BIO);
+                        resultSet.getInt(6), resultSet.getFloat(7), Tag.values()[resultSet.getInt(8)]);
             }
             System.out.println("Product selected!");
         } catch (SQLException e) {
@@ -113,7 +113,7 @@ public final class ProductDao extends BaseDao {
             while (resultSet.next()) {
                 products.add(new ProductModel(resultSet.getInt(1), resultSet.getString(2),
                         resultSet.getString(3), resultSet.getInt(4), resultSet.getString(5),
-                        resultSet.getInt(6), resultSet.getFloat(7), Tag.BIO));
+                        resultSet.getInt(6), resultSet.getFloat(7), Tag.values()[resultSet.getInt(8)]));
             }
             System.out.println("Products selected!");
         } catch (SQLException e) {
@@ -133,7 +133,7 @@ public final class ProductDao extends BaseDao {
             while (resultSet.next()) {
                 products.add(new ProductModel(resultSet.getInt(1), resultSet.getString(2),
                         resultSet.getString(3), resultSet.getInt(4), resultSet.getString(5),
-                        resultSet.getInt(6), resultSet.getFloat(7), Tag.BIO));
+                        resultSet.getInt(6), resultSet.getFloat(7), Tag.values()[resultSet.getInt(8)]));
             }
             System.out.println("Products selected!");
         } catch (SQLException e) {
