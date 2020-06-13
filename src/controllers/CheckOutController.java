@@ -60,7 +60,7 @@ public class CheckOutController {
         }
     }
     @FXML
-    protected void goToConfermed() {
+    protected void goToConfirmed() {
         try {
             Stage stage = (Stage) CheckOutPage.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("../views/confirmed.fxml"));
@@ -131,7 +131,7 @@ public class CheckOutController {
             ShoppingDao.insertShopping(new ShoppingModel(0, purchaseDate, deliveryDate, totalCost, earnedPoints, status, idClient, paymentMethod));
 
             if (resultQuery != 0){
-                goToConfermed();
+                goToConfirmed();
             }
 
         }catch (Exception e){
