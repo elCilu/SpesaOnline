@@ -1,5 +1,8 @@
 package models;
 
+import java.util.Arrays;
+import java.util.ArrayList;
+
 public class ClientModel {
     private int id;
     private String name;
@@ -10,6 +13,8 @@ public class ClientModel {
     private String email;
     private int idPaymentMethod; //TODO: collegarlo a PaymentMethod enum
 
+    private static ArrayList<ClientModel> client = new ArrayList<>();
+
     public ClientModel(int id, String name, String surname, String address, String zip, String phoneNumber, String email, int idPaymentMethod) {
         this.id = id;
         this.name = name;
@@ -19,6 +24,14 @@ public class ClientModel {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.idPaymentMethod = idPaymentMethod;
+    }
+
+    public ClientModel() {
+        this.client = client;
+    }
+
+    public void addToClient(ClientModel c){
+        client.add(c);
     }
 
     public int getId() {

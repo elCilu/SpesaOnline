@@ -29,7 +29,7 @@ public class LoginController {
     protected void goToSignUp() {
         try {
             Stage stage = (Stage) loginPage.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("../views/signup.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/signup.fxml"));
             stage.setScene(new Scene(root, 400, 350));
             stage.show();
         } catch (Exception e) {

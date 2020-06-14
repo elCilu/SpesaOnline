@@ -35,7 +35,7 @@ public final class StringUtil {
     }
 
     public static boolean isValidEmail(String email){
-        return !email.matches("[a-zA-Z.0-9]+@[a-zA-Z]+\\.[a-z]{2,3}$");
+        return email.matches("[a-zA-Z.0-9]+@[a-zA-Z]+\\.[a-z]{2,3}$");
     }
 
 }

@@ -21,13 +21,13 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         if (isCreatedPopulated) {
-            Parent root = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/costumerData.fxml"));
             primaryStage.setTitle("Spesa Online");
             primaryStage.setScene(new Scene(root, 300, 275));
             primaryStage.show();
             System.out.println("Application opened!");
         } else {
-            Parent root = FXMLLoader.load(getClass().getResource("../views/errorOnStart.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/errorOnStart.fxml"));
             primaryStage.setTitle("Spesa Online");
             primaryStage.setScene(new Scene(root, 275, 50));
             primaryStage.show();
