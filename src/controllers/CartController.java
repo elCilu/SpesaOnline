@@ -1,43 +1,38 @@
 package controllers;
 
-import java.util.List;
-import java.util.ArrayList;
 import dao.CartDao;
 import dao.ProductDao;
-import javafx.geometry.Pos;
-import javafx.scene.control.*;
-import javafx.scene.layout.Background;
-import utils.PngToJpg;
-import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.CartModel;
 import models.ProductModel;
+import utils.PngToJpg;
 
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
-import java.util.SortedSet;
-import java.util.TreeSet;
+
+//import java.awt.*;
 
 public class CartController implements Initializable {
     @FXML
     private AnchorPane cartPage;
-    @FXML
-    private AnchorPane productsPane;
     @FXML
     private VBox imgVBox;
     @FXML
@@ -152,7 +147,7 @@ public class CartController implements Initializable {
         List<ProductModel> products = new ArrayList<>();
         products.addAll(ProductDao.getAllProducts());
 
-        for(int j = 0; j < products.size(); j++) {
+        for(int j = 0; j < 2; j++) {
             ProductModel p = products.get(j);
             cart.addToCart(p, p.getQtyStock());
 
@@ -178,10 +173,10 @@ public class CartController implements Initializable {
             nameCodeVBox.getChildren().add(prodNameCode);
 
             //product total price
-            Text prodPrice = new Text();
-            //prodPrice.setBackground(Background.EMPTY);
-            //prodPrice.setAlignment(Pos.CENTER);
-            //prodPrice.setEditable(false);
+            TextField prodPrice = new TextField();
+            prodPrice.setBackground(Background.EMPTY);
+            prodPrice.setAlignment(Pos.CENTER);
+            prodPrice.setEditable(false);
             productTotalPrice(prodPrice, p);
             priceVBox.getChildren().add(prodPrice);
 
@@ -192,7 +187,6 @@ public class CartController implements Initializable {
                 qtyBox.getItems().add(i);
 
             qtyBox.setValue(p.getQtyStock());
-            qtyBox.setPrefSize(50,35);
             qtyVBox.getChildren().add(qtyBox);
 
             qtyBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Number>() {
@@ -254,7 +248,7 @@ public class CartController implements Initializable {
         }
     }
 
-    private void productTotalPrice(Text prodPrice, ProductModel p){
+    private void productTotalPrice(TextField prodPrice, ProductModel p){
         prodPrice.setText(String.format("€%.2f", cart.getTotalProductPrice(p)));
     }
 

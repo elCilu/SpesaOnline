@@ -3,19 +3,21 @@ package models;
 import java.util.Date;
 
 public class ShoppingModel {
-    private int id;
-    private Date purchaseDate;
-    private Date deliveryDate;
-    private int totalCost;
-    private int earnedPoints;
+    private final int id;
+    private final Date purchaseDate;
+    private final Date deliveryDate;
+    private final String deliveryH;
+    private final float totalCost;
+    private final int earnedPoints;
     private int status;
-    private int idClient;
-    private int idPaymentMethod;
+    private final int idClient;
+    private final int idPaymentMethod;
 
-    public ShoppingModel(int id, Date purchaseDate, Date deliveryDate, int totalCost, int earnedPoints, int status, int idClient, int idPaymentMethod) {
+    public ShoppingModel(int id, Date purchaseDate, Date deliveryDate, String deliveryH, float totalCost, int earnedPoints, int status, int idClient, int idPaymentMethod) {
         this.id = id;
         this.purchaseDate = purchaseDate;
         this.deliveryDate = deliveryDate;
+        this.deliveryH = deliveryH;
         this.totalCost = totalCost;
         this.earnedPoints = earnedPoints;
         this.status = status;
@@ -27,40 +29,24 @@ public class ShoppingModel {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public Date getPurchaseDate() {
         return purchaseDate;
-    }
-
-    public void setPurchaseDate(Date purchaseDate) {
-        this.purchaseDate = purchaseDate;
     }
 
     public Date getDeliveryDate() {
         return deliveryDate;
     }
 
-    public void setDeliveryDate(Date deliveryDate) {
-        this.deliveryDate = deliveryDate;
+    public String getDeliveryH() {
+        return deliveryH;
     }
 
-    public int getTotalCost() {
+    public float getTotalCost() {
         return totalCost;
-    }
-
-    public void setTotalCost(int totalCost) {
-        this.totalCost = totalCost;
     }
 
     public int getEarnedPoints() {
         return earnedPoints;
-    }
-
-    public void setEarnedPoints(int earnedPoints) {
-        this.earnedPoints = earnedPoints;
     }
 
     public int getStatus() {
@@ -75,15 +61,7 @@ public class ShoppingModel {
         return idClient;
     }
 
-    public void setIdClient(int idClient) {
-        this.idClient = idClient;
-    }
-
     public int getIdPaymentMethod() {
         return idPaymentMethod;
-    }
-
-    public void setIdPaymentMethod(int idPaymentMethod) {
-        this.idPaymentMethod = idPaymentMethod;
     }
 }
