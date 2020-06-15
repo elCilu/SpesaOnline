@@ -1,40 +1,34 @@
 package controllers;
 
-import java.util.List;
-import java.util.ArrayList;
 import dao.CartDao;
 import dao.ProductDao;
-import javafx.geometry.Pos;
-import javafx.scene.control.*;
-import javafx.scene.layout.Background;
-import utils.PngToJpg;
-import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.CartModel;
 import models.ProductModel;
+import utils.PngToJpg;
 
-import javax.swing.event.ChangeEvent;
-//import java.awt.*;
-import java.awt.font.NumericShaper;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
-import java.util.SortedSet;
-import java.util.TreeSet;
+
+//import java.awt.*;
 
 public class CartController implements Initializable {
     @FXML
@@ -153,7 +147,7 @@ public class CartController implements Initializable {
         List<ProductModel> products = new ArrayList<>();
         products.addAll(ProductDao.getAllProducts());
 
-        for(int j = 0; j < products.size()/4; j++) {
+        for(int j = 0; j < 2; j++) {
             ProductModel p = products.get(j);
             cart.addToCart(p, p.getQtyStock());
 
