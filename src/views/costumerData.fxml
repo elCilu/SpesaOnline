@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-
 <GridPane id="costumerData" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="855.0" prefWidth="1247.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CostumerDataController">
 
     <Text id="welcome-text" fill="#823030" text="Anagrafica del cliente" underline="true" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="0">
@@ -27,79 +26,73 @@
 
     <Label text="CAP:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
 
-    <TextField fx:id="zipField" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+    <TextField fx:id="zipField" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
-    <Label text="Numero di telefono:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+    <Label text="Numero di telefono:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
 
-    <TextField fx:id="phoneNumberField" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+    <TextField fx:id="phoneNumberField" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
 
-    <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+    <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
 
-    <TextField fx:id="emailField" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+    <TextField fx:id="emailField" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
 
-    <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+    <Label text="Password:" fx:id="passwordLabel" visible="false" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
 
-    <PasswordField fx:id="passwordField" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-
-    <Label text="Metodo di pagamento:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
-
-    <RadioButton fx:id="creditCardRadio" text="Carta di credito" GridPane.columnIndex="1" GridPane.rowIndex="8">
-        <HBox.margin>
-            <Insets right="3.0" />
-        </HBox.margin>
-        <toggleGroup>
-            <ToggleGroup fx:id="paymentMethodGroup" />
-        </toggleGroup>
-    </RadioButton>
-    <RadioButton fx:id="paypalRadio" text="PayPal" GridPane.columnIndex="1" GridPane.rowIndex="9">
-        <HBox.margin>
-            <Insets right="30.0" />
-            <Insets bottom="10.0" />
-        </HBox.margin>
-        <toggleGroup>
-            <fx:reference source="paymentMethodGroup" />
-        </toggleGroup>
-    </RadioButton>
-    <RadioButton fx:id="cashRadio" text="Alla consegna" GridPane.columnIndex="1" GridPane.rowIndex="10">
-        <HBox.margin>
-            <Insets right="30.0" />
-            <Insets bottom="10.0" />
-        </HBox.margin>
-        <toggleGroup>
-            <fx:reference source="paymentMethodGroup" />
-        </toggleGroup>
-    </RadioButton>
-
-    <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="11">
-        <Button contentDisplay="CENTER" depthTest="ENABLE" nodeOrientation="LEFT_TO_RIGHT" onAction="#Modifica" prefHeight="26.0" prefWidth="90.0" text="Modifica" textOverrun="WORD_ELLIPSIS" wrapText="true">
-         <cursor>
-            <Cursor fx:constant="TEXT" />
-         </cursor></Button>
+    <HBox alignment="bottom_right" visible="false" fx:id="modifyPasswordButton" spacing="10" GridPane.columnIndex="1"
+          GridPane.rowIndex="7">
+        <Button onAction="#modifyPassword" prefHeight="26.0" prefWidth="90.0" text="Modifica Password"/>
     </HBox>
-    <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="11">
-        <Button onAction="#Salva" prefHeight="26.0" prefWidth="90.0" text="Salva" />
+
+    <Label text="Nuova password:" fx:id="newPasswordLabel" visible="false" GridPane.columnIndex="0"
+           GridPane.rowIndex="8"/>
+
+    <PasswordField fx:id="newPasswordField" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+
+    <Label text="Conferma password:" fx:id="passwordCheckLabel" visible="false" GridPane.columnIndex="0"
+           GridPane.rowIndex="9"/>
+
+    <PasswordField fx:id="passwordCheckField" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="9"/>
+
+    <Label text="Metodo di pagamento:" GridPane.columnIndex="0" GridPane.rowIndex="10"/>
+
+    <RadioButton fx:id="creditCardRadio" text="Carta di credito" GridPane.columnIndex="1" GridPane.rowIndex="10">
+        <HBox.margin>
+            <Insets right="3.0"/>
+        </HBox.margin>
+        <toggleGroup>
+            <ToggleGroup fx:id="paymentMethodGroup"/>
+        </toggleGroup>
+    </RadioButton>
+    <RadioButton fx:id="paypalRadio" text="PayPal" GridPane.columnIndex="1" GridPane.rowIndex="11">
+        <HBox.margin>
+            <Insets right="30.0"/>
+            <Insets bottom="10.0"/>
+        </HBox.margin>
+        <toggleGroup>
+            <fx:reference source="paymentMethodGroup"/>
+        </toggleGroup>
+    </RadioButton>
+    <RadioButton fx:id="cashRadio" text="Alla consegna" GridPane.columnIndex="1" GridPane.rowIndex="12">
+        <HBox.margin>
+            <Insets right="30.0"/>
+            <Insets bottom="10.0"/>
+        </HBox.margin>
+        <toggleGroup>
+            <fx:reference source="paymentMethodGroup"/>
+        </toggleGroup>
+    </RadioButton>
+
+    <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="13">
+        <Button contentDisplay="CENTER" depthTest="ENABLE" nodeOrientation="LEFT_TO_RIGHT" onAction="#modify"
+                prefHeight="26.0" prefWidth="90.0" text="Modifica" textOverrun="WORD_ELLIPSIS" wrapText="true">
+            <cursor>
+                <Cursor fx:constant="TEXT"/>
+            </cursor>
+        </Button>
     </HBox>
-    <Text fx:id="actionTarget" GridPane.columnIndex="1" GridPane.rowIndex="13" />
-   <columnConstraints>
-      <ColumnConstraints maxWidth="202.6" minWidth="177.2" prefWidth="177.2" />
-      <ColumnConstraints maxWidth="154.0" minWidth="127.79999999999998" prefWidth="154.0" />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-   </rowConstraints>
-   
+    <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="13">
+        <Button onAction="#save" prefHeight="26.0" prefWidth="90.0" text="Salva"/>
+    </HBox>
+    <Text fx:id="actionTarget" GridPane.columnIndex="1" GridPane.rowIndex="14"/>
 
 </GridPane>
