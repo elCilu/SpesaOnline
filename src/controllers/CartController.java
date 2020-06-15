@@ -147,7 +147,7 @@ public class CartController implements Initializable {
         List<ProductModel> products = new ArrayList<>();
         products.addAll(ProductDao.getAllProducts());
 
-        for(int j = 0; j < products.size(); j++) {
+        for(int j = 0; j < 10; j++) {
             ProductModel p = products.get(j);
             cart.addToCart(p, p.getQtyStock());
 
@@ -158,14 +158,6 @@ public class CartController implements Initializable {
             img.setFitWidth(120);
             //img.setPreserveRatio(true);
             imgVBox.getChildren().add(img);
-
-           /* Button delBut = new Button();
-            delBut.setText("");
-            ImageView cancel = new ImageView(new Image("file:///home/king_cheikh/IdeaProjects/SpesaOnline/images/prod_01.jpg"));
-            cancel.setFitHeight(20);
-            cancel.setFitWidth(30);
-            delBut.setGraphic(cancel);
-            qtyVBox.getChildren().add(delBut);*/
 
             //product name & code
             Text prodNameCode = new Text();

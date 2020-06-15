@@ -9,11 +9,17 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.CartModel;
+import models.ProductModel;
 import models.ShoppingModel;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -23,6 +29,20 @@ import java.util.GregorianCalendar;
 import static java.util.Calendar.*;
 
 public class CheckOutController {
+    @FXML
+    private AnchorPane cartPage;
+    @FXML
+    private AnchorPane productsPane;
+    @FXML
+    private VBox imgs;
+    @FXML
+    private VBox name;
+    @FXML
+    private VBox qty;
+    @FXML
+    private VBox price;
+
+    private static final File prodImg = new File("");
 
     @FXML
     private SplitPane CheckOutPage;
@@ -100,8 +120,36 @@ public class CheckOutController {
 
         totSpesa.setText(String.format("%.2f",cart.subTotal()));
         puntiSpesa.setText(String.format("%02d",cart.getPoints()));
+
+        for(ProductModel p : cart.getProducts()){
+             //product image
+            ImageView img = new ImageView();
+            img.setImage(new Image("file://" + prodImg.getAbsolutePath() + "/images/" + "prod_" + String.format("%02d", p.getId()) +  ".jpg"));
+            img.setFitHeight(70);
+            img.setFitWidth(120);
+            imgs.getChildren().add(img);
+
+            //product name & code
+            Text prodNameCode = new Text();
+            prodNameCode.setText(p.getName() + " " + p.getBrand()  + ((p.getQtyPack() != 1) ? ", " + p.getQtyPack() + "g" : ""));
+            name.getChildren().add(prodNameCode);
+
+            //product total price
+            Text prodPrice = new Text();
+            productTotalPrice(prodPrice, p);
+            price.getChildren().add(prodPrice);
+
+            //product quantity
+            Text prodQty = new Text();
+            prodQty.setText(String.format("%d",cart.getProductQty(p)));
+
+            qty.getChildren().add(prodQty);
+        }
     }
 
+    private void productTotalPrice(Text prodPrice, ProductModel p){
+        prodPrice.setText(String.format("€%.2f", cart.getTotalProductPrice(p)));
+    }
 
     public void addShopping() {
         Date purchaseDate;
