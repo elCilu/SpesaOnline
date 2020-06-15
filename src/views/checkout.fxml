@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<SplitPane fx:id="CheckOutPage" dividerPositions="0.5" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CheckOutController">
+<SplitPane fx:id="CheckOutPage" dividerPositions="0.31960461285008235" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CheckOutController">
     <items>
         <GridPane>
             <columnConstraints>
@@ -104,14 +104,14 @@
                 <RowConstraints maxHeight="46.0" minHeight="12.0" prefHeight="28.0" />
                 <RowConstraints maxHeight="41.0" minHeight="13.0" prefHeight="26.0" />
                 <RowConstraints maxHeight="30.0" minHeight="9.0" prefHeight="24.0" />
-                <RowConstraints maxHeight="34.0" minHeight="13.0" prefHeight="26.0" />
+                <RowConstraints maxHeight="34.0" minHeight="13.0" prefHeight="25.0" />
                 <RowConstraints maxHeight="29.0" minHeight="0.0" prefHeight="0.0" />
-                <RowConstraints maxHeight="42.0" minHeight="14.0" prefHeight="22.0" />
-                <RowConstraints maxHeight="39.0" minHeight="6.0" prefHeight="22.0" />
-                <RowConstraints maxHeight="37.0" minHeight="17.0" prefHeight="23.0" />
-                <RowConstraints maxHeight="14.0" minHeight="1.0" prefHeight="3.0" />
-            <RowConstraints maxHeight="41.0" minHeight="10.0" prefHeight="34.0" />
-            <RowConstraints maxHeight="33.0" minHeight="10.0" prefHeight="31.0" />
+                <RowConstraints maxHeight="42.0" minHeight="14.0" prefHeight="23.0" />
+                <RowConstraints maxHeight="39.0" minHeight="6.0" prefHeight="19.0" />
+                <RowConstraints maxHeight="37.0" minHeight="17.0" prefHeight="20.0" />
+                <RowConstraints maxHeight="14.0" minHeight="0.0" prefHeight="0.0" />
+            <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="36.0" />
+            <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="38.0" />
             </rowConstraints>
             <opaqueInsets>
                 <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
