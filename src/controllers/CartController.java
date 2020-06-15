@@ -28,11 +28,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-//import java.awt.*;
-
 public class CartController implements Initializable {
     @FXML
     private AnchorPane cartPage;
+    @FXML
+    private AnchorPane productsPane;
     @FXML
     private VBox imgVBox;
     @FXML
@@ -67,23 +67,23 @@ public class CartController implements Initializable {
 
     @FXML
     public void cleanCart(){
-       if(!cart.getProducts().isEmpty()) {
-           cart.removeAll();
+        if(!cart.getProducts().isEmpty()) {
+            cart.removeAll();
 
-           //clear delle vBox
-           imgVBox.getChildren().clear();
-           nameCodeVBox.getChildren().clear();
-           qtyVBox.getChildren().clear();
-           priceVBox.getChildren().clear();
-           trashVBox.getChildren().clear();
+            //clear delle vBox
+            imgVBox.getChildren().clear();
+            nameCodeVBox.getChildren().clear();
+            qtyVBox.getChildren().clear();
+            priceVBox.getChildren().clear();
+            trashVBox.getChildren().clear();
 
-           //clear del totale del carrello e dei punti fedeltà
-           totalShopping.setText("00.0");
-           fidelityPoints.setText("00.0");
+            //clear del totale del carrello e dei punti fedeltà
+            totalShopping.setText("00.0");
+            fidelityPoints.setText("00.0");
 
-           totalPriceLabel.setVisible(false);
-           messages.setText("IL TUO CARRELLO È VUOTO!");//trovare il modo di stamparlo proprio al centro della pagina in modo dinamico
-       }
+            totalPriceLabel.setVisible(false);
+            messages.setText("IL TUO CARRELLO È VUOTO!");//trovare il modo di stamparlo proprio al centro della pagina in modo dinamico
+        }
     }
 
     @FXML
@@ -147,7 +147,7 @@ public class CartController implements Initializable {
         List<ProductModel> products = new ArrayList<>();
         products.addAll(ProductDao.getAllProducts());
 
-        for(int j = 0; j < 2; j++) {
+        for(int j = 0; j < products.size(); j++) {
             ProductModel p = products.get(j);
             cart.addToCart(p, p.getQtyStock());
 
@@ -173,10 +173,10 @@ public class CartController implements Initializable {
             nameCodeVBox.getChildren().add(prodNameCode);
 
             //product total price
-            TextField prodPrice = new TextField();
-            prodPrice.setBackground(Background.EMPTY);
-            prodPrice.setAlignment(Pos.CENTER);
-            prodPrice.setEditable(false);
+            Text prodPrice = new Text();
+            //prodPrice.setBackground(Background.EMPTY);
+            //prodPrice.setAlignment(Pos.CENTER);
+            //prodPrice.setEditable(false);
             productTotalPrice(prodPrice, p);
             priceVBox.getChildren().add(prodPrice);
 
@@ -187,6 +187,7 @@ public class CartController implements Initializable {
                 qtyBox.getItems().add(i);
 
             qtyBox.setValue(p.getQtyStock());
+            qtyBox.setPrefSize(50,35);
             qtyVBox.getChildren().add(qtyBox);
 
             qtyBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Number>() {
@@ -215,7 +216,7 @@ public class CartController implements Initializable {
                 qtyVBox.getChildren().remove(qtyBox);
                 trashVBox.getChildren().remove(trash);
                 priceVBox.getChildren().remove(prodPrice);
-               Text t = new Text("Product removed!");
+                Text t = new Text("Product removed!");
                 //nameCodeVBox.getChildren().add(t);
                 totals();
             });
@@ -248,7 +249,7 @@ public class CartController implements Initializable {
         }
     }
 
-    private void productTotalPrice(TextField prodPrice, ProductModel p){
+    private void productTotalPrice(Text prodPrice, ProductModel p){
         prodPrice.setText(String.format("€%.2f", cart.getTotalProductPrice(p)));
     }
 
@@ -323,3 +324,4 @@ public class CartController implements Initializable {
         fidelityPoints.setText(String.valueOf(cart.getPoints()));
     }
 }
+
