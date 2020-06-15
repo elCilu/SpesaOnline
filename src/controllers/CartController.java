@@ -26,9 +26,6 @@ import javafx.stage.Stage;
 import models.CartModel;
 import models.ProductModel;
 
-import javax.swing.event.ChangeEvent;
-//import java.awt.*;
-import java.awt.font.NumericShaper;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -39,6 +36,8 @@ import java.util.TreeSet;
 public class CartController implements Initializable {
     @FXML
     private AnchorPane cartPage;
+    @FXML
+    private AnchorPane productsPane;
     @FXML
     private VBox imgVBox;
     @FXML
@@ -153,7 +152,7 @@ public class CartController implements Initializable {
         List<ProductModel> products = new ArrayList<>();
         products.addAll(ProductDao.getAllProducts());
 
-        for(int j = 0; j < products.size()/4; j++) {
+        for(int j = 0; j < products.size(); j++) {
             ProductModel p = products.get(j);
             cart.addToCart(p, p.getQtyStock());
 
@@ -179,10 +178,10 @@ public class CartController implements Initializable {
             nameCodeVBox.getChildren().add(prodNameCode);
 
             //product total price
-            TextField prodPrice = new TextField();
-            prodPrice.setBackground(Background.EMPTY);
-            prodPrice.setAlignment(Pos.CENTER);
-            prodPrice.setEditable(false);
+            Text prodPrice = new Text();
+            //prodPrice.setBackground(Background.EMPTY);
+            //prodPrice.setAlignment(Pos.CENTER);
+            //prodPrice.setEditable(false);
             productTotalPrice(prodPrice, p);
             priceVBox.getChildren().add(prodPrice);
 
@@ -193,6 +192,7 @@ public class CartController implements Initializable {
                 qtyBox.getItems().add(i);
 
             qtyBox.setValue(p.getQtyStock());
+            qtyBox.setPrefSize(50,35);
             qtyVBox.getChildren().add(qtyBox);
 
             qtyBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Number>() {
@@ -254,7 +254,7 @@ public class CartController implements Initializable {
         }
     }
 
-    private void productTotalPrice(TextField prodPrice, ProductModel p){
+    private void productTotalPrice(Text prodPrice, ProductModel p){
         prodPrice.setText(String.format("€%.2f", cart.getTotalProductPrice(p)));
     }
 
