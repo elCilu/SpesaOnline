@@ -92,10 +92,10 @@ public class CheckOutController {
 
     public void setCart(CartModel cart, int mod){
         this.cart = cart;
-        if(mod == 0)
-            this.mod = 2;
         if(mod == 1)
-            this.mod = 25;
+            this.mod = 4;
+        if(mod == 2)
+            this.mod = 2;
         this.idClient = 1;//TODO: passaggio dal carrello
 
         totSpesa.setText(String.format("%.2f",cart.subTotal()));

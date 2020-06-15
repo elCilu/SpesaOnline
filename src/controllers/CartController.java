@@ -324,4 +324,3 @@ public class CartController implements Initializable {
         fidelityPoints.setText(String.valueOf(cart.getPoints()));
     }
 }
-
