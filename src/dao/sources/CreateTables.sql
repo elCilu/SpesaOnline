@@ -94,10 +94,9 @@ IF (NOT EXISTS(SELECT 1
             id              INT IDENTITY (1, 1) PRIMARY KEY,
             purchasedDate   DATETIME,
             deliveryDate    DATETIME,
-            deliveryH       VARCHAR(50)     NOT NULL,
-            totalCost       SMALLMONEY      NOT NULL,
-            earnedPoints    SMALLINT        NOT NULL,
-            status          TINYINT         NOT NULL,
+            totalCost       SMALLMONEY NOT NULL,
+            earnedPoints    SMALLINT   NOT NULL,
+            status          TINYINT    NOT NULL,
             idUser          INT FOREIGN KEY REFERENCES clients (id),
             idPaymentMethod TINYINT
         )
