@@ -1,9 +1,9 @@
 package models;
 
-import controllers.CartController;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.text.Text;
 
 import java.awt.*;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -12,8 +12,8 @@ public class CartModel {
 
     //Il costruttore costruisce un carrello vuoto
     //devo trovare il modo di stamparlo sulla GUI
-    public CartModel() {
-        new TextField("IL TUO CARRELLO È ANCORA VUOTO").setSize(100, 20);
+    public CartModel(Text messages) {
+        messages.setText("IL TUO CARRELLO È VUOTO!");
     }
 
     /**aggiunge i prodotti al carrello uno ad uno
@@ -28,17 +28,25 @@ public class CartModel {
      * @param p: prodotto che devo rimuovere dal carrello
      * */
     public void remove(ProductModel p){
-       // int value = products.remove(p);
         products.remove(p, products.get(p));
-        //return value;
     }
 
     /**
      * rimuove tutti i prodotti dal carrello
      */
     public void removeAll(){
-        for(ProductModel p : products.keySet())
-            remove(p);
+        products.clear();
+
+
+    }
+
+    /**
+     * imposta la nuova quantità di un prodotto
+     * @param p prodotto
+     * @param qty nuova quantità
+     */
+    public void setProductQty(ProductModel p, int qty){
+        products.replace(p, products.get(p), qty);
     }
 
     /**
@@ -48,6 +56,14 @@ public class CartModel {
      */
     public int getProductQty(ProductModel p){
         return products.get(p);
+    }
+
+    /**
+     *
+     * @return i prodotti nel carrello
+     */
+    public Set<ProductModel> getProducts(){
+       return products.keySet();
     }
     /**
      * @param p prodotto
@@ -62,20 +78,15 @@ public class CartModel {
     /**
      *calcolo il tale del carrello
      */
-    public float getTotalShopping(String mod){
-        float tot = 0;
-
-        for(ProductModel p: products.keySet())
-            tot += getTotalProductPrice(p);
-
-        return tot + getShippingCost(mod);//devo sommare i codici promozionali
+    public float getTotalShopping(int mod){
+        return subTotal() + getShippingCost(mod);//devo sommare i codici promozionali
     }
 
     /**
      *
      * @return il totale di tutti i prodotti senza la spedizione e le promozioni
      */
-    private float subTotal(){
+    public float subTotal(){
         float tot = 0;
 
         for(ProductModel p: products.keySet())
@@ -89,13 +100,13 @@ public class CartModel {
      * @param mod modalità di spedizione
      * @return il costo della scpedizione
      */
-    public Float getShippingCost(String mod){
-        if(subTotal() >= 50 && mod.compareTo("standardShipping") == 0)
+    public Float getShippingCost(int mod){
+        if((subTotal() >= 50 && (mod == 0 || mod == 1)) || products.isEmpty())
             return 0.0F;
-        else if(mod.compareTo("expressShipping") == 0)
-            return 10.99F;
-        else
+        else if(mod == 1)
             return 5.99F;
+        else
+            return 10.99F;
     }
 
     /**
@@ -105,7 +116,5 @@ public class CartModel {
     public int getPoints(){
         return (int) subTotal();
     }
-
-    //fare il file FXML dinamico in modo da fare vedere più prodotti
 
 }
