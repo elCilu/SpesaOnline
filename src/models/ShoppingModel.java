@@ -6,13 +6,13 @@ public class ShoppingModel {
     private int id;
     private Date purchaseDate;
     private Date deliveryDate;
-    private int totalCost;
+    private float totalCost;
     private int earnedPoints;
     private int status;
     private int idClient;
     private int idPaymentMethod;
 
-    public ShoppingModel(int id, Date purchaseDate, Date deliveryDate, int totalCost, int earnedPoints, int status, int idClient, int idPaymentMethod) {
+    public ShoppingModel(int id, Date purchaseDate, Date deliveryDate, float totalCost, int earnedPoints, int status, int idClient, int idPaymentMethod) {
         this.id = id;
         this.purchaseDate = purchaseDate;
         this.deliveryDate = deliveryDate;
@@ -47,11 +47,11 @@ public class ShoppingModel {
         this.deliveryDate = deliveryDate;
     }
 
-    public int getTotalCost() {
+    public float getTotalCost() {
         return totalCost;
     }
 
-    public void setTotalCost(int totalCost) {
+    public void setTotalCost(float totalCost) {
         this.totalCost = totalCost;
     }
 
