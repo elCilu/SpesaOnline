@@ -7,11 +7,11 @@
 
 <SplitPane fx:id="CheckOutPage" prefHeight="600.0" prefWidth="1200.0" dividerPositions="0.31960461285008235" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CheckOutController">
     <items>
-      <ScrollPane prefHeight="600.0" prefWidth="700.0">
+      <ScrollPane prefHeight="600.0" prefWidth="600.0">
          <content>
-              <AnchorPane fx:id="cartPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="700.0">
+              <AnchorPane fx:id="cartPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0">
                   <children>
-                      <AnchorPane fx:id="productsPane" minHeight="0.0" minWidth="0.0" prefWidth="700.0">
+                      <AnchorPane fx:id="productsPane" minHeight="0.0" minWidth="0.0" prefWidth="600.0">
                           <children>
                               <Label layoutX="530.0" prefHeight="30.0" prefWidth="113.0" text="Prezzo totale ">
                                   <font>

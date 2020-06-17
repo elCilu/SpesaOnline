@@ -11,7 +11,6 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -29,10 +28,6 @@ import java.util.GregorianCalendar;
 import static java.util.Calendar.*;
 
 public class CheckOutController {
-    @FXML
-    private AnchorPane cartPage;
-    @FXML
-    private AnchorPane productsPane;
     @FXML
     private VBox imgs;
     @FXML
@@ -188,7 +183,6 @@ public class CheckOutController {
             }*/
 
             tempDate = new GregorianCalendar(calendar.get(YEAR), calendar.get(MONTH), tempDay).getTime();
-            System.out.println (tempDate);
 
             if(dataConsegna.getValue() == null){
                 actionTarget.setText("Seleziona una data di consegna");
