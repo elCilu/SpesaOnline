@@ -1,37 +1,32 @@
 package controllers;
 
-import java.util.List;
-import java.util.ArrayList;
 import dao.CartDao;
 import dao.ProductDao;
-import javafx.geometry.Pos;
-import javafx.scene.control.*;
-import javafx.scene.layout.Background;
-import utils.PngToJpg;
-import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.CartModel;
 import models.ProductModel;
+import utils.PngToJpg;
 
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 public class CartController implements Initializable {
     @FXML
@@ -72,23 +67,23 @@ public class CartController implements Initializable {
 
     @FXML
     public void cleanCart(){
-       if(!cart.getProducts().isEmpty()) {
-           cart.removeAll();
+        if(!cart.getProducts().isEmpty()) {
+            cart.removeAll();
 
-           //clear delle vBox
-           imgVBox.getChildren().clear();
-           nameCodeVBox.getChildren().clear();
-           qtyVBox.getChildren().clear();
-           priceVBox.getChildren().clear();
-           trashVBox.getChildren().clear();
+            //clear delle vBox
+            imgVBox.getChildren().clear();
+            nameCodeVBox.getChildren().clear();
+            qtyVBox.getChildren().clear();
+            priceVBox.getChildren().clear();
+            trashVBox.getChildren().clear();
 
-           //clear del totale del carrello e dei punti fedeltà
-           totalShopping.setText("00.0");
-           fidelityPoints.setText("00.0");
+            //clear del totale del carrello e dei punti fedeltà
+            totalShopping.setText("00.0");
+            fidelityPoints.setText("00.0");
 
-           totalPriceLabel.setVisible(false);
-           messages.setText("IL TUO CARRELLO È VUOTO!");//trovare il modo di stamparlo proprio al centro della pagina in modo dinamico
-       }
+            totalPriceLabel.setVisible(false);
+            messages.setText("IL TUO CARRELLO È VUOTO!");//trovare il modo di stamparlo proprio al centro della pagina in modo dinamico
+        }
     }
 
     @FXML
@@ -152,7 +147,7 @@ public class CartController implements Initializable {
         List<ProductModel> products = new ArrayList<>();
         products.addAll(ProductDao.getAllProducts());
 
-        for(int j = 0; j < products.size(); j++) {
+        for(int j = 0; j < 10; j++) {
             ProductModel p = products.get(j);
             cart.addToCart(p, p.getQtyStock());
 
@@ -163,14 +158,6 @@ public class CartController implements Initializable {
             img.setFitWidth(120);
             //img.setPreserveRatio(true);
             imgVBox.getChildren().add(img);
-
-           /* Button delBut = new Button();
-            delBut.setText("");
-            ImageView cancel = new ImageView(new Image("file:///home/king_cheikh/IdeaProjects/SpesaOnline/images/prod_01.jpg"));
-            cancel.setFitHeight(20);
-            cancel.setFitWidth(30);
-            delBut.setGraphic(cancel);
-            qtyVBox.getChildren().add(delBut);*/
 
             //product name & code
             Text prodNameCode = new Text();
@@ -221,7 +208,7 @@ public class CartController implements Initializable {
                 qtyVBox.getChildren().remove(qtyBox);
                 trashVBox.getChildren().remove(trash);
                 priceVBox.getChildren().remove(prodPrice);
-               Text t = new Text("Product removed!");
+                Text t = new Text("Product removed!");
                 //nameCodeVBox.getChildren().add(t);
                 totals();
             });
