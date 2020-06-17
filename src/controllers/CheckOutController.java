@@ -229,6 +229,7 @@ public class CheckOutController {
             int resultQuery = ShoppingDao.insertShopping(shopping);
 
             if (resultQuery != 0){
+                shopping.setId(ShoppingDao.selectLast());
                 goToConfirmed();
             }
 

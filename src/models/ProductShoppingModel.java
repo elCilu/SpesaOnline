@@ -1,7 +1,7 @@
 package models;
 
 public class ProductShoppingModel {
-    private final int id;
+    private int id;
     private final int idProduct;
     private final int idShopping;
     private final int qty;

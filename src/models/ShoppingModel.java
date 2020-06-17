@@ -3,7 +3,7 @@ package models;
 import java.util.Date;
 
 public class ShoppingModel {
-    private final int id;
+    private int id;
     private final Date purchaseDate;
     private final Date deliveryDate;
     private final String deliveryH;
@@ -27,6 +27,10 @@ public class ShoppingModel {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 
     public Date getPurchaseDate() {
