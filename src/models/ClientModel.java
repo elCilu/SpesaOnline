@@ -1,5 +1,7 @@
 package models;
 
+import enums.PaymentMethod;
+
 public class ClientModel {
     private int id;
     private String name;
@@ -8,9 +10,9 @@ public class ClientModel {
     private String zip;
     private String phoneNumber;
     private String email;
-    private int idPaymentMethod; //TODO: collegarlo a PaymentMethod enum
+    private PaymentMethod idPaymentMethod; //TODO: collegarlo a PaymentMethod enum
 
-    public ClientModel(int id, String name, String surname, String address, String zip, String phoneNumber, String email, int idPaymentMethod) {
+    public ClientModel(int id, String name, String surname, String address, String zip, String phoneNumber, String email, PaymentMethod idPaymentMethod) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -77,11 +79,11 @@ public class ClientModel {
         this.email = email;
     }
 
-    public int getIdPaymentMethod() {
+    public PaymentMethod getIdPaymentMethod() {
         return idPaymentMethod;
     }
 
-    public void setIdPaymentMethod(int idPaymentMethod) {
+    public void setIdPaymentMethod(PaymentMethod idPaymentMethod) {
         this.idPaymentMethod = idPaymentMethod;
     }
 
