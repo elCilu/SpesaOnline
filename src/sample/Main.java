@@ -23,13 +23,15 @@ public class Main extends Application {
         if (isCreatedPopulated) {
             Parent root = FXMLLoader.load(getClass().getResource("/views/costumerData.fxml"));
             primaryStage.setTitle("Spesa Online");
-            primaryStage.setScene(new Scene(root, 300, 275));
+            primaryStage.setScene(new Scene(root));
+            primaryStage.sizeToScene();
             primaryStage.show();
             System.out.println("Application opened!");
         } else {
             Parent root = FXMLLoader.load(getClass().getResource("/views/errorOnStart.fxml"));
             primaryStage.setTitle("Spesa Online");
-            primaryStage.setScene(new Scene(root, 275, 50));
+            primaryStage.setScene(new Scene(root));
+            primaryStage.sizeToScene();
             primaryStage.show();
             System.out.println("Error during setting up database!");
         }

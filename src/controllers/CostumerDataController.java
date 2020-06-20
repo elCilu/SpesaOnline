@@ -1,30 +1,36 @@
 package controllers;
 
+import dao.ClientDao;
+import dao.CredentialDao;
+import enums.PaymentMethod;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import models.ClientModel;
+import models.CredentialModel;
+import sample.GlobalVars;
+import utils.CredentialUtil;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import static utils.StringUtil.*;
 
-public class CostumerDataController {
+public class CostumerDataController implements Initializable {
     @FXML
-    public TextField nameField;
+    private TextField nameField;
     @FXML
-    public TextField surnameField;
+    private TextField surnameField;
     @FXML
-    public TextField zipField;
+    private TextField zipField;
     @FXML
-    public TextField phoneNumberField;
+    private TextField phoneNumberField;
     @FXML
     private TextField addressField;
     @FXML
@@ -32,77 +38,102 @@ public class CostumerDataController {
     @FXML
     private TextField emailField;
     @FXML
-    private TextField passwordField;
+    private Label passwordLabel;
+    @FXML
+    private HBox modifyPasswordButton;
+    @FXML
+    private Label newPasswordLabel;
+    @FXML
+    private TextField newPasswordField;
+    @FXML
+    private Label passwordCheckLabel;
+    @FXML
+    private TextField passwordCheckField;
+    @FXML
+    private ToggleGroup paymentMethodGroup;
+    @FXML
+    private RadioButton creditCardRadio;
+    @FXML
+    private RadioButton paypalRadio;
+    @FXML
+    private RadioButton cashRadio;
     @FXML
     private Text actionTarget;
 
-    private static ClientModel client;
-
-
-
+    @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadData();
     }
 
     //carico i dati iniziali sulla pagina
     private void loadData() {
-
-        client = new ClientModel();
-        ClientModel c = new ClientModel(102, "Sara", "Beschi", "Via Danilo Guidetti", "46043", "3333333333", "sara@gmail.com", 1);
-        client.addToClient(c);
-    }
-
-
-    public void Modifica() {
-
-        String name;
-        String surname;
-        String address;
-        String zip;
-        String phoneNumber;
-        String email;
-        String password;
-
+        ClientModel client;
         try {
-            Stage stage = (Stage) costumerData.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("../views/costumerData.fxml"));
-            stage.setScene(new Scene(root, 600, 275));
-            stage.show();
+            client = ClientDao.selectById(GlobalVars.USER_ID);
 
-            name = nameField.getText();
-            surname = surnameField.getText();
-            address = addressField.getText();
-            zip = zipField.getText();
-            phoneNumber = phoneNumberField.getText();
-            email = emailField.getText();
-            password = passwordField.getText();
+            if (client != null) {
+                nameField.setText(client.getName());
+                surnameField.setText(client.getSurname());
+                addressField.setText(client.getAddress());
+                zipField.setText(client.getZip());
+                phoneNumberField.setText(client.getPhoneNumber());
+                emailField.setText(client.getEmail());
 
-            actionTarget.setText(name);
-            actionTarget.setText(surname);
-            actionTarget.setText(address);
-            actionTarget.setText(zip);
-            actionTarget.setText(phoneNumber);
-            actionTarget.setText(email);
-            actionTarget.setText(password);
+                if (client.getIdPaymentMethod() == PaymentMethod.CREDIT_CARD) {
+                    paymentMethodGroup.selectToggle(creditCardRadio);
+                } else if (client.getIdPaymentMethod() == PaymentMethod.PAYPAL) {
+                    paymentMethodGroup.selectToggle(paypalRadio);
+                } else {
+                    paymentMethodGroup.selectToggle(cashRadio);
+                }
+                creditCardRadio.setDisable(true);
+                paypalRadio.setDisable(true);
+                cashRadio.setDisable(true);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void Salva() {
+    @FXML
+    private void modify() {
+        try {
+            nameField.setDisable(false);
+            surnameField.setDisable(false);
+            addressField.setDisable(false);
+            zipField.setDisable(false);
+            phoneNumberField.setDisable(false);
+            passwordLabel.setVisible(true);
+            modifyPasswordButton.setVisible(true);
+            creditCardRadio.setDisable(false);
+            paypalRadio.setDisable(false);
+            cashRadio.setDisable(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void modifyPassword() {
+        newPasswordLabel.setVisible(true);
+        newPasswordField.setVisible(true);
+        passwordCheckLabel.setVisible(true);
+        passwordCheckField.setVisible(true);
+    }
+
+    @FXML
+    private void save() {
         String name;
         String surname;
         String address;
         String zip;
         String phoneNumber;
         String email;
-        String password;
+        String newPassword;
+        String checkPassword;
+        PaymentMethod paymentMethod;
 
         try {
-            Stage stage = (Stage) costumerData.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("../views/costumerData.fxml"));
-            stage.setScene(new Scene(root, 600, 275));
-            stage.show();
 
             name = nameField.getText();
             surname = surnameField.getText();
@@ -110,11 +141,11 @@ public class CostumerDataController {
             zip = zipField.getText();
             phoneNumber = phoneNumberField.getText();
             email = emailField.getText();
-            password = passwordField.getText();
+            newPassword = newPasswordField.getText();
+            checkPassword = passwordCheckField.getText();
 
             if (name.trim().isEmpty() || surname.trim().isEmpty() || address.trim().isEmpty()
-                    || zip.trim().isEmpty() || phoneNumber.trim().isEmpty() || email.trim().isEmpty()
-                    || password.isEmpty()) {
+                    || zip.trim().isEmpty() || phoneNumber.trim().isEmpty() || email.trim().isEmpty()) {
                 actionTarget.setText("Tutti i campi sono obbligatori");
                 throw new Exception("Campi del sign up vuoti");
             } else {
@@ -133,11 +164,65 @@ public class CostumerDataController {
                 } else if (!isValidEmail(email)) {
                     actionTarget.setText("Email non valida");
                     throw new Exception("Email non corretta");
-                } else if (password.length() < 8) {
-                    actionTarget.setText("Password minimo 8 caratteri");
-                    throw new Exception("Password non valida");
                 }
             }
+
+            boolean changePassword = false;
+
+            if (!newPassword.isEmpty()) {
+                if (newPassword.length() < 8) {
+                    actionTarget.setText("Password minimo 8 caratteri");
+                    throw new Exception("Password non valida");
+                } else if (!newPassword.equals(checkPassword)) {
+                    actionTarget.setText("Le password devono essere uguali");
+                    throw new Exception("Password non uguali");
+                }
+                changePassword = true;
+            }
+
+            RadioButton buttonSelected = (RadioButton) paymentMethodGroup.getSelectedToggle();
+
+            if (buttonSelected.equals(creditCardRadio)) {
+                paymentMethod = PaymentMethod.CREDIT_CARD;
+            } else if (buttonSelected.equals(paypalRadio)) {
+                paymentMethod = PaymentMethod.PAYPAL;
+            } else {
+                paymentMethod = PaymentMethod.ON_DELIVERY;
+            }
+
+            int updated = ClientDao.updateById(new ClientModel(
+                    GlobalVars.USER_ID,
+                    name,
+                    surname,
+                    address,
+                    zip,
+                    phoneNumber,
+                    email,
+                    paymentMethod));
+
+            if (updated != 0) {
+                if (changePassword) {
+                    byte[] salt = CredentialUtil.createSalt();
+
+                    CredentialModel credentials = CredentialDao.selectByEmail(email);
+
+                    credentials.setHash(CredentialUtil.generateHash(newPassword, salt));
+                    credentials.setSalt(salt);
+
+                    updated = CredentialDao.updatePasswordByEmail(credentials);
+                    //TODO: to clean code
+                    if (updated != 0) {
+                        actionTarget.setText("Anagrafica modificata correttamente!");
+                    } else {
+                        actionTarget.setText("Errore durante la modifica dell'anagrafica.");
+                    }
+                }
+                actionTarget.setText("Anagrafica modificata correttamente!");
+            } else {
+                actionTarget.setText("Errore durante la modifica dell'anagrafica.");
+            }
+
+
         } catch (Exception e){
             e.printStackTrace();
         }
