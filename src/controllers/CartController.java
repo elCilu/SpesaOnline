@@ -148,7 +148,7 @@ public class CartController implements Initializable {
         List<ProductModel> products = new ArrayList<>();
         products.addAll(ProductDao.getAllProducts());
 
-        for(int j = 0; j < 10; j++) {
+        for(int j = 0; j < 30; j++) {
             ProductModel p = products.get(j);
             cart.addToCart(p, p.getQtyStock());
 

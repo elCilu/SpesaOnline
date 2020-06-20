@@ -67,7 +67,7 @@ public class CheckOutController {
     private int mod;
     @FXML
     private VBox price;
-    private int idClient;
+
 
 
     @FXML
@@ -113,7 +113,6 @@ public class CheckOutController {
             this.mod = 4;
         if (mod == 2)
             this.mod = 2;
-        this.idClient = GlobalVars.USER_ID;//TODO: passaggio dal carrello
 
         totSpesa.setText(String.format("%.2f", cart.subTotal()));
         puntiSpesa.setText(String.format("%02d", cart.getPoints()));
@@ -230,7 +229,7 @@ public class CheckOutController {
             }
 
             // inserisco la spesa nel db
-            shopping = new ShoppingModel(0, purchaseDate, deliveryDate, deliveryH, totalCost, earnedPoints, status, idClient, paymentMethod);
+            shopping = new ShoppingModel(0, purchaseDate, deliveryDate, deliveryH, totalCost, earnedPoints, status, GlobalVars.USER_ID, paymentMethod);
             int resultQuery = ShoppingDao.insertShopping(shopping);
 
             if (resultQuery != 0) {

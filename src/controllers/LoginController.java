@@ -76,7 +76,7 @@ public class LoginController {
     protected void goToAnagrafica() {
         try {
             Stage stage = (Stage) loginPage.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("../views/costumerData.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../views/cart.fxml"));
             stage.setScene(new Scene(root));
             stage.sizeToScene();
             stage.show();

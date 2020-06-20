@@ -101,7 +101,7 @@ public class CartModel {
      * @return il costo della scpedizione
      */
     public Float getShippingCost(int mod){
-        if((subTotal() >= 50 && (mod == 0 || mod == 1)) || products.isEmpty())
+        if((subTotal() >= 55.99F && (mod == 0 || mod == 1)) || products.isEmpty())
             return 0.0F;
         else if(mod == 1)
             return 5.99F;
