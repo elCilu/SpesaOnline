@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 import models.CartModel;
 import models.ProductModel;
 import models.ShoppingModel;
+import sample.GlobalVars;
+import utils.OSystem;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -111,7 +113,7 @@ public class CheckOutController {
             this.mod = 4;
         if (mod == 2)
             this.mod = 2;
-        this.idClient = 1;//TODO: passaggio dal carrello
+        this.idClient = GlobalVars.USER_ID;//TODO: passaggio dal carrello
 
         totSpesa.setText(String.format("%.2f", cart.subTotal()));
         puntiSpesa.setText(String.format("%02d", cart.getPoints()));
@@ -119,7 +121,15 @@ public class CheckOutController {
         for (ProductModel p : cart.getProducts()) {
             //product image
             ImageView img = new ImageView();
-            img.setImage(new Image("file://" + prodImg.getAbsolutePath() + "/images/" + "prod_" + String.format("%02d", p.getId()) + ".jpg"));
+            String path = "";
+            if(OSystem.isWindows())
+                path = "C:\\" + prodImg.getAbsolutePath() + "\\images\\";
+            if(OSystem.isUnix())
+                path = "file://" + prodImg.getAbsolutePath() + "/images/";
+            if(OSystem.isMac())
+                path = "";
+
+            img.setImage(new Image(path + "prod_" + String.format("%02d", p.getId()) +  ".jpg"));
             img.setFitHeight(70);
             img.setFitWidth(120);
             imgs.getChildren().add(img);
@@ -220,7 +230,7 @@ public class CheckOutController {
             }
 
             // inserisco la spesa nel db
-            shopping = new ShoppingModel(0, purchaseDate, deliveryDate, totalCost, earnedPoints, status, idClient, paymentMethod);
+            shopping = new ShoppingModel(0, purchaseDate, deliveryDate, deliveryH, totalCost, earnedPoints, status, idClient, paymentMethod);
             int resultQuery = ShoppingDao.insertShopping(shopping);
 
             if (resultQuery != 0) {

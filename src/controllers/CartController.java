@@ -20,6 +20,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.CartModel;
 import models.ProductModel;
+import utils.OSystem;
 import utils.PngToJpg;
 
 import java.io.File;
@@ -153,7 +154,15 @@ public class CartController implements Initializable {
 
             //product image
             ImageView img = new ImageView();
-            img.setImage(new Image("file://" + prodImg.getAbsolutePath() + "/images/" + "prod_" + String.format("%02d", p.getId()) +  ".jpg"));
+            String path = "";
+            if(OSystem.isWindows())
+                path = "C:\\" + prodImg.getAbsolutePath() + "\\images\\";
+            if(OSystem.isUnix())
+                path = "file://" + prodImg.getAbsolutePath() + "/images/";
+            if(OSystem.isMac())
+                path = "";
+
+            img.setImage(new Image(path + "prod_" + String.format("%02d", p.getId()) +  ".jpg"));
             img.setFitHeight(70);
             img.setFitWidth(120);
             //img.setPreserveRatio(true);
