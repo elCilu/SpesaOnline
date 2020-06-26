@@ -1,5 +1,7 @@
 package models;
 
+import enums.PaymentMethod;
+import enums.Status;
 import java.util.Date;
 
 public class ShoppingModel {
@@ -9,11 +11,11 @@ public class ShoppingModel {
     private final String deliveryH;
     private final float totalCost;
     private final int earnedPoints;
-    private int status;
+    private Status status;
     private final int idClient;
-    private final int idPaymentMethod;
+    private final PaymentMethod idPaymentMethod;
 
-    public ShoppingModel(int id, Date purchaseDate, Date deliveryDate, String deliveryH, float totalCost, int earnedPoints, int status, int idClient, int idPaymentMethod) {
+    public ShoppingModel(int id, Date purchaseDate, Date deliveryDate, String deliveryH, float totalCost, int earnedPoints, Status status, int idClient, PaymentMethod idPaymentMethod) {
         this.id = id;
         this.purchaseDate = purchaseDate;
         this.deliveryDate = deliveryDate;
@@ -53,11 +55,11 @@ public class ShoppingModel {
         return earnedPoints;
     }
 
-    public int getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -65,7 +67,7 @@ public class ShoppingModel {
         return idClient;
     }
 
-    public int getIdPaymentMethod() {
+    public PaymentMethod getIdPaymentMethod() {
         return idPaymentMethod;
     }
 }
