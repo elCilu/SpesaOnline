@@ -116,3 +116,18 @@ IF (NOT EXISTS(SELECT 1
             qty        SMALLINT NOT NULL
         )
     END
+
+IF (NOT EXISTS(SELECT 1
+               FROM INFORMATION_SCHEMA.TABLES
+               WHERE TABLE_SCHEMA = 'dbo'
+                 AND TABLE_NAME = 'warehouse'))
+    BEGIN
+        CREATE TABLE warehouse
+        (
+            id         INT IDENTITY (1, 1) PRIMARY KEY,
+            idProduct  INT FOREIGN KEY REFERENCES products (id),
+            qty        SMALLINT NOT NULL,
+            qtyMin     SMALLINT NOT NULL,
+            qtyMax     SMALLINT NOT NULL
+        )
+    END
