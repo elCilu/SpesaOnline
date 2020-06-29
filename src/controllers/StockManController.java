@@ -1,18 +1,20 @@
 package controllers;
 
 import enums.Status;
+import javafx.fxml.FXML;
 import models.ShoppingModel;
-import java.util.Calendar;
+import java.util.Date;
 
 public class StockManController {
 
     //modifica stato della spesa (da confermato a in consegna)
     public void modifyStatus(ShoppingModel shopping) {
-        Calendar cal = Calendar.getInstance();  //crea nuovo calendar (date è deprecata, non si usa più)
+        Date currentDate = new Date();
 
         //magazziniere controlla che la spesa deve essere spedita quel giorno
-        if(/*se la data attuale (di sistema) è uguale a quella di consegna*/)  //controllare se è giusto
+        if(currentDate.compareTo(shopping.getDeliveryDate()) == 0)  //controllare se è giusto
             shopping.setStatus(Status.DELIVERING);
+        //stampa onAction la data non è quella di oggi
     }
 
     //invia ordine a fornitore
@@ -20,5 +22,6 @@ public class StockManController {
 
         //controlla se il qtyStock cioè la quantità rimanente in magazzino del prodotto è < di qtyMin
         //se è minore, invia l'ordine
+        //fai model ordine int id, int piva fornitore, int matricola magazz.
     }
 }

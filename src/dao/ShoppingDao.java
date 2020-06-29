@@ -43,9 +43,9 @@ public final class ShoppingDao extends BaseDao {
             statement.setString(3, shopping.getDeliveryH());
             statement.setFloat(4, shopping.getTotalCost());
             statement.setInt(5, shopping.getEarnedPoints());
-            statement.setInt(6, shopping.getStatus());
+            statement.setInt(6, shopping.getStatus().ordinal());
             statement.setInt(7, shopping.getIdClient());
-            statement.setInt(8, shopping.getIdPaymentMethod());
+            statement.setInt(8, shopping.getIdPaymentMethod().ordinal());
             result = statement.executeUpdate();
 
             if(result != 0)

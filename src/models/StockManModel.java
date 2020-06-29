@@ -9,7 +9,6 @@ public class StockManModel {
     private final int matriculationNumber;
     private final String name;
     private final String surname;
-    //private final String role;  esiste un magazziniere unico che gestisce tutto il magazzino
     private final String username;
     //non mi ricordo come avevamo deciso di gestire il password..
 

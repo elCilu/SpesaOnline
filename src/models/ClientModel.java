@@ -10,7 +10,7 @@ public class ClientModel {
     private String zip;
     private String phoneNumber;
     private String email;
-    private PaymentMethod idPaymentMethod; //TODO: collegarlo a PaymentMethod enum
+    private PaymentMethod idPaymentMethod;
 
     public ClientModel(int id, String name, String surname, String address, String zip, String phoneNumber, String email, PaymentMethod idPaymentMethod) {
         this.id = id;
