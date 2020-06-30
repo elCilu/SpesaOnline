@@ -90,18 +90,23 @@
             <fx:reference source="paymentMethodGroup"/>
         </toggleGroup>
     </RadioButton>
-
+    <CheckBox fx:id="loyaltyCardCheck" text="Vuoi avere la carta fedeltà?"
+              GridPane.columnIndex="1" GridPane.rowIndex="12">
+        <HBox.margin>
+            <Insets right="3.0"/>
+        </HBox.margin>
+    </CheckBox>
     <HBox
             spacing="10" alignment="bottom_right"
-            GridPane.columnIndex="0" GridPane.rowIndex="12">
+            GridPane.columnIndex="0" GridPane.rowIndex="13">
         <Button text="Indietro" onAction="#backToLogin"/>
     </HBox>
     <HBox
             spacing="10" alignment="bottom_right"
-            GridPane.columnIndex="1" GridPane.rowIndex="12">
+            GridPane.columnIndex="1" GridPane.rowIndex="13">
         <Button text="Registrati" onAction="#signUp"/>
     </HBox>
     <Text fx:id="actionTarget"
-          GridPane.columnIndex="1" GridPane.rowIndex="13"/>
+          GridPane.columnIndex="1" GridPane.rowIndex="14"/>
 
 </GridPane>
