@@ -1,20 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<GridPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controllers.ShoppingController"
-            prefHeight="400.0" prefWidth="600.0">
-
-    <TextField fx:id="searchField"
-               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-
-    <ListView fx:id ="depField"/>
-
-
-</GridPane>
+<?import javafx.scene.image.Image?>
+<ScrollPane prefHeight="804.0" prefWidth="1447.0" xmlns="http://javafx.com/javafx/14.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:id="shoppingPage" fx:controller="controllers.ShoppingController">
+    <content>
+        <BorderPane prefHeight="789.0" prefWidth="1437.0">
+            <center>
+                <SplitPane dividerPositions="0.005822416302765648, 0.18631732168850074" orientation="VERTICAL">
+                    <items>
+                        <AnchorPane fx:id="cartPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1017.0" />
+                        <HBox prefHeight="208.0" prefWidth="1235.0">
+                            <padding>
+                                <Insets bottom="70.0" />
+                            </padding>
+                            <children>
+                                <ChoiceBox fx:id="sortBy" prefWidth="150.0">
+                                    <HBox.margin>
+                                        <Insets left="50.0" top="20.0" />
+                                    </HBox.margin>
+                                </ChoiceBox>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Filtra per:" wrappingWidth="85.21630859375">
+                                    <HBox.margin>
+                                        <Insets left="150.0" top="25.0" />
+                                    </HBox.margin>
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font>
+                                </Text>
+                                <CheckBox fx:id="bioFilter" mnemonicParsing="false" text="Prodotti bio">
+                                    <HBox.margin>
+                                        <Insets left="5.0" top="25.0" />
+                                    </HBox.margin>
+                                </CheckBox>
+                                <CheckBox fx:id="glutenFreeFilter" mnemonicParsing="false" text="Senza glutine">
+                                    <HBox.margin>
+                                        <Insets left="100.0" top="25.0" />
+                                    </HBox.margin>
+                                </CheckBox>
+                                <CheckBox fx:id="dairyFreeFilter" mnemonicParsing="false" text="Senza lattosio">
+                                    <HBox.margin>
+                                        <Insets left="100.0" top="25.0" />
+                                    </HBox.margin>
+                                </CheckBox>
+                            </children>
+                        </HBox>
+                        <AnchorPane fx:id="productsPane" minHeight="0.0" minWidth="0.0" prefWidth="1008.0">
+                            <children>
+                                <Label fx:id="totalPriceLabel" layoutX="828.0" prefHeight="30.0" prefWidth="145.0" text="aggiungi al carrello">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                </Label>
+                                <VBox fx:id="imgVBox" alignment="TOP_CENTER" layoutX="14.0" layoutY="44.0" prefWidth="205.0" spacing="11.0" />
+                                <VBox fx:id="nameCodeVBox" layoutX="244.0" layoutY="44.0" prefWidth="180.0" spacing="65.0">
+                                    <padding>
+                                        <Insets left="10.0" right="10.0" />
+                                    </padding>
+                                </VBox>
+                                <VBox fx:id="qtyVBox" alignment="TOP_CENTER" layoutX="553.0" layoutY="45.0" prefWidth="151.0" spacing="46.0">
+                                    <children>
+                                        <TextField fx:id="qtyChoice" />
+                                    </children>
+                                </VBox>
+                                <VBox fx:id="priceVBox" layoutX="710.0" layoutY="45.0" prefWidth="150.0" spacing="65.0">
+                                    <padding>
+                                        <Insets left="10.0" right="10.0" />
+                                    </padding>
+                                </VBox>
+                                <VBox fx:id="addVBox" layoutX="831.0" layoutY="45.0" prefWidth="100.0" spacing="46.0" />
+                            </children>
+                        </AnchorPane>
+                    </items>
+                    <BorderPane.margin>
+                        <Insets />
+                    </BorderPane.margin>
+                </SplitPane>
+            </center>
+            <top>
+                <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="LOGO DA AGGIUNGERE">
+                            <HBox.margin>
+                                <Insets top="10.0" />
+                            </HBox.margin>
+                        </Text>
+                        <TextField fx:id="searchField" prefHeight="26.0" prefWidth="258.0">
+                            <HBox.margin>
+                                <Insets left="400.0" top="20.0" />
+                            </HBox.margin>
+                        </TextField>
+                        <ImageView fx:id="userImage" fitHeight="79.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true">
+                            <HBox.margin>
+                                <Insets left="200.0" top="10.0" />
+                            </HBox.margin>
+                        </ImageView>
+                        <ImageView fx:id="cartImage" fitHeight="79.0" fitWidth="93.0" layoutX="1071.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                            <HBox.margin>
+                                <Insets left="50.0" top="10.0" />
+                            </HBox.margin>
+                        </ImageView>
+                    </children>
+                    <padding>
+                        <Insets left="50.0" />
+                    </padding>
+                </HBox>
+            </top>
+            <left>
+                <ListView fx:id="depField" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            </left>
+        </BorderPane>
+    </content>
+</ScrollPane>

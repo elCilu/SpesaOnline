@@ -12,8 +12,8 @@ public class CartModel {
 
     //Il costruttore costruisce un carrello vuoto
     //devo trovare il modo di stamparlo sulla GUI
-    public CartModel(Text messages) {
-        messages.setText("IL TUO CARRELLO È VUOTO!");
+    public CartModel() {
+        //messages.setText("IL TUO CARRELLO È VUOTO!");
     }
 
     /**aggiunge i prodotti al carrello uno ad uno

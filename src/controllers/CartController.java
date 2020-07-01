@@ -139,7 +139,7 @@ public class CartController implements Initializable {
     //carico i dati iniziali sulla pagina
     private void loadData(){
 
-        cart = new CartModel(messages);
+        cart = new CartModel();
 
         //converting al png images in jpg image
         PngToJpg.changeExtension();
