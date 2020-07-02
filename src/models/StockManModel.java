@@ -1,23 +1,21 @@
 package models;
-//se volete lo potete rinominare come "warehouseManModel"
 
 import enums.Status;
-import utils.Manage;
+import java.util.Date;
+import java.util.Calendar;
 
-public class StockManModel implements Manage {
+public class StockManModel {
 
     private final int matriculationNumber;
     private final String name;
     private final String surname;
-    private final String role; //potremmo fare anche un Enum dei ruoli..
     private final String username;
     //non mi ricordo come avevamo deciso di gestire il password..
 
-    public StockManModel(int matriculationNumber, String name, String surname, String role, String username){
+    public StockManModel(int matriculationNumber, String name, String surname, String username){
         this.matriculationNumber = matriculationNumber;
         this.name = name;
         this.surname = surname;
-        this.role = role;
         this.username = username;
     }
 
@@ -33,27 +31,8 @@ public class StockManModel implements Manage {
         return surname;
     }
 
-    public String getRole() {
-        return role;
-    }
-
     public String getUsername() {
         return username;
     }
 
-    @Override
-    public void insert() {
-        //TODO
-    }
-
-    @Override
-    public Status getStatus() {
-        //TODO
-        return null;
-    }
-
-    @Override
-    public void modifyStatus() {
-        //TODO
-    }
 }

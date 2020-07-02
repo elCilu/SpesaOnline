@@ -25,9 +25,7 @@ import utils.PngToJpg;
 
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class CartController implements Initializable {
     @FXML
@@ -63,6 +61,7 @@ public class CartController implements Initializable {
 
     private static CartModel cart;
     private static final File prodImg = new File("");
+    private String path = "";
     private int mod = 0;
 
 
@@ -138,102 +137,17 @@ public class CartController implements Initializable {
 
     //carico i dati iniziali sulla pagina
     private void loadData(){
-
-        cart = new CartModel(messages);
-
         //converting al png images in jpg image
         PngToJpg.changeExtension();
         System.out.println("Conversion completed");
 
-        List<ProductModel> products = new ArrayList<>();
-        products.addAll(ProductDao.getAllProducts());
-
-        for(int j = 0; j < 30; j++) {
-            ProductModel p = products.get(j);
-            cart.addToCart(p, p.getQtyStock());
-
-            //product image
-            ImageView img = new ImageView();
-            String path = "";
-            if(OSystem.isWindows())
-                path = "C:\\" + prodImg.getAbsolutePath() + "\\images\\";
-            if(OSystem.isUnix())
-                path = "file://" + prodImg.getAbsolutePath() + "/images/";
-            if(OSystem.isMac())
-                path = "";
-
-            img.setImage(new Image(path + "prod_" + String.format("%02d", p.getId()) +  ".jpg"));
-            img.setFitHeight(70);
-            img.setFitWidth(120);
-            //img.setPreserveRatio(true);
-            imgVBox.getChildren().add(img);
-
-            //product name & code
-            Text prodNameCode = new Text();
-            prodNameCode.setText(p.getName() + " " + p.getBrand()  + ((p.getQtyPack() != 1) ? ", " + p.getQtyPack() + "g" : ""));
-            nameCodeVBox.getChildren().add(prodNameCode);
-
-            //product total price
-            Text prodPrice = new Text();
-            //prodPrice.setBackground(Background.EMPTY);
-            //prodPrice.setAlignment(Pos.CENTER);
-            //prodPrice.setEditable(false);
-            productTotalPrice(prodPrice, p);
-            priceVBox.getChildren().add(prodPrice);
-
-            //product quantity
-            ChoiceBox<Integer> qtyBox = new ChoiceBox<>();
-            int tmp = CartDao.getQtyInStock(p.getId());
-            for (int i = 1; i <= tmp; i++)
-                qtyBox.getItems().add(i);
-
-            qtyBox.setValue(p.getQtyStock());
-            qtyBox.setPrefSize(50,35);
-            qtyVBox.getChildren().add(qtyBox);
-
-            qtyBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Number>() {
-                @Override
-                public void changed(ObservableValue<? extends Number> ov, Number oldValue, Number newValue) {
-                    System.out.println("Trying to change the quantity");
-                    cart.setProductQty(p, newValue.intValue());
-                    productTotalPrice(prodPrice, p);
-                    setShipping();
-                    totals();
-                }
-            });
-
-            Button trash = new Button();
-            ImageView trashImage = new ImageView();
-            trashImage.setImage(new Image("file://" + prodImg.getAbsolutePath() + "/images/trash.jpg"));
-            trashImage.setFitHeight(25);
-            trashImage.setFitWidth(25);
-            trash.setGraphic(trashImage);
-            trashVBox.setAlignment(Pos.CENTER);
-            trashVBox.getChildren().add(trash);
-
-            trash.setOnAction(actionEvent -> {cart.remove(p);//non funziona bene
-                imgVBox.getChildren().remove(img);
-                nameCodeVBox.getChildren().remove(prodNameCode);
-                qtyVBox.getChildren().remove(qtyBox);
-                trashVBox.getChildren().remove(trash);
-                priceVBox.getChildren().remove(prodPrice);
-                Text t = new Text("Product removed!");
-                //nameCodeVBox.getChildren().add(t);
-                totals();
-            });
-        }
-
-        standardRadioButton.setSelected(true);
-        setShipping();
-        shipping.setBackground(Background.EMPTY);
-
-        totals();
-        totalShopping.setBackground(Background.EMPTY);
-        promotion.setBackground(Background.EMPTY);
-        fidelityPoints.setBackground(Background.EMPTY);
-
-        if(!cart.getProducts().isEmpty())
-            messages.setText("");
+        //build the path
+        if(OSystem.isWindows())
+            path = "C:\\" + prodImg.getAbsolutePath() + "\\images\\";
+        if(OSystem.isUnix())
+            path = "file://" + prodImg.getAbsolutePath() + "/images/";
+        if(OSystem.isMac())
+            path = "";
     }
 
     @FXML
@@ -260,14 +174,82 @@ public class CartController implements Initializable {
         fidelityPoints.setText(String.valueOf(cart.getPoints() + " punti"));
     }
 
-    @FXML
-    //collegato alla button di Chiara
-    //mi passa sempre un cart invece di un ProductModel e qty alla volta
-    //quando un cliente clicca su aggiunti al carrello,i prodotti vengono aggiunti a un CartModel e compare un messaggio che dice "prodotto aggiunto al carrello" con 2 tasti: uno che dice "vai al carrello" e l'altro che dice "continua con gli acquisti",
-    //quando viene cliccato vai al carrello mi passi il CartModel che contengono tutti i prodotti mentre lanci il cart.fxml, mentre se si clicca "continua con gli acquisti" si torna alla pagina dei prodotti...
-    // (quindi possiamo fare in modo che il messaggio sia una specie di popup)
-    public void setUpCart(ProductModel p, int qty){
-        cart.addToCart(p, qty);
+    public void setUpCart(CartModel cartShopping){
+        cart = cartShopping;
+
+        Set<ProductModel> products = new TreeSet<>();
+        products = cart.getProducts();
+
+        for(ProductModel p : products) {
+            //product image
+            ImageView img = new ImageView();
+            img.setImage(new Image(path + "prod_" + String.format("%02d", p.getId()) +  ".jpg"));
+            img.setFitHeight(70);
+            img.setFitWidth(120);
+            imgVBox.getChildren().add(img);
+
+            //product name & code
+            Text prodNameCode = new Text();
+            prodNameCode.setText(p.getName() + " " + p.getBrand()  + ((p.getQtyPack() != 1) ? ", " + p.getQtyPack() + "g" : ""));
+            nameCodeVBox.getChildren().add(prodNameCode);
+
+            //product total price
+            Text prodPrice = new Text();
+            productTotalPrice(prodPrice, p);
+            priceVBox.getChildren().add(prodPrice);
+
+            //product quantity
+            ChoiceBox<Integer> qtyBox = new ChoiceBox<>();
+            int tmp = CartDao.getQtyInStock(p.getId());/******************************************qtyStock*************************/
+            for (int i = 1; i <= tmp; i++)
+                qtyBox.getItems().add(i);
+
+            qtyBox.setValue(p.getQtyStock());
+            qtyBox.setPrefSize(50,35);
+            qtyVBox.getChildren().add(qtyBox);
+
+            qtyBox.getSelectionModel().selectedItemProperty().addListener((ChangeListener<Number>) (ov, oldValue, newValue) -> {
+                System.out.println("Trying to change the quantity");
+                cart.setProductQty(p, newValue.intValue());
+                productTotalPrice(prodPrice, p);
+                setShipping();
+                totals();
+            });
+
+            Button trash = new Button();
+            ImageView trashImage = new ImageView();
+            trashImage.setImage(new Image(path + "trash.jpg"));
+            trashImage.setFitHeight(25);
+            trashImage.setFitWidth(25);
+            trash.setGraphic(trashImage);
+            trashVBox.setAlignment(Pos.CENTER);
+            trashVBox.getChildren().add(trash);
+
+            trash.setOnAction(actionEvent -> {cart.remove(p);//non funziona bene forse
+                imgVBox.getChildren().remove(img);
+                nameCodeVBox.getChildren().remove(prodNameCode);
+                qtyVBox.getChildren().remove(qtyBox);
+                trashVBox.getChildren().remove(trash);
+                priceVBox.getChildren().remove(prodPrice);
+                //Text t = new Text("Product removed!");
+                messages.setText("Product removed!");
+                totals();
+            });
+        }
+
+        standardRadioButton.setSelected(true);
+        setShipping();
+        shipping.setBackground(Background.EMPTY);
+
+        totals();
+        totalShopping.setBackground(Background.EMPTY);
+        promotion.setBackground(Background.EMPTY);
+        fidelityPoints.setBackground(Background.EMPTY);
+
+        if(!cart.getProducts().isEmpty())
+            messages.setText("");
+
+        /*cart.addToCart(p, qty);
 
         //product image
         ImageView img = new ImageView();
@@ -322,6 +304,6 @@ public class CartController implements Initializable {
 
         // promotion.setText(String.valueOf(cart.getPromotion));
         totalShopping.setText(String.valueOf(cart.getTotalShopping(mod))); // mancano i codici promozionali
-        fidelityPoints.setText(String.valueOf(cart.getPoints()));
+        fidelityPoints.setText(String.valueOf(cart.getPoints()));*/
     }
 }

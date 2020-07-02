@@ -103,7 +103,7 @@ public final class ProductDao extends BaseDao {
         return product;
     }
 
-    static List<ProductModel> getProductsByDep(String dep) {
+    public static List<ProductModel> getProductsByDep(String dep) {
         List<ProductModel> products = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement(SELECT_BY_DEP);

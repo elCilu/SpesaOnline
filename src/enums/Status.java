@@ -1,7 +1,5 @@
 package enums;
 
 public enum Status {
-    CONFERMATO,
-    IN_CONSEGNA,
-    CONSEGNATO;
+    CONFIRMED, DELIVERING, DELIVERED;
 }

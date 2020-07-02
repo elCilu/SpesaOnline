@@ -1,9 +1,8 @@
 package models;
 
 import enums.Status;
-import utils.Manage;
 
-public class AdminModel implements Manage {
+public class AdminModel {
     private final int matriculationNumber;
     private final String name;
     private final String surname;
@@ -39,19 +38,4 @@ public class AdminModel implements Manage {
         return username;
     }
 
-    @Override
-    public void insert() {
-        //TODO
-    }
-
-    @Override
-    public Status getStatus() {
-        //TODO
-        return null;
-    }
-
-    @Override
-    public void modifyStatus() {
-        //TODO
-    }
 }
