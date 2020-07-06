@@ -1,9 +1,7 @@
 package controllers;
 
 import dao.CartDao;
-import dao.ProductDao;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -30,8 +28,6 @@ import java.util.*;
 public class CartController implements Initializable {
     @FXML
     private AnchorPane cartPage;
-    @FXML
-    private AnchorPane productsPane;
     @FXML
     private VBox imgVBox;
     @FXML
@@ -171,14 +167,13 @@ public class CartController implements Initializable {
     private void totals(){
         // promotion.setText(String.valueOf(cart.getPromotion));
         totalShopping.setText(String.format("€ %.2f", cart.getTotalShopping(mod))); // mancano i codici promozionali
-        fidelityPoints.setText(String.valueOf(cart.getPoints() + " punti"));
+        fidelityPoints.setText(cart.getPoints() + " punti");
     }
 
     public void setUpCart(CartModel cartShopping){
         cart = cartShopping;
 
-        Set<ProductModel> products = new TreeSet<>();
-        products = cart.getProducts();
+        Set<ProductModel> products = cart.getProducts();
 
         for(ProductModel p : products) {
             //product image

@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<ScrollPane prefHeight="804.0" prefWidth="1447.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CartController">
+<ScrollPane prefHeight="809.0" prefWidth="1466.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CartController">
    <content>
       <BorderPane prefHeight="789.0" prefWidth="1437.0">
          <center>
-            <AnchorPane fx:id="cartPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1017.0">
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1017.0">
                 <children>
                       <AnchorPane fx:id="productsPane" minHeight="0.0" minWidth="0.0" prefWidth="1008.0">
                           <children>
@@ -122,29 +122,24 @@
                         </TextField>
                           </children>
                       </GridPane>
+                    <GridPane prefHeight="118.0" prefWidth="1293.0">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="399.0" minWidth="10.0" prefWidth="285.0" />
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="52.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="48.0" minHeight="2.0" prefHeight="37.0" vgrow="SOMETIMES" />
+                        </rowConstraints>
+                        <children>
+                            <Button mnemonicParsing="false" onAction="#cleanCart" text="SVUOTA CARRELLO" />
+                            <Button mnemonicParsing="false" onAction="#backToShopping" text="VAI AGLI ACQUISTI" GridPane.rowIndex="1" />
+                            <Button mnemonicParsing="false" onAction="#checkout" prefHeight="26.0" prefWidth="193.0" text="VAI AL PAGAMENTO" GridPane.rowIndex="2" />
+                        </children>
+                    </GridPane>
                </children>
             </VBox>
          </right>
-         <bottom>
-              <GridPane prefHeight="55.0" prefWidth="1382.0" BorderPane.alignment="CENTER">
-                  <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="399.0" minWidth="10.0" prefWidth="285.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="434.0" minWidth="10.0" prefWidth="269.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="434.0" minWidth="10.0" prefWidth="238.0" />
-                  </columnConstraints>
-                  <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  </rowConstraints>
-                  <children>
-                      <Button mnemonicParsing="false" onAction="#cleanCart" text="SVUOTA CARRELLO" />
-                      <Button mnemonicParsing="false" onAction="#backToShopping" text="VAI AGLI ACQUISTI" GridPane.columnIndex="1" />
-                      <Button mnemonicParsing="false" onAction="#checkout" prefHeight="26.0" prefWidth="193.0" text="VAI AL PAGAMENTO" GridPane.columnIndex="2" />
-                  </children>
-               <BorderPane.margin>
-                  <Insets left="150.0" />
-               </BorderPane.margin>
-              </GridPane>
-         </bottom>
       </BorderPane>
    </content>
 </ScrollPane>
