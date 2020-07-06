@@ -48,7 +48,7 @@ public class ShoppingController implements Initializable {
     @FXML
     public CheckBox dairyFreeFilter;        //filtra prodotti no lattosio
     @FXML
-    public ImageView logo, userImage, cartImage;
+    public ImageView logoImage, userImage, cartImage;
     @FXML
     private VBox imgVBox;
     @FXML
@@ -61,21 +61,22 @@ public class ShoppingController implements Initializable {
     private VBox priceVBox;
 
     private static List<ProductModel> products = new ArrayList<>();
+    private static List<ProductModel> tmp = new ArrayList<>();  //per ricerca tag
     private static final File prodImg = new File("");
+    private CartModel cart = new CartModel();
+    private String path = "";
 
     @FXML
     protected List<ProductModel> searchBy(){
         String res = searchField.getText();
 
-        /*if(searchField.getText().isEmpty()){       //se l'utente non ha ancora cercato nulla
-            products = ProductDao.getAllProducts(); //ritorno tutti i prodotti del db
-        */  //NB LA PAGINA VIENE GIA' INIZIALIZZATA DINAMICAMENTE
         products = ProductDao.searchBy(res);    //l'utente ha inserito il nome di un prodotto o una marca
+
         return products;
     }
 
 
-    protected List<ProductModel> orderByAscendingPrice(){
+    protected void orderByAscendingPrice(){
         TreeSet<ProductModel> result = new TreeSet<>(new Comparator<ProductModel>() {
             @Override
             public int compare(ProductModel o1, ProductModel o2) {
@@ -91,11 +92,12 @@ public class ShoppingController implements Initializable {
             result.add(p);      //ordino tramite comparator del tree set
         }
         products = new ArrayList<>(result);
-        return products;
+        refresh();
+        loadData();
     }
 
 
-    protected List<ProductModel> orderByDescendingPrice(){
+    protected void orderByDescendingPrice(){
         TreeSet<ProductModel> result = new TreeSet<>(new Comparator<ProductModel>() {
             @Override
             public int compare(ProductModel o1, ProductModel o2) {
@@ -111,11 +113,12 @@ public class ShoppingController implements Initializable {
             result.add(p);      //ordino tramite comparator del tree set
         }
         products = new ArrayList<>(result);
-        return products;
+        refresh();
+        loadData();
     }
 
 
-    protected List<ProductModel> orderByAlphabeticOrder(){
+    protected void orderByAlphabeticOrder(){
         TreeSet<ProductModel> result = new TreeSet<>(new Comparator<ProductModel>() {
             @Override
             public int compare(ProductModel o1, ProductModel o2) {
@@ -130,13 +133,16 @@ public class ShoppingController implements Initializable {
             result.add(p);      //ordino tramite comparator del tree set
         }
         products = new ArrayList<>(result);
-        return products;
+        refresh();
+        loadData();
     }
 
     @FXML
-    protected List<ProductModel> filterByTag(){
+    protected void filterByTag(){
 
-        List<ProductModel> tmp = products;  //lista di supporto così mantengo ricerca precedente
+        if(tmp.isEmpty())
+            tmp = products;     //se non ho fatto ricerche precedenti
+
         for(ProductModel p : products) {
             //se il prodotto è solo bio (enum in posizione 1)
             if (bioFilter.isSelected() && (!glutenFreeFilter.isSelected()) && (!dairyFreeFilter.isSelected())
@@ -175,7 +181,8 @@ public class ShoppingController implements Initializable {
             }
             //se nessun tag è stato selezionato, lascia invariata la ricerca
         }
-        return tmp;
+        refresh();
+        loadData();
     }
 
     @FXML
@@ -208,7 +215,6 @@ public class ShoppingController implements Initializable {
             products = ProductDao.getProductsByDep("Igiene");
         else if(choice.equals("Casa"))
             products = ProductDao.getProductsByDep("Casa");
-        loadData();
     }
 
     @FXML
@@ -220,10 +226,10 @@ public class ShoppingController implements Initializable {
 
             //load the parent
             Loader.load();
-            CartController cart = Loader.getController();
+            CartController cartController = Loader.getController();
 
             //sending cart to the cart page
-            //cart.setUpCart(cart);   //da cambiare Cheikh
+            cartController.setUpCart(cart);
 
             stage.setScene(new Scene(Loader.getRoot()));
             stage.sizeToScene();
@@ -247,32 +253,49 @@ public class ShoppingController implements Initializable {
         }
     }
 
+    public void refresh() {
+
+        //clear delle vBox
+        imgVBox.getChildren().clear();
+        nameCodeVBox.getChildren().clear();
+        qtyVBox.getChildren().clear();
+        priceVBox.getChildren().clear();
+        addVBox.getChildren().clear();
+
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         products = ProductDao.getAllProducts();
+        sortBy.getItems().addAll("Prezzo cresc.", "Prezzo decresc.", "Alfabetico");
         loadData();
     }
 
     //carico i dati nella pagina
     private void loadData() {
 
-        CartModel cart = new CartModel();
-        //logo.setImage(new Image(getClass().getResourceAsStream("/images/.png")));
+        if(OSystem.isWindows())
+            path = "C:\\" + prodImg.getAbsolutePath() + "\\images\\";
+        if(OSystem.isUnix())
+            path = "file://" + prodImg.getAbsolutePath() + "/images/";
+        if(OSystem.isMac())
+            path = "";
+
+        logoImage.setImage(new Image(path +  "shopping_logo.jpg"));
 
         //setta button/collegamento pagina anagrafica
         Button userButton = new Button();
-        userImage.setImage(new Image("file://" + prodImg.getAbsolutePath() + "/images/user_image.jpg"));
-        //userImage.setFitHeight(25);
-        //userImage.setFitWidth(25);
+        userImage.setImage(new Image(path +  "user_image.png"));
+        userImage.setFitHeight(50);
+        userImage.setFitWidth(50);
         userButton.setGraphic(userImage);
         userButton.setOnAction(actionEvent -> userButton());
 
         //setta button/collegamento pagina carrello
         Button cartButton = new Button();
-        cartImage.setImage(new Image("file://" + prodImg.getAbsolutePath() + "/images/cart_image.jpg"));
-        //cartImage.setFitHeight(25);
-        //cartImage.setFitWidth(25);
+        cartImage.setImage(new Image(path + "cart_image.png"));
+        cartImage.setFitHeight(50);
+        cartImage.setFitWidth(50);
         cartButton.setGraphic(cartImage);
         cartButton.setOnAction(actionEvent -> cartButton());
 
@@ -282,6 +305,8 @@ public class ShoppingController implements Initializable {
             public void handle(KeyEvent keyEvent) {
                 if(keyEvent.getCode().equals(KeyCode.ENTER)){
                     searchBy();
+                    refresh();
+                    loadData();
                 }
             }
         });
@@ -295,11 +320,12 @@ public class ShoppingController implements Initializable {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 getProdByDep(mouseEvent);
+                refresh();
+                loadData();
             }
         });
 
         //setto la combobox
-        sortBy.getItems().addAll("Prezzo cresc.", "Prezzo decresc.", "Alfabetico");
         sortBy.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
@@ -313,22 +339,33 @@ public class ShoppingController implements Initializable {
         });
 
         //gestisco le checkbox
-        if(bioFilter.isSelected() || dairyFreeFilter.isSelected() || glutenFreeFilter.isSelected())
-            filterByTag();
+        bioFilter.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if(bioFilter.isSelected())
+                    filterByTag();
+            }
+        });
+        glutenFreeFilter.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if(glutenFreeFilter.isSelected())
+                    filterByTag();
+            }
+        });
+        dairyFreeFilter.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if(dairyFreeFilter.isSelected())
+                    filterByTag();
+            }
+        });
 
 
         for (ProductModel p : products) {
 
             //product image
             ImageView img = new ImageView();
-            String path = "";
-            if(OSystem.isWindows())
-                path = "C:\\" + prodImg.getAbsolutePath() + "\\images\\";
-            if(OSystem.isUnix())
-                path = "file://" + prodImg.getAbsolutePath() + "/images/";
-            if(OSystem.isMac())
-                path = "";
-
             img.setImage(new Image(path + "prod_" + String.format("%02d", p.getId()) + ".jpg"));
             img.setFitHeight(70);
             img.setFitWidth(120);
@@ -341,7 +378,7 @@ public class ShoppingController implements Initializable {
 
             //prezzo unitario
             Text unitPrice = new Text();
-            unitPrice.setText("€" + p.getprice());
+            unitPrice.setText(String.format("€ %.02f", p.getprice()));
             priceVBox.getChildren().add(unitPrice);
 
             //aggiungi textfield per quantità
@@ -351,7 +388,7 @@ public class ShoppingController implements Initializable {
             //add button
             Button addButton = new Button();
             ImageView addImage = new ImageView();
-            addImage.setImage(new Image("file://" + prodImg.getAbsolutePath() + "/images/add_button.jpg"));
+            addImage.setImage(new Image(path + "add_button.png"));
             addImage.setFitHeight(25);
             addImage.setFitWidth(25);
             addButton.setGraphic(addImage);
