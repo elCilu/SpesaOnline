@@ -21,7 +21,7 @@ public final class ProductShoppingDao extends BaseDao {
             statement.setInt(3, product_shopping.getQty());
             result = statement.executeUpdate();
 
-            if (result != 0)
+            if(result != 0)
                 System.out.print("Product inserted \n");
         } catch (SQLException e) {
             e.printStackTrace();
