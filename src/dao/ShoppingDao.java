@@ -11,10 +11,9 @@ public final class ShoppingDao extends BaseDao {
     private static final String INSERT_SHOPPING = "insert into shopping values (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SELECT_LAST = "select top 1 * from shopping order by id desc";
 
-    private ShoppingDao() {
-    }
+    private ShoppingDao() {}
 
-    public static int selectLast() {
+    public static int selectLast(){
         int idLast = 0;
         try {
             PreparedStatement statement = connection.prepareStatement(SELECT_LAST);
@@ -41,14 +40,15 @@ public final class ShoppingDao extends BaseDao {
             PreparedStatement statement = connection.prepareStatement(INSERT_SHOPPING);
             statement.setDate(1, purchaseDate);
             statement.setDate(2, deliveryDate);
-            statement.setFloat(3, shopping.getTotalCost());
-            statement.setInt(4, shopping.getEarnedPoints());
-            statement.setInt(5, shopping.getStatus());
-            statement.setInt(6, shopping.getIdClient());
-            statement.setInt(6, shopping.getIdPaymentMethod());
+            statement.setString(3, shopping.getDeliveryH());
+            statement.setFloat(4, shopping.getTotalCost());
+            statement.setInt(5, shopping.getEarnedPoints());
+            statement.setInt(6, shopping.getStatus());
+            statement.setInt(7, shopping.getIdClient());
+            statement.setInt(8, shopping.getIdPaymentMethod());
             result = statement.executeUpdate();
 
-            if (result != 0)
+            if(result != 0)
                 System.out.print("Shopping inserted \n");
 
         } catch (SQLException e) {

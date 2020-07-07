@@ -2,7 +2,6 @@ package controllers;
 
 import dao.ClientDao;
 import dao.CredentialDao;
-import enums.PaymentMethod;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -102,13 +101,13 @@ public class SignUpController {
             }
 
             if (creditCardRadio.isSelected()) {
-                paymentMethod = 0;
-            }
-            else if (paypalRadio.isSelected()) {
                 paymentMethod = 1;
             }
-            else if (cashRadio.isSelected()) {
+            else if (paypalRadio.isSelected()) {
                 paymentMethod = 2;
+            }
+            else if (cashRadio.isSelected()) {
+                paymentMethod = 3;
             }
             else {
                 actionTarget.setText("Seleziona metodo di pagamento");
@@ -116,28 +115,20 @@ public class SignUpController {
             }
 
 
-            if (CredentialDao.selectByEmail(email) != null) {
+            if (CredentialDao.selectByEmail(email) != null){
                 actionTarget.setText("Email già in uso");
                 throw new Exception("Email già presente nella tabella");
             }
 
-            int resultQuery = ClientDao.insertClient(new ClientModel(
-                    0,
-                    StringUtil.formatName(name),
-                    StringUtil.formatName(surname),
-                    address,
-                    zip,
-                    phoneNumber,
-                    email,
-                    PaymentMethod.values()[paymentMethod]));
-
+            int resultQuery = ClientDao.insertClient(new ClientModel(0, StringUtil.formatName(name),
+                    StringUtil.formatName(surname), address, zip, phoneNumber, email, paymentMethod));
             if (resultQuery != 0) {
                 byte[] salt = CredentialUtil.createSalt();
                 CredentialModel credential = new CredentialModel(0, email,
                         CredentialUtil.generateHash(password, salt), salt);
                 resultQuery = CredentialDao.insertCredentials(credential);
             }
-            if (resultQuery != 0) {
+            if (resultQuery != 0){
                 actionTarget.setText("Utente inserito correttamente");
             }
         } catch (Exception e){

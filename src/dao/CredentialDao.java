@@ -10,13 +10,10 @@ public final class CredentialDao extends BaseDao {
     private static final String INSERT = "insert into credentials values (?, ?, ?)";
     //private static final String SELECT_BY_ID = "select * from credentials where id = ?";
     private static final String SELECT_BY_EMAIL = "select * from credentials where email = ?";
-    private static final String UPDATE_BY_EMAIL = "update credentials set " +
-            "hash = ?, salt = ? where email = ?";
 
-    private CredentialDao() {
-    }
+    private CredentialDao(){}
 
-    public static int insertCredentials(CredentialModel credential) {
+    public static int  insertCredentials(CredentialModel credential) {
         int result = 0;
         System.out.print("Inserting credentials into Credentials table... ");
         try {
@@ -55,36 +52,20 @@ public final class CredentialDao extends BaseDao {
 
     public static CredentialModel selectByEmail(String email) {
         CredentialModel credentials = null;
-        try {
+        try{
             PreparedStatement statement = connection.prepareStatement(SELECT_BY_EMAIL);
             statement.setString(1, email);
             System.out.print("Selecting credentials with given email... ");
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
+            if(resultSet.next()){
                 credentials = new CredentialModel(resultSet.getInt(1), resultSet.getString(2),
                         resultSet.getString(3), resultSet.getBytes(4));
                 System.out.println("Credentials selected!");
             }
-        } catch (SQLException e) {
+        }catch (SQLException e){
             System.err.println("Error while selecting credentials.");
             e.printStackTrace();
         }
         return credentials;
-    }
-
-    public static int updatePasswordByEmail(CredentialModel credentials) {
-        int result = 0;
-        System.out.print("Updating credentials with given email... ");
-        try {
-            PreparedStatement statement = connection.prepareStatement(UPDATE_BY_EMAIL);
-            statement.setString(1, credentials.getHash());
-            statement.setBytes(2, credentials.getSalt());
-            statement.setString(3, credentials.getEmail());
-            result = statement.executeUpdate();
-            System.out.println("Credentials with given email updated.");
-        } catch (SQLException e) {
-            System.err.println("Error while updating credentials!");
-        }
-        return result;
     }
 }

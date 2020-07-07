@@ -28,15 +28,16 @@ import java.util.GregorianCalendar;
 import static java.util.Calendar.*;
 
 public class CheckOutController {
-    private static final File prodImg = new File("");
-    //private int[] dayOnMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-    public ShoppingModel shopping;
     @FXML
     private VBox imgs;
     @FXML
     private VBox name;
     @FXML
     private VBox qty;
+    @FXML
+    private VBox price;
+
+    private static final File prodImg = new File("");
 
     @FXML
     private SplitPane CheckOutPage;
@@ -63,8 +64,8 @@ public class CheckOutController {
     public ToggleGroup delivery;
     private CartModel cart;
     private int mod;
-    @FXML
-    private VBox price;
+    //private int[] dayOnMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    public ShoppingModel shopping;
     private int idClient;
 
 
@@ -80,7 +81,6 @@ public class CheckOutController {
             e.printStackTrace();
         }
     }
-
     @FXML
     protected void goToConfirmed() {
         try {
@@ -105,21 +105,21 @@ public class CheckOutController {
         }
     }
 
-    public void setCart(CartModel cart, int mod) {
+    public void setCart(CartModel cart, int mod){
         this.cart = cart;
-        if (mod == 1)
+        if(mod == 1)
             this.mod = 4;
-        if (mod == 2)
+        if(mod == 2)
             this.mod = 2;
         this.idClient = 1;//TODO: passaggio dal carrello
 
-        totSpesa.setText(String.format("%.2f", cart.subTotal()));
-        puntiSpesa.setText(String.format("%02d", cart.getPoints()));
+        totSpesa.setText(String.format("%.2f",cart.subTotal()));
+        puntiSpesa.setText(String.format("%02d",cart.getPoints()));
 
-        for (ProductModel p : cart.getProducts()) {
-            //product image
+        for(ProductModel p : cart.getProducts()){
+             //product image
             ImageView img = new ImageView();
-            img.setImage(new Image("file://" + prodImg.getAbsolutePath() + "/images/" + "prod_" + String.format("%02d", p.getId()) + ".jpg"));
+            img.setImage(new Image("file://" + prodImg.getAbsolutePath() + "/images/" + "prod_" + String.format("%02d", p.getId()) +  ".jpg"));
             img.setFitHeight(70);
             img.setFitWidth(120);
             imgs.getChildren().add(img);
@@ -136,13 +136,13 @@ public class CheckOutController {
 
             //product quantity
             Text prodQty = new Text();
-            prodQty.setText(String.format("%d", cart.getProductQty(p)));
+            prodQty.setText(String.format("%d",cart.getProductQty(p)));
 
             qty.getChildren().add(prodQty);
         }
     }
 
-    private void productTotalPrice(Text prodPrice, ProductModel p) {
+    private void productTotalPrice(Text prodPrice, ProductModel p){
         prodPrice.setText(String.format("€%.2f", cart.getTotalProductPrice(p)));
     }
 
@@ -158,7 +158,7 @@ public class CheckOutController {
         int paymentMethod;
         ZoneId defaultZoneId = ZoneId.systemDefault();
 
-        try {
+        try{
             purchaseDate = new Date();
             Calendar calendar = getInstance();
             calendar.setTime(purchaseDate);
@@ -184,7 +184,7 @@ public class CheckOutController {
 
             tempDate = new GregorianCalendar(calendar.get(YEAR), calendar.get(MONTH), tempDay).getTime();
 
-            if (dataConsegna.getValue() == null) {
+            if(dataConsegna.getValue() == null){
                 actionTarget.setText("Seleziona una data di consegna");
                 throw new Exception("Data di consegna non selezionata");
             }
@@ -192,7 +192,7 @@ public class CheckOutController {
             deliveryLocalDate = dataConsegna.getValue();
             deliveryDate = Date.from(deliveryLocalDate.atStartOfDay(defaultZoneId).toInstant());
 
-            if (tempDate.after(deliveryDate)) {
+            if(tempDate.after(deliveryDate)){
                 actionTarget.setText("Seleziona una data di consegna valida \n per la spedizione da te scelta");
                 throw new Exception("Data di consegna non valida");
             }
@@ -200,9 +200,11 @@ public class CheckOutController {
             //Verifica orario consegna selezionato
             if (mattina.isSelected()) {
                 deliveryH = "Mattina";
-            } else if (pomeriggio.isSelected()) {
+            }
+            else if (pomeriggio.isSelected()) {
                 deliveryH = "Pomeriggio";
-            } else {
+            }
+            else {
                 actionTarget.setText("Seleziona orario di consegna");
                 throw new Exception("Orario di consegna non selezionato");
             }
@@ -210,20 +212,23 @@ public class CheckOutController {
             //verifica metodo di pagamento selezionato
             if (creditCardRadio.isSelected()) {
                 paymentMethod = 1;
-            } else if (paypalRadio.isSelected()) {
+            }
+            else if (paypalRadio.isSelected()) {
                 paymentMethod = 2;
-            } else if (cashRadio.isSelected()) {
+            }
+            else if (cashRadio.isSelected()) {
                 paymentMethod = 3;
-            } else {
+            }
+            else {
                 actionTarget.setText("Seleziona metodo di pagamento");
                 throw new Exception("Metodo pagamento non selezionato");
             }
 
             // inserisco la spesa nel db
-            shopping = new ShoppingModel(0, purchaseDate, deliveryDate, totalCost, earnedPoints, status, idClient, paymentMethod);
+            shopping = new ShoppingModel(0, purchaseDate, deliveryDate, deliveryH, totalCost, earnedPoints, status, idClient, paymentMethod);
             int resultQuery = ShoppingDao.insertShopping(shopping);
 
-            if (resultQuery != 0) {
+            if (resultQuery != 0){
                 shopping.setId(ShoppingDao.selectLast());
                 goToConfirmed();
             }

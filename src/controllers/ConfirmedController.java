@@ -15,7 +15,6 @@ import models.ShoppingModel;
 public class ConfirmedController {
     @FXML
     private GridPane ConfirmedPage;
-
     @FXML
     protected void goToLogIn() {
         try {
@@ -28,23 +27,23 @@ public class ConfirmedController {
         }
     }
 
-    public void addProducts(CartModel cart, ShoppingModel shopping) {
+    public void addProducts(CartModel cart, ShoppingModel shopping){
         //aggiungo i prodotti del carrello alla tabella dei prodotti comprati
-        for (ProductModel product : cart.getProducts()) {
+        for(ProductModel product : cart.getProducts()){
             addProductShopping(product.getId(), shopping.getId(), cart.getProductQty(product));
         }
     }
 
     public void addProductShopping(int idProduct, int idShopping, int qty) {
-        try {
+        try{
             ProductShoppingModel productShopping = new ProductShoppingModel(0, idProduct, idShopping, qty);
             int resultQuery = ProductShoppingDao.insertProductShopping(productShopping);
 
-            if (resultQuery == 0) {
+            if (resultQuery == 0){
                 throw new Exception("Errore nell'inserimento del prodotto nel db");
             }
 
-        } catch (Exception e) {
+        }catch (Exception e){
             e.printStackTrace();
         }
 

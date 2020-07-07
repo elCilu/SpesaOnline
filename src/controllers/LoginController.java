@@ -1,6 +1,5 @@
 package controllers;
 
-import dao.ClientDao;
 import dao.CredentialDao;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +10,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.CredentialModel;
-import sample.GlobalVars;
 import utils.CredentialUtil;
 
 import static utils.StringUtil.isValidEmail;
@@ -57,14 +55,13 @@ public class LoginController {
             if (credentials != null) {
                 if (CredentialUtil.checkPassword(password, credentials.getSalt(), credentials.getHash())) {
                     logged = true;
-                    GlobalVars.USER_ID = ClientDao.selectIdByEmail(email);
-                    goToAnagrafica();
+                    actionTarget.setText("Sei loggato.");
                 }
             } else {
                 actionTarget.setText("Registrati");
                 throw new Exception("User not signed");
             }
-            if (!logged) {
+            if(!logged) {
                 actionTarget.setText("Credenziali sbagliate.");
             }
         } catch (Exception e) {
@@ -73,15 +70,5 @@ public class LoginController {
 
     }
 
-    protected void goToAnagrafica() {
-        try {
-            Stage stage = (Stage) loginPage.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("../views/costumerData.fxml"));
-            stage.setScene(new Scene(root));
-            stage.sizeToScene();
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
 }
