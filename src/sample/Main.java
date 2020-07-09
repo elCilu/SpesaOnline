@@ -21,9 +21,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         if (isCreatedPopulated) {
-            Parent root = FXMLLoader.load(getClass().getResource("../views/cart.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
             primaryStage.setTitle("Spesa Online");
             primaryStage.setScene(new Scene(root));
+            primaryStage.setResizable(false);
             primaryStage.sizeToScene();
             primaryStage.show();
 

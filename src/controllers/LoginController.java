@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -19,7 +21,7 @@ import static utils.StringUtil.isValidEmail;
 public class LoginController {
 
     @FXML
-    private GridPane loginPage;
+    private AnchorPane loginPage;
     @FXML
     private TextField emailField;
     @FXML
@@ -32,7 +34,8 @@ public class LoginController {
         try {
             Stage stage = (Stage) loginPage.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("../views/signup.fxml"));
-            stage.setScene(new Scene(root, 400, 350));
+            stage.setScene(new Scene(root));
+            stage.sizeToScene();
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,7 +43,7 @@ public class LoginController {
     }
 
     @FXML
-    protected void logIn() {
+    protected void login() {
         boolean logged = false;
         String email = emailField.getText();
         String password = passwordField.getText();
@@ -58,7 +61,7 @@ public class LoginController {
                 if (CredentialUtil.checkPassword(password, credentials.getSalt(), credentials.getHash())) {
                     logged = true;
                     GlobalVars.USER_ID = ClientDao.selectIdByEmail(email);
-                    goToAnagrafica();
+                    goToShopping();
                 }
             } else {
                 actionTarget.setText("Registrati");
@@ -73,10 +76,22 @@ public class LoginController {
 
     }
 
-    protected void goToAnagrafica() {
+    protected void goToShopping() {
         try {
             Stage stage = (Stage) loginPage.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("../views/costumerData.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../views/shopping.fxml"));
+            stage.setScene(new Scene(root));
+            stage.sizeToScene();
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void goToAdminLogin() {
+        try {
+            Stage stage = (Stage) loginPage.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("../views/cart.fxml"));
             stage.setScene(new Scene(root));
             stage.sizeToScene();
             stage.show();

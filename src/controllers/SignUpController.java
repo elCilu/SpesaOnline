@@ -170,8 +170,9 @@ public class SignUpController {
     public void backToLogin() {
         try {
             Stage stage = (Stage) signupPage.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("/is/so/views/login.fxml"));
-            stage.setScene(new Scene(root, 300, 275));
+            Parent root = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
+            stage.setScene(new Scene(root));
+            stage.sizeToScene();
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();

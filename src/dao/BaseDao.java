@@ -11,7 +11,7 @@ abstract class BaseDao {
             "jdbc:sqlserver://localhost:1433;"
                     //+ "database=spesaonline;" //nome db su mssql
                     + "user=SA;" //username di mssql
-                    + "password=Progetto-Is20;" //vostra password al mssql
+                    + "password=_secret_1234;" //vostra password al mssql
                     + "loginTimeout=30;";
 
     protected static Connection createConnection() {
