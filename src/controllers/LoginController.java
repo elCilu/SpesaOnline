@@ -7,8 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import models.CredentialModel;
 import sample.GlobalVars;
@@ -19,20 +18,19 @@ import static utils.StringUtil.isValidEmail;
 public class LoginController {
 
     @FXML
-    private GridPane loginPage;
+    private AnchorPane loginPage;
     @FXML
     private TextField emailField;
     @FXML
     private TextField passwordField;
-    @FXML
-    private Text actionTarget;
 
     @FXML
     protected void goToSignUp() {
         try {
             Stage stage = (Stage) loginPage.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("../views/signup.fxml"));
-            stage.setScene(new Scene(root, 400, 350));
+            stage.setScene(new Scene(root));
+            stage.sizeToScene();
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,17 +38,15 @@ public class LoginController {
     }
 
     @FXML
-    protected void logIn() {
+    protected void login() {
         boolean logged = false;
         String email = emailField.getText();
         String password = passwordField.getText();
         try {
             if (email.trim().isEmpty() || !isValidEmail(email)) {
-                actionTarget.setText("Campo email non valido!");
                 throw new Exception("Campo email non valido.");
             }
             if (password.isEmpty()) {
-                actionTarget.setText("Inserisci password");
                 throw new Exception("Campo password vuoto.");
             }
             CredentialModel credentials = CredentialDao.selectByEmail(email);
@@ -61,11 +57,10 @@ public class LoginController {
                     goToShopping();
                 }
             } else {
-                actionTarget.setText("Registrati");
                 throw new Exception("User not signed");
             }
             if (!logged) {
-                actionTarget.setText("Credenziali sbagliate.");
+                //Da aggiungere qualcosa
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,6 +72,18 @@ public class LoginController {
         try {
             Stage stage = (Stage) loginPage.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("../views/shopping.fxml"));
+            stage.setScene(new Scene(root));
+            stage.sizeToScene();
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void goToAdminLogin() {
+        try {
+            Stage stage = (Stage) loginPage.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("../views/cart.fxml"));
             stage.setScene(new Scene(root));
             stage.sizeToScene();
             stage.show();
