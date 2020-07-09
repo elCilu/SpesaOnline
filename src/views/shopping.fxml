@@ -47,7 +47,7 @@
     </HBox>
     <BorderPane prefHeight="1000">
         <left>
-            <ListView fx:id="depField" value="Tutto" onMouseClicked="#select" prefHeight="200.0" prefWidth="185.0" BorderPane.alignment="CENTER">
+            <ListView fx:id="depField" onMouseClicked="#select" prefHeight="200.0" prefWidth="185.0" BorderPane.alignment="CENTER">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
                         <String fx:value="Tutto" />
@@ -94,17 +94,17 @@
                         <Font size="15.0" />
                     </font>
                 </Text>
-                <JFXCheckBox fx:id="bioFilter" checkedColor="#f9aa33" mnemonicParsing="false" onAction="#filterByTag" text="Prodotti bio" unCheckedColor="#f9aa33">
+                <JFXCheckBox fx:id="bioFilter" checkedColor="#f9aa33" mnemonicParsing="false" onAction="#select" text="Prodotti bio" unCheckedColor="#f9aa33">
                     <HBox.margin>
                         <Insets left="10.0" top="25.0" />
                     </HBox.margin>
                 </JFXCheckBox>
-                <JFXCheckBox fx:id="glutenFreeFilter" checkedColor="#f9aa33" mnemonicParsing="false" onAction="#filterByTag" text="Senza glutine" unCheckedColor="#f9aa33">
+                <JFXCheckBox fx:id="glutenFreeFilter" checkedColor="#f9aa33" mnemonicParsing="false" onAction="#select" text="Senza glutine" unCheckedColor="#f9aa33">
                     <HBox.margin>
                         <Insets left="100.0" top="25.0" />
                     </HBox.margin>
                 </JFXCheckBox>
-                <JFXCheckBox fx:id="dairyFreeFilter" checkedColor="#f9aa33" mnemonicParsing="false" onAction="#filterByTag" text="Senza lattosio" unCheckedColor="#f9aa33">
+                <JFXCheckBox fx:id="dairyFreeFilter" checkedColor="#f9aa33" mnemonicParsing="false" onAction="#select" text="Senza lattosio" unCheckedColor="#f9aa33">
                     <HBox.margin>
                         <Insets left="100.0" top="25.0" />
                     </HBox.margin>

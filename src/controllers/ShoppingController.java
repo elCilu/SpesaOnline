@@ -53,7 +53,7 @@ public class ShoppingController implements Initializable {
     @FXML
     private VBox priceVBox;
 
-    private static List<ProductModel> products = ProductDao.getAllProducts();
+    private static List<ProductModel> products = ProductDao.select("", 0, "Tutto", new int[]{0, 0, 0});
     private static final File prodImg = new File("");
     private String path = "";
 
@@ -66,52 +66,18 @@ public class ShoppingController implements Initializable {
             path = "file://" + prodImg.getAbsolutePath() + "/images/";
     }
 
-    @FXML
-    protected void filterByTag() {   /*SISTEMA!*/
-
+    protected int[] byTag() {
+        int[] bits = {0, 0, 0};
         if (bioFilter.isSelected()) {
-            if(!glutenFreeFilter.isSelected()) {
-                if (dairyFreeFilter.isSelected()) {
-                    products = ProductDao.getProductsByTag(Tag.BIO_DAIRY_FREE.ordinal());
-                } else {
-                    products = ProductDao.getProductsByTag(Tag.BIO.ordinal());
-                }
-            } else {
-                if (dairyFreeFilter.isSelected()) {
-                    products = ProductDao.getProductsByTag(Tag.BIO_GLUTEN_FREE_DAIRY_FREE.ordinal());
-                } else {
-                    products = ProductDao.getProductsByTag(Tag.BIO_GLUTEN_FREE.ordinal());
-                }
-            }
+            bits[0] = 1;
         }
-        //se il prodotto è solo senza glutine (enum in posizione 2)
-        else if ((!bioFilter.isSelected()) && glutenFreeFilter.isSelected() && !dairyFreeFilter.isSelected()) {
-            products = ProductDao.getProductsByTag(Tag.GLUTEN_FREE.ordinal());
+        if (glutenFreeFilter.isSelected()) {
+            bits[1] = 1;
         }
-        //se il prodotto è solo senza lattosio (enum in posizione 3)
-        else if (!bioFilter.isSelected() && !glutenFreeFilter.isSelected() && dairyFreeFilter.isSelected()) {
-            products = ProductDao.getProductsByTag(Tag.DAIRY_FREE.ordinal());
+        if (dairyFreeFilter.isSelected()) {
+            bits[2] = 1;
         }
-        //se il prodotto è bio e senza glutine (enum in posizione 4)
-        else if (bioFilter.isSelected() && glutenFreeFilter.isSelected() && !dairyFreeFilter.isSelected()) {
-            products = ProductDao.getProductsByTag(Tag.BIO_GLUTEN_FREE.ordinal());
-        }
-        //se il prodotto è bio e senza lattosio (enum in posizione 5)
-        else if (bioFilter.isSelected() && !glutenFreeFilter.isSelected() && dairyFreeFilter.isSelected()) {
-            products = ProductDao.getProductsByTag(Tag.BIO_DAIRY_FREE.ordinal());
-        }
-        //se il prodotto è senza glutine e senza lattosio (enum in posizione 6)
-        else if ((!bioFilter.isSelected()) && glutenFreeFilter.isSelected() && dairyFreeFilter.isSelected()) {
-            products = ProductDao.getProductsByTag(Tag.GLUTEN_FREE_DAIRY_FREE.ordinal());
-        }
-        //se seleziono tutti i tag (enum in posizione 7)
-        else if (bioFilter.isSelected() && glutenFreeFilter.isSelected() && dairyFreeFilter.isSelected()) {
-            products = ProductDao.getProductsByTag(Tag.BIO_GLUTEN_FREE_DAIRY_FREE.ordinal());
-        } else {
-            products = ProductDao.getAllProducts();
-        }
-        refresh();
-        loadData();
+        return bits;
     }
 
     private int sortBy() {
@@ -180,16 +146,9 @@ public class ShoppingController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         //gestione barra di ricerca
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.length() > 1){
-                products = ProductDao.searchBy(searchField.getText());
-            } else if (newValue.equals("")){
-                products = ProductDao.getAllProducts();
-            }
-            refresh();
-            loadData();
+            select();
         });
 
         //carico logo
@@ -214,9 +173,7 @@ public class ShoppingController implements Initializable {
 
     //carico i dati nella pagina
     private void loadData() {
-
         for (ProductModel p : products) {
-
             //product image
             ImageView img = new ImageView();
             img.setImage(new Image(path + "prod_" + String.format("%02d", p.getId()) + ".jpg"));
@@ -266,7 +223,14 @@ public class ShoppingController implements Initializable {
 
     @FXML
     protected void select(){
-        products = ProductDao.select(sortBy(), depField.getSelectionModel().getSelectedItem());
+        products = ProductDao.select(
+                searchField.getText() == null ?
+                        "" : searchField.getText(),
+                sortBy(),
+                depField.getSelectionModel().getSelectedItem() == null ?
+                        "Tutto" : depField.getSelectionModel().getSelectedItem(),
+                byTag()
+        );
         refresh();
         loadData();
     }
