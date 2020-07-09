@@ -31,8 +31,6 @@ public class CartController implements Initializable {
     @FXML
     private AnchorPane cartPage;
     @FXML
-    private AnchorPane productsPane;
-    @FXML
     private VBox imgVBox;
     @FXML
     private VBox nameCodeVBox;
@@ -91,7 +89,9 @@ public class CartController implements Initializable {
         try {
             Stage stage = (Stage) cartPage.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("../views/shopping.fxml"));
-            stage.setScene(new Scene(root, 300, 275));
+            stage.setScene(new Scene(root));
+            stage.sizeToScene();
+            stage.setResizable(false);
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();

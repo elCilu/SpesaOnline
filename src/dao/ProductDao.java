@@ -13,10 +13,13 @@ public final class ProductDao extends BaseDao {
 
     private static final String INSERT_PRODUCT = "insert into products values (?, ?, ?, ? , ?, ?, ?)";
     private static final String SELECT_ALL = "select * from products";
-    private static final String SELECT_BY = "select * from products where name = ? or brand = ?";
+    private static final String SELECT_BY = "select * from products where name like '%' + ? + '%' or brand like '%' + ? + '%'";
     private static final String SELECT_BY_ID = "select * from products where id = ?";
     private static final String SELECT_BY_DEP = "select * from products where dep = ?";
     private static final String SELECT_BY_TAG = "select * from products where tag = ?";
+    private static final String SELECT_INCREASING = "select * from products order by price asc";
+    private static final String SELECT_DECREASING = "select * from products order by price desc";
+    private static final String SELECT_ALPHABETIC = "select * from products order by name";
     private static final String IS_EMPTY = "select id from products where id = 1";
 
     private ProductDao() {
@@ -47,13 +50,50 @@ public final class ProductDao extends BaseDao {
         try {
             PreparedStatement statement = connection.prepareStatement(SELECT_ALL);
             System.out.print("Selecting all products... ");
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                products.add(new ProductModel(resultSet.getInt(1), resultSet.getString(2),
-                        resultSet.getString(3), resultSet.getInt(4), resultSet.getString(5),
-                        resultSet.getInt(6), resultSet.getFloat(7), Tag.values()[resultSet.getInt(8)]));
-            }
+            executeQuery(products, statement);
             System.out.println("All products selected!");
+        } catch (SQLException e) {
+            System.err.println("Error while selecting products.");
+            e.printStackTrace();
+        }
+        return products;
+    }
+
+    public static List<ProductModel> getIncreasingOrder(){
+        List<ProductModel> products = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(SELECT_INCREASING);
+            System.out.print("Selected products ordered by increasing price... ");
+            executeQuery(products, statement);
+            System.out.println("Selected products ordered by incresing price!");
+        } catch (SQLException e) {
+            System.err.println("Error while selecting products.");
+            e.printStackTrace();
+        }
+        return products;
+    }
+
+    public static List<ProductModel> getDecreasingOrder(){
+        List<ProductModel> products = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(SELECT_DECREASING);
+            System.out.print("Selecting products ordered by decreasing price...");
+            executeQuery(products, statement);
+            System.out.println("Selected products ordered by decreasing price...!");
+        } catch (SQLException e) {
+            System.err.println("Error while selecting products.");
+            e.printStackTrace();
+        }
+        return products;
+    }
+
+    public static List<ProductModel> getAlphabeticOrder(){
+        List<ProductModel> products = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(SELECT_ALPHABETIC);
+            System.out.print("Selecting products ordered by name... ");
+            executeQuery(products, statement);
+            System.out.println("Selected products ordered by name!");
         } catch (SQLException e) {
             System.err.println("Error while selecting products.");
             e.printStackTrace();
@@ -68,13 +108,7 @@ public final class ProductDao extends BaseDao {
             statement.setString(1, search);
             statement.setString(2, search);
             System.out.print("Selecting products with given parameter... ");
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                products.add(new ProductModel(resultSet.getInt(1), resultSet.getString(2),
-                        resultSet.getString(3), resultSet.getInt(4), resultSet.getString(5),
-                        resultSet.getInt(6), resultSet.getFloat(7), Tag.values()[resultSet.getInt(8)]));
-            }
+            executeQuery(products, statement);
             System.out.println("Products selected!");
         } catch (SQLException e) {
             System.err.println("Error while selecting products.");
@@ -109,12 +143,7 @@ public final class ProductDao extends BaseDao {
             PreparedStatement statement = connection.prepareStatement(SELECT_BY_DEP);
             statement.setString(1, dep);
             System.out.print("Selecting products with given department... ");
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                products.add(new ProductModel(resultSet.getInt(1), resultSet.getString(2),
-                        resultSet.getString(3), resultSet.getInt(4), resultSet.getString(5),
-                        resultSet.getInt(6), resultSet.getFloat(7), Tag.values()[resultSet.getInt(8)]));
-            }
+            executeQuery(products, statement);
             System.out.println("Products selected!");
         } catch (SQLException e) {
             System.err.println("Error while selecting products.");
@@ -129,18 +158,22 @@ public final class ProductDao extends BaseDao {
             PreparedStatement statement = connection.prepareStatement(SELECT_BY_TAG);
             statement.setInt(1, tag);
             System.out.print("Selecting products with given tag... ");
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                products.add(new ProductModel(resultSet.getInt(1), resultSet.getString(2),
-                        resultSet.getString(3), resultSet.getInt(4), resultSet.getString(5),
-                        resultSet.getInt(6), resultSet.getFloat(7), Tag.values()[resultSet.getInt(8)]));
-            }
+            executeQuery(products, statement);
             System.out.println("Products selected!");
         } catch (SQLException e) {
             System.err.println("Error while selecting products.");
             e.printStackTrace();
         }
         return products;
+    }
+
+    private static void executeQuery(List<ProductModel> products, PreparedStatement statement) throws SQLException {
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            products.add(new ProductModel(resultSet.getInt(1), resultSet.getString(2),
+                    resultSet.getString(3), resultSet.getInt(4), resultSet.getString(5),
+                    resultSet.getInt(6), resultSet.getFloat(7), Tag.values()[resultSet.getInt(8)]));
+        }
     }
 
     static boolean isEmpty() {
