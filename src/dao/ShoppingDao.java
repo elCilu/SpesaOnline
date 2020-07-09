@@ -19,6 +19,7 @@ public final class ShoppingDao extends BaseDao {
     private static final String INSERT_SHOPPING = "insert into shopping values (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SELECT_LAST = "select top 1 * from shopping order by id desc";
     private static final String GET_TODAY_DELIVERY = "select * from shopping where deliveryDate = ?";
+    private static final String GET_SHOPPING = "select * from shopping where status = ?";
 
     private ShoppingDao() {}
 
@@ -88,5 +89,26 @@ public final class ShoppingDao extends BaseDao {
         }
 
         return result;
+    }
+
+    public static List<ShoppingModel> getShoppings(Status status){
+        List<ShoppingModel> shoppings = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(GET_SHOPPING);
+            statement.setInt(1, status.ordinal());
+            System.out.print("Selecting all shoppings with given status... ");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                shoppings.add(new ShoppingModel(resultSet.getInt(1), resultSet.getDate(2),
+                        resultSet.getDate(3), resultSet.getString(4), resultSet.getFloat(5),
+                        resultSet.getInt(6), Status.values()[resultSet.getInt(7)], resultSet.getInt(8), PaymentMethod.values()[resultSet.getInt(9)]));
+            }
+            System.out.println("All shoppings selected!");
+        } catch (SQLException e) {
+            System.err.println("Error while selecting shoppings.");
+            e.printStackTrace();
+        }
+
+        return shoppings;
     }
 }
