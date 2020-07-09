@@ -21,6 +21,8 @@ public final class ProductDao extends BaseDao {
     private static final String SELECT_DECREASING = "select * from products order by price desc";
     private static final String SELECT_ALPHABETIC = "select * from products order by name";
     private static final String IS_EMPTY = "select id from products where id = 1";
+    private static final String GET_QTY_IN_STOCK = "select qtyStock from products where id = ?";
+    private static final String SELECT = "select * from products";
 
     private ProductDao() {
     }
@@ -59,41 +61,25 @@ public final class ProductDao extends BaseDao {
         return products;
     }
 
-    public static List<ProductModel> getIncreasingOrder(){
+    public static List<ProductModel> select(int indexSort, String dep) {
+        String toConcat = "";
         List<ProductModel> products = new ArrayList<>();
-        try {
-            PreparedStatement statement = connection.prepareStatement(SELECT_INCREASING);
-            System.out.print("Selected products ordered by increasing price... ");
-            executeQuery(products, statement);
-            System.out.println("Selected products ordered by incresing price!");
-        } catch (SQLException e) {
-            System.err.println("Error while selecting products.");
-            e.printStackTrace();
+        if (!dep.equals("Tutto")) {
+            toConcat = " where dep = " + dep;
         }
-        return products;
-    }
-
-    public static List<ProductModel> getDecreasingOrder(){
-        List<ProductModel> products = new ArrayList<>();
-        try {
-            PreparedStatement statement = connection.prepareStatement(SELECT_DECREASING);
-            System.out.print("Selecting products ordered by decreasing price...");
-            executeQuery(products, statement);
-            System.out.println("Selected products ordered by decreasing price...!");
-        } catch (SQLException e) {
-            System.err.println("Error while selecting products.");
-            e.printStackTrace();
+        if (indexSort == 1) {
+            toConcat = " order by price asc";
+        } else if (indexSort == 2) {
+            toConcat = " order by price desc";
+        } else if (indexSort == 3){
+            toConcat = " order by name";
         }
-        return products;
-    }
-
-    public static List<ProductModel> getAlphabeticOrder(){
-        List<ProductModel> products = new ArrayList<>();
         try {
-            PreparedStatement statement = connection.prepareStatement(SELECT_ALPHABETIC);
-            System.out.print("Selecting products ordered by name... ");
+            System.err.println(SELECT.concat(toConcat));
+            PreparedStatement statement = connection.prepareStatement(SELECT.concat(toConcat));
+            System.out.print("Selecting products with filters... ");
             executeQuery(products, statement);
-            System.out.println("Selected products ordered by name!");
+            System.out.println("Selected products with filters!");
         } catch (SQLException e) {
             System.err.println("Error while selecting products.");
             e.printStackTrace();
@@ -174,6 +160,24 @@ public final class ProductDao extends BaseDao {
                     resultSet.getString(3), resultSet.getInt(4), resultSet.getString(5),
                     resultSet.getInt(6), resultSet.getFloat(7), Tag.values()[resultSet.getInt(8)]));
         }
+    }
+
+    public static int getQtyInStock(int id){
+        int qtyInStock = 0;
+        try{
+            PreparedStatement statement = connection.prepareStatement(GET_QTY_IN_STOCK);
+            statement.setInt(1, id);
+            System.out.println("Selecting qty in stock of the product with id " + id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                qtyInStock = resultSet.getInt(1);
+            }
+        }
+        catch (Exception e){
+            System.out.println("Error while selecting qtyStock");
+            e.printStackTrace();
+        }
+        return qtyInStock;
     }
 
     static boolean isEmpty() {

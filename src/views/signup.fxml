@@ -28,7 +28,6 @@
     <TextField fx:id="addressField"
                GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 
-import javafx.scene.layout.GridPane;
     <Label text="CAP:"
            GridPane.columnIndex="0" GridPane.rowIndex="4"/>
 

@@ -13,17 +13,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import models.CartModel;
 import models.ProductModel;
 import javafx.scene.image.ImageView;
+import sample.GlobalVars;
 import utils.OSystem;
-
-import javax.swing.*;
 import java.io.File;
 import java.net.URL;
 import java.util.*;
@@ -34,8 +30,6 @@ public class ShoppingController implements Initializable {
     public VBox shoppingPage;
     @FXML
     public JFXTextField searchField;           //barra di ricerca
-    //@FXML
-    //public TextField qtyChoice;             //quantità aggiunta da utente
     @FXML
     public ListView<String> depField;       //menu a tendina a sx
     @FXML
@@ -60,9 +54,7 @@ public class ShoppingController implements Initializable {
     private VBox priceVBox;
 
     private static List<ProductModel> products = ProductDao.getAllProducts();
-    private static List<ProductModel> tmp = new ArrayList<>();  //per ricerca tag
     private static final File prodImg = new File("");
-    private CartModel cart = new CartModel();
     private String path = "";
 
     //TODO: sistema tag
@@ -122,60 +114,21 @@ public class ShoppingController implements Initializable {
         loadData();
     }
 
-    @FXML
-    protected void sortBy() {
+    private int sortBy() {
+        int indexSort = 0;
         String sorted = sortBy.getSelectionModel().getSelectedItem();
         switch (sorted) {
             case "Prezzo cresc.":
-                products = ProductDao.getIncreasingOrder();
+                indexSort = 1;
                 break;
             case "Prezzo decresc.":
-                products = ProductDao.getDecreasingOrder();
+                indexSort = 2;
                 break;
             case "Alfabetico":
-                products = ProductDao.getAlphabeticOrder();
-                break;
-            default:
-                products = ProductDao.getAllProducts();
+                indexSort = 3;
                 break;
         }
-        refresh();
-        loadData();
-    }
-
-    @FXML
-    protected void getProdByDep(){
-        String choice = depField.getSelectionModel().getSelectedItem();
-        if(choice.equals("Tutto"))
-            products = ProductDao.getAllProducts();
-        else if(choice.equals("Frutta e verdura"))
-            products = ProductDao.getProductsByDep("Frutta e verdura");
-        else if(choice.equals("Carne"))
-            products = ProductDao.getProductsByDep("Carne");
-        else if(choice.equals("Pesce"))
-            products = ProductDao.getProductsByDep("Pesce");
-        else if(choice.equals("Scatolame"))
-            products = ProductDao.getProductsByDep("Scatolame");
-        else if(choice.equals("Uova e latticini"))
-            products = ProductDao.getProductsByDep("Uova e latticini");
-        else if(choice.equals("Salumi e formaggi"))
-            products = ProductDao.getProductsByDep("Salumi e formaggi");
-        else if(choice.equals("Pane e pasticceria"))
-            products = ProductDao.getProductsByDep("Pane e pasticceria");
-        else if(choice.equals("Confezionati"))
-            products = ProductDao.getProductsByDep("Confezionati");
-        else if(choice.equals("Surgelati e gelati"))
-            products = ProductDao.getProductsByDep("Surgelati e gelati");
-        else if(choice.equals("Merenda e dolci"))
-            products = ProductDao.getProductsByDep("Merenda e dolci");
-        else if(choice.equals("Acqua bevande e alcolici"))
-            products = ProductDao.getProductsByDep("Acqua bevande e alcolici");
-        else if(choice.equals("Igiene"))
-            products = ProductDao.getProductsByDep("Igiene");
-        else if(choice.equals("Casa"))
-            products = ProductDao.getProductsByDep("Casa");
-        refresh();
-        loadData();
+        return indexSort;
     }
 
     @FXML
@@ -190,7 +143,7 @@ public class ShoppingController implements Initializable {
             CartController cartController = Loader.getController();
 
             //sending cart to the cart page
-            cartController.setUpCart(cart);
+            cartController.setUpCart();
 
             stage.setScene(new Scene(Loader.getRoot()));
             stage.sizeToScene();
@@ -283,6 +236,7 @@ public class ShoppingController implements Initializable {
 
             //aggiungi textfield per quantità
             TextField qty = new TextField();
+            qty.setText("1");
             qty.setPromptText("qtà");
             qty.setMaxSize(50, 5);
             qtyVBox.getChildren().add(qty);
@@ -300,10 +254,20 @@ public class ShoppingController implements Initializable {
             addVBox.getChildren().add(addButton);
 
             //gestione textfield qtyChoice
-            addButton.setOnMouseClicked(mouseEvent -> cart.addToCart(p, Integer.parseInt(qty.getText())));
+            addButton.setOnMouseClicked(mouseEvent -> addToCart(p, Integer.parseInt(qty.getText())));
         }
-
-
     }
 
+    private void addToCart(ProductModel p, int qty) {
+        if (GlobalVars.cart.putIfAbsent(p, qty) != null) {
+            GlobalVars.cart.replace(p, GlobalVars.cart.get(p) + qty);
+        }
+    }
+
+    @FXML
+    protected void select(){
+        products = ProductDao.select(sortBy(), depField.getSelectionModel().getSelectedItem());
+        refresh();
+        loadData();
+    }
 }

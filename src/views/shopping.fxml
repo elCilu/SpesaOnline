@@ -19,35 +19,35 @@
 
 <VBox fx:id="shoppingPage" prefHeight="804.0" prefWidth="1211.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ShoppingController">
     <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #40A6B9;" BorderPane.alignment="CENTER">
-        <children>
-            <ImageView fx:id="logoImage" fitWidth="172.0" pickOnBounds="true" preserveRatio="true">
-                <HBox.margin>
-                    <Insets bottom="5.0" left="-45.0" top="5.0" />
-                </HBox.margin>
-            </ImageView>
-            <JFXTextField fx:id="searchField" focusColor="#f9aa33" prefHeight="26.0" prefWidth="258.0" promptText="Cerca un prodotto" unFocusColor="#f9aa33">
-                <HBox.margin>
-                    <Insets left="340.0" top="39.0" />
-                </HBox.margin>
-            </JFXTextField>
-            <ImageView fx:id="userImage" fitHeight="79.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true">
-                <HBox.margin>
-                    <Insets left="200.0" top="27.0" />
-                </HBox.margin>
-            </ImageView>
-            <ImageView fx:id="cartImage" fitHeight="79.0" fitWidth="93.0" layoutX="1071.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                <HBox.margin>
-                    <Insets left="50.0" top="27.0" />
-                </HBox.margin>
-            </ImageView>
-        </children>
         <padding>
-            <Insets left="50.0" />
+            <Insets left="50.0"/>
         </padding>
+        <ImageView fx:id="logoImage" fitWidth="172.0" pickOnBounds="true" preserveRatio="true">
+            <HBox.margin>
+                <Insets bottom="5.0" left="-45.0" top="5.0"/>
+            </HBox.margin>
+        </ImageView>
+        <JFXTextField fx:id="searchField" focusColor="#f9aa33" prefHeight="26.0" prefWidth="258.0"
+                      promptText="Cerca un prodotto" unFocusColor="#f9aa33">
+            <HBox.margin>
+                <Insets left="340.0" top="39.0"/>
+            </HBox.margin>
+        </JFXTextField>
+        <ImageView fx:id="userImage" fitHeight="79.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true">
+            <HBox.margin>
+                <Insets left="200.0" top="27.0"/>
+            </HBox.margin>
+        </ImageView>
+        <ImageView fx:id="cartImage" fitHeight="79.0" fitWidth="93.0" layoutX="1071.0" layoutY="10.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <HBox.margin>
+                <Insets left="50.0" top="27.0"/>
+            </HBox.margin>
+        </ImageView>
     </HBox>
     <BorderPane prefHeight="1000">
         <left>
-            <ListView fx:id="depField" onMouseClicked="#getProdByDep" prefHeight="200.0" prefWidth="185.0" BorderPane.alignment="CENTER">
+            <ListView fx:id="depField" value="Tutto" onMouseClicked="#select" prefHeight="200.0" prefWidth="185.0" BorderPane.alignment="CENTER">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
                         <String fx:value="Tutto" />
@@ -73,7 +73,7 @@
                 <padding>
                     <Insets bottom="5.0" />
                 </padding>
-                <ChoiceBox fx:id="sortBy" onAction="#sortBy" value="Seleziona...">
+                <ChoiceBox fx:id="sortBy" onAction="#select" value="Seleziona...">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
                             <String fx:value="Seleziona..." />
@@ -119,41 +119,45 @@
         </top>
         <center>
             <ScrollPane style="-fx-background-color: #90DAE5;">
-            <content>
-                <AnchorPane fx:id="productsPane" minHeight="0.0" minWidth="0.0" prefWidth="1008.0" style="-fx-background-color: #90DAE5;">
-                    <children>
-                        <Label fx:id="totalPriceLabel" layoutX="828.0" prefHeight="30.0" prefWidth="145.0" text="aggiungi al carrello">
-                            <font>
-                                <Font size="14.0" />
-                            </font>
-                        </Label>
-                        <VBox fx:id="imgVBox" alignment="TOP_CENTER" layoutX="14.0" layoutY="44.0" prefWidth="205.0" spacing="11.0" />
-                        <VBox fx:id="nameCodeVBox" alignment="CENTER_LEFT" layoutX="244.0" layoutY="44.0" prefWidth="180.0" spacing="65.0">
-                            <padding>
-                                <Insets left="10.0" right="10.0" top="20.0" />
-                            </padding>
-                        </VBox>
-                        <VBox fx:id="qtyVBox" alignment="CENTER_RIGHT" layoutX="553.0" layoutY="44.0" prefWidth="151.0" spacing="46.0">
-                        <padding>
-                           <Insets left="25.0" top="12.0" />
-                        </padding>
-                        </VBox>
-                        <VBox fx:id="priceVBox" alignment="BOTTOM_CENTER" layoutX="710.0" layoutY="44.0" prefWidth="150.0" spacing="65.0">
-                            <padding>
-                                <Insets left="10.0" right="10.0" top="20.0" />
-                            </padding>
-                        </VBox>
-                        <VBox fx:id="addVBox" alignment="CENTER" layoutX="831.0" layoutY="44.0" prefWidth="100.0" spacing="46.0">
-                        <padding>
-                           <Insets top="10.0" />
-                        </padding></VBox>
-                    </children>
+                <AnchorPane fx:id="productsPane" minHeight="0.0" minWidth="0.0" prefWidth="1008.0"
+                            style="-fx-background-color: #90DAE5;">
                     <padding>
-                        <Insets bottom="10.0" />
+                        <Insets bottom="10.0"/>
                     </padding>
+                    <Label fx:id="totalPriceLabel" layoutX="828.0" prefHeight="30.0" prefWidth="145.0"
+                           text="aggiungi al carrello">
+                        <font>
+                            <Font size="14.0"/>
+                        </font>
+                    </Label>
+                    <VBox fx:id="imgVBox" alignment="TOP_CENTER" layoutX="14.0" layoutY="44.0" prefWidth="205.0"
+                          spacing="11.0"/>
+                    <VBox fx:id="nameCodeVBox" alignment="CENTER_LEFT" layoutX="244.0" layoutY="44.0"
+                          prefWidth="180.0" spacing="65.0">
+                        <padding>
+                            <Insets left="10.0" right="10.0" top="20.0"/>
+                        </padding>
+                    </VBox>
+                    <VBox fx:id="qtyVBox" alignment="CENTER_RIGHT" layoutX="553.0" layoutY="44.0" prefWidth="151.0"
+                          spacing="46.0">
+                        <padding>
+                            <Insets left="25.0" top="12.0"/>
+                        </padding>
+                    </VBox>
+                    <VBox fx:id="priceVBox" alignment="BOTTOM_CENTER" layoutX="710.0" layoutY="44.0"
+                          prefWidth="150.0" spacing="65.0">
+                        <padding>
+                            <Insets left="10.0" right="10.0" top="20.0"/>
+                        </padding>
+                    </VBox>
+                    <VBox fx:id="addVBox" alignment="CENTER" layoutX="831.0" layoutY="44.0" prefWidth="100.0"
+                          spacing="46.0">
+                        <padding>
+                            <Insets top="10.0"/>
+                        </padding>
+                    </VBox>
                 </AnchorPane>
-            </content>
-        </ScrollPane>
+            </ScrollPane>
         </center>
     </BorderPane>
 </VBox>

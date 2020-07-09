@@ -7,10 +7,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import models.CartModel;
 import models.ProductModel;
 import models.ProductShoppingModel;
 import models.ShoppingModel;
+import sample.GlobalVars;
 
 public class ConfirmedController {
     @FXML
@@ -28,10 +28,10 @@ public class ConfirmedController {
         }
     }
 
-    public void addProducts(CartModel cart, ShoppingModel shopping) {
+    public void addProducts(ShoppingModel shopping) {
         //aggiungo i prodotti del carrello alla tabella dei prodotti comprati
-        for (ProductModel product : cart.getProducts()) {
-            addProductShopping(product.getId(), shopping.getId(), cart.getProductQty(product));
+        for (ProductModel product : GlobalVars.cart.keySet()) {
+            addProductShopping(product.getId(), shopping.getId(), GlobalVars.cart.get(product));
         }
     }
 
