@@ -1,6 +1,8 @@
 package controllers;
 
 import dao.ShoppingDao;
+import enums.PaymentMethod;
+import enums.Status;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -230,7 +232,7 @@ public class CheckOutController {
             }
 
             // inserisco la spesa nel db
-            shopping = new ShoppingModel(0, purchaseDate, deliveryDate, deliveryH, totalCost, earnedPoints, status, idClient, paymentMethod);
+            shopping = new ShoppingModel(0, purchaseDate, deliveryDate, deliveryH, totalCost, earnedPoints, Status.values()[status], idClient, PaymentMethod.values()[paymentMethod]);
             int resultQuery = ShoppingDao.insertShopping(shopping);
 
             if (resultQuery != 0) {

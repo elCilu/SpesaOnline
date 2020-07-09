@@ -7,10 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.CredentialModel;
 import sample.GlobalVars;
@@ -26,8 +23,6 @@ public class LoginController {
     private TextField emailField;
     @FXML
     private TextField passwordField;
-    @FXML
-    private Text actionTarget;
 
     @FXML
     protected void goToSignUp() {
@@ -49,11 +44,9 @@ public class LoginController {
         String password = passwordField.getText();
         try {
             if (email.trim().isEmpty() || !isValidEmail(email)) {
-                actionTarget.setText("Campo email non valido!");
                 throw new Exception("Campo email non valido.");
             }
             if (password.isEmpty()) {
-                actionTarget.setText("Inserisci password");
                 throw new Exception("Campo password vuoto.");
             }
             CredentialModel credentials = CredentialDao.selectByEmail(email);
@@ -64,11 +57,10 @@ public class LoginController {
                     goToShopping();
                 }
             } else {
-                actionTarget.setText("Registrati");
                 throw new Exception("User not signed");
             }
             if (!logged) {
-                actionTarget.setText("Credenziali sbagliate.");
+                //Da aggiungere qualcosa
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,5 +91,4 @@ public class LoginController {
             e.printStackTrace();
         }
     }
-
 }

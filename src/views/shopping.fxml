@@ -119,41 +119,41 @@
         </top>
         <center>
             <ScrollPane style="-fx-background-color: #90DAE5;">
-                <content>
-                    <AnchorPane fx:id="productsPane" minHeight="0.0" minWidth="0.0" prefWidth="1008.0" style="-fx-background-color: #90DAE5;">
-                        <children>
-                            <Label fx:id="totalPriceLabel" layoutX="828.0" prefHeight="30.0" prefWidth="145.0" text="aggiungi al carrello">
-                                <font>
-                                    <Font size="14.0" />
-                                </font>
-                            </Label>
-                            <VBox fx:id="imgVBox" alignment="TOP_CENTER" layoutX="14.0" layoutY="44.0" prefWidth="205.0" spacing="11.0" />
-                            <VBox fx:id="nameCodeVBox" alignment="CENTER_LEFT" layoutX="244.0" layoutY="44.0" prefWidth="180.0" spacing="65.0">
-                                <padding>
-                                    <Insets left="10.0" right="10.0" top="20.0" />
-                                </padding>
-                            </VBox>
-                            <VBox fx:id="qtyVBox" alignment="CENTER_RIGHT" layoutX="553.0" layoutY="44.0" prefWidth="151.0" spacing="46.0">
-                                <padding>
-                                    <Insets left="25.0" top="12.0" />
-                                </padding>
-                            </VBox>
-                            <VBox fx:id="priceVBox" alignment="BOTTOM_CENTER" layoutX="710.0" layoutY="44.0" prefWidth="150.0" spacing="65.0">
-                                <padding>
-                                    <Insets left="10.0" right="10.0" top="20.0" />
-                                </padding>
-                            </VBox>
-                            <VBox fx:id="addVBox" alignment="CENTER" layoutX="831.0" layoutY="44.0" prefWidth="100.0" spacing="46.0">
-                                <padding>
-                                    <Insets top="10.0" />
-                                </padding></VBox>
-                        </children>
+            <content>
+                <AnchorPane fx:id="productsPane" minHeight="0.0" minWidth="0.0" prefWidth="1008.0" style="-fx-background-color: #90DAE5;">
+                    <children>
+                        <Label fx:id="totalPriceLabel" layoutX="828.0" prefHeight="30.0" prefWidth="145.0" text="aggiungi al carrello">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Label>
+                        <VBox fx:id="imgVBox" alignment="TOP_CENTER" layoutX="14.0" layoutY="44.0" prefWidth="205.0" spacing="11.0" />
+                        <VBox fx:id="nameCodeVBox" alignment="CENTER_LEFT" layoutX="244.0" layoutY="44.0" prefWidth="180.0" spacing="65.0">
+                            <padding>
+                                <Insets left="10.0" right="10.0" top="20.0" />
+                            </padding>
+                        </VBox>
+                        <VBox fx:id="qtyVBox" alignment="CENTER_RIGHT" layoutX="553.0" layoutY="44.0" prefWidth="151.0" spacing="46.0">
                         <padding>
-                            <Insets bottom="10.0" />
+                           <Insets left="25.0" top="12.0" />
                         </padding>
-                    </AnchorPane>
-                </content>
-            </ScrollPane>
+                        </VBox>
+                        <VBox fx:id="priceVBox" alignment="BOTTOM_CENTER" layoutX="710.0" layoutY="44.0" prefWidth="150.0" spacing="65.0">
+                            <padding>
+                                <Insets left="10.0" right="10.0" top="20.0" />
+                            </padding>
+                        </VBox>
+                        <VBox fx:id="addVBox" alignment="CENTER" layoutX="831.0" layoutY="44.0" prefWidth="100.0" spacing="46.0">
+                        <padding>
+                           <Insets top="10.0" />
+                        </padding></VBox>
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" />
+                    </padding>
+                </AnchorPane>
+            </content>
+        </ScrollPane>
         </center>
     </BorderPane>
 </VBox>

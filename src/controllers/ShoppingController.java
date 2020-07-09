@@ -60,14 +60,12 @@ public class ShoppingController implements Initializable {
     private VBox priceVBox;
 
     private static List<ProductModel> products = ProductDao.getAllProducts();
+    private static List<ProductModel> tmp = new ArrayList<>();  //per ricerca tag
     private static final File prodImg = new File("");
     private CartModel cart = new CartModel();
     private String path = "";
 
-    //TODO: alcuni prodotti non vengono visualizzati, sistema tag e allinea grafica
-    //cambia png in jpg rummo, cambia query di ricerca
-
-
+    //TODO: sistema tag
 
     protected void setPath(){
         if(OSystem.isWindows())
