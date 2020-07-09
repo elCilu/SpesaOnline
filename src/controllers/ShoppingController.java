@@ -65,10 +65,7 @@ public class ShoppingController implements Initializable {
     private CartModel cart = new CartModel();
     private String path = "";
 
-    //TODO: alcuni prodotti non vengono visualizzati, sistema tag e allinea grafica
-    //cambia png in jpg rummo, cambia query di ricerca
-
-
+    //TODO: sistema tag
 
     protected void setPath(){
         if(OSystem.isWindows())

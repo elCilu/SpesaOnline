@@ -58,7 +58,7 @@ public class LoginController {
                 if (CredentialUtil.checkPassword(password, credentials.getSalt(), credentials.getHash())) {
                     logged = true;
                     GlobalVars.USER_ID = ClientDao.selectIdByEmail(email);
-                    goToAnagrafica();
+                    goToShopping();
                 }
             } else {
                 actionTarget.setText("Registrati");
@@ -73,10 +73,10 @@ public class LoginController {
 
     }
 
-    protected void goToAnagrafica() {
+    protected void goToShopping() {
         try {
             Stage stage = (Stage) loginPage.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("../views/costumerData.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../views/shopping.fxml"));
             stage.setScene(new Scene(root));
             stage.sizeToScene();
             stage.show();
