@@ -29,7 +29,7 @@ IF (NOT EXISTS(SELECT 1
         )
     END
 
-/*-- Check if table stockmans exists, if not creates it
+-- Check if table stockmans exists, if not creates it
 IF (NOT EXISTS(SELECT 1
                FROM INFORMATION_SCHEMA.TABLES
                WHERE TABLE_SCHEMA = 'dbo'
@@ -42,7 +42,7 @@ IF (NOT EXISTS(SELECT 1
             surname       VARCHAR(50)        NOT NULL,
             email         VARCHAR(50) UNIQUE NOT NULL
         )
-    END*/
+    END
 
 -- Check if table clients exists, if not creates it
 IF (NOT EXISTS(SELECT 1
@@ -136,7 +136,7 @@ IF (NOT EXISTS(SELECT 1
     END
 
 -- Check if table warehouse exists, if not creates it
-/*IF (NOT EXISTS(SELECT 1
+IF (NOT EXISTS(SELECT 1
                FROM INFORMATION_SCHEMA.TABLES
                WHERE TABLE_SCHEMA = 'dbo'
                  AND TABLE_NAME = 'warehouse'))
@@ -148,9 +148,9 @@ IF (NOT EXISTS(SELECT 1
             qtyMin    SMALLINT NOT NULL,
             qtyMax    SMALLINT NOT NULL
         )
-    END*/
+    END
 
-/*-- Check if table suppliers exists, if not creates it
+-- Check if table suppliers exists, if not creates it
 IF (NOT EXISTS(SELECT 1
                FROM INFORMATION_SCHEMA.TABLES
                WHERE TABLE_SCHEMA = 'dbo'
@@ -162,11 +162,11 @@ IF (NOT EXISTS(SELECT 1
             companyName VARCHAR(50) NOT NULL,
             dep         SMALLINT    NOT NULL
         )
-    END*/
+    END
 
 
 -- Check if table orders exists, if not creates it
-/*IF (NOT EXISTS(SELECT 1
+IF (NOT EXISTS(SELECT 1
                FROM INFORMATION_SCHEMA.TABLES
                WHERE TABLE_SCHEMA = 'dbo'
                  AND TABLE_NAME = 'orders'))
@@ -177,9 +177,9 @@ IF (NOT EXISTS(SELECT 1
             pIvaSupplier INT FOREIGN KEY references suppliers (pIva),
             matrStockMan INT FOREIGN KEY references stockmans (matriculation)
         )
-    END*/
+    END
 
-/*-- Check if table productsOrder exists, if not creates it
+-- Check if table productsOrder exists, if not creates it
 IF (NOT EXISTS(SELECT 1
                FROM INFORMATION_SCHEMA.TABLES
                WHERE TABLE_SCHEMA = 'dbo'
@@ -192,9 +192,9 @@ IF (NOT EXISTS(SELECT 1
             idOrders  INT FOREIGN KEY REFERENCES orders (id),
             qty       SMALLINT NOT NULL
         )
-    END*/
+    END
 
-/*-- Check if table express exists, if not creates it
+-- Check if table express exists, if not creates it
 IF (NOT EXISTS(SELECT 1
                FROM INFORMATION_SCHEMA.TABLES
                WHERE TABLE_SCHEMA = 'dbo'
@@ -205,4 +205,4 @@ IF (NOT EXISTS(SELECT 1
             pIva        INT IDENTITY (1, 1) PRIMARY KEY,
             companyName VARCHAR(50) NOT NULL
         )
-    END*/
+    END
