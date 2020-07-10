@@ -1,5 +1,9 @@
 package models;
 
+import enums.Status;
+import java.util.Date;
+import java.util.Calendar;
+
 public class StockManModel {
 
     private final int matriculationNumber;

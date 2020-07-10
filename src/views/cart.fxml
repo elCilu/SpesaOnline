@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<ScrollPane prefHeight="809.0" prefWidth="1466.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CartController">
+<JFXScrollPane fx:id="cartPage" prefHeight="809.0" prefWidth="1466.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CartController">
    <content>
       <BorderPane prefHeight="789.0" prefWidth="1437.0">
          <center>
             <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1017.0">
                 <children>
-                      <AnchorPane fx:id="productsPane" minHeight="0.0" minWidth="0.0" prefWidth="1008.0">
+                      <AnchorPane fx:id="productsPane" layoutY="-282.0" minHeight="0.0" minWidth="0.0" prefHeight="502.0" prefWidth="1008.0">
                           <children>
                               <Label fx:id="totalPriceLabel" layoutX="828.0" prefHeight="30.0" prefWidth="113.0" text="Prezzo totale ">
                                   <font>
@@ -56,18 +57,20 @@
                           </columnConstraints>
                           <rowConstraints>
                               <RowConstraints maxHeight="48.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="36.0" minHeight="0.0" prefHeight="36.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="44.0" minHeight="0.0" prefHeight="24.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="68.0" minHeight="0.0" prefHeight="13.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="186.0" minHeight="0.0" prefHeight="35.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="301.0" minHeight="0.0" prefHeight="55.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="420.0" minHeight="4.0" prefHeight="17.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="37.0" minHeight="0.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="44.0" minHeight="0.0" prefHeight="13.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="68.0" minHeight="0.0" prefHeight="26.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="186.0" minHeight="0.0" prefHeight="29.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="301.0" minHeight="0.0" prefHeight="15.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="420.0" minHeight="4.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="451.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="452.0" minHeight="6.0" prefHeight="26.0" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="467.0" minHeight="4.0" prefHeight="15.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="503.0" minHeight="0.0" prefHeight="32.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="503.0" minHeight="10.0" prefHeight="46.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="503.0" minHeight="0.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="503.0" minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="503.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                           <children>
                               <Label prefHeight="30.0" prefWidth="181.0" text=" Spese di spedizione">
@@ -75,51 +78,51 @@
                                       <Font size="14.0" />
                                   </font>
                         </Label>
-                              <Label prefHeight="30.0" prefWidth="180.0" text="Codice promozionale" GridPane.rowIndex="5">
+                              <Label prefHeight="30.0" prefWidth="180.0" text="Codice promozionale" GridPane.rowIndex="6">
                                   <font>
                                       <Font size="14.0" />
                                   </font>
                         </Label>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="TOTALE SPESA" wrappingWidth="154.4638671875" GridPane.rowIndex="8">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="TOTALE SPESA" wrappingWidth="154.4638671875" GridPane.rowIndex="9">
                                   <font>
                                       <Font name="System Bold Italic" size="15.0" />
                                   </font>
                               </Text>
-                              <TextField fx:id="promotion" editable="false" GridPane.rowIndex="6">
+                              <JFXTextField fx:id="promotion" editable="false" GridPane.rowIndex="7">
                                   <font>
                                       <Font size="14.0" />
                                   </font>
-                              </TextField>
-                              <TextField fx:id="totalShopping" editable="false" prefHeight="84.0" prefWidth="585.0" GridPane.rowIndex="9">
+                              </JFXTextField>
+                              <JFXTextField fx:id="totalShopping" editable="false" prefHeight="84.0" prefWidth="585.0" GridPane.rowIndex="10">
                                   <font>
                                       <Font name="System Bold Italic" size="15.0" />
                                   </font>
-                              </TextField>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Punti fedeltà" wrappingWidth="154.4638671875" GridPane.rowIndex="11">
+                              </JFXTextField>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Punti fedeltà" wrappingWidth="154.4638671875" GridPane.rowIndex="12">
                                   <font>
                                       <Font name="System Bold Italic" size="14.0" />
                                   </font>
                               </Text>
-                              <TextField fx:id="fidelityPoints" editable="false" GridPane.rowIndex="12">
+                              <JFXTextField fx:id="fidelityPoints" editable="false" GridPane.rowIndex="13">
                                   <font>
                                       <Font name="System Bold Italic" size="14.0" />
                                   </font>
-                              </TextField>
-                        <RadioButton fx:id="standardRadioButton" mnemonicParsing="false" onAction="#setShipping" prefHeight="84.0" prefWidth="585.0" text="Standard (consegna disponibile tra 4 giorni lavorativi)" GridPane.rowIndex="1">
+                              </JFXTextField>
+                        <JFXRadioButton fx:id="standardRadioButton" mnemonicParsing="false" onAction="#setShipping" prefHeight="84.0" prefWidth="585.0" text="Standard (consegna disponibile tra 4 giorni lavorativi)" GridPane.rowIndex="1">
                               <toggleGroup>
                                   <ToggleGroup fx:id="radioShipping" />
                               </toggleGroup>
-                        </RadioButton>
-                        <RadioButton fx:id="expressRadioButton" mnemonicParsing="false" onAction="#setShipping" prefHeight="84.0" prefWidth="585.0" text="Express (consegna disponibile tra 2 giorni lavorativi)" GridPane.rowIndex="2">
+                        </JFXRadioButton>
+                        <JFXRadioButton fx:id="expressRadioButton" mnemonicParsing="false" onAction="#setShipping" prefHeight="84.0" prefWidth="585.0" text="Express (consegna disponibile tra 2 giorni lavorativi)" GridPane.rowIndex="3">
                             <toggleGroup>
                                 <fx:reference source="radioShipping" />
                             </toggleGroup>
-                        </RadioButton>
-                        <TextField fx:id="shipping" editable="false" prefHeight="84.0" prefWidth="585.0" GridPane.rowIndex="3">
+                        </JFXRadioButton>
+                        <JFXTextField fx:id="shipping" editable="false" prefHeight="84.0" prefWidth="585.0" GridPane.rowIndex="4">
                            <font>
                               <Font size="14.0" />
                            </font>
-                        </TextField>
+                        </JFXTextField>
                           </children>
                       </GridPane>
                     <GridPane prefHeight="118.0" prefWidth="1293.0">
@@ -132,9 +135,9 @@
                         <RowConstraints maxHeight="48.0" minHeight="2.0" prefHeight="37.0" vgrow="SOMETIMES" />
                         </rowConstraints>
                         <children>
-                            <Button mnemonicParsing="false" onAction="#cleanCart" text="SVUOTA CARRELLO" />
-                            <Button mnemonicParsing="false" onAction="#backToShopping" text="VAI AGLI ACQUISTI" GridPane.rowIndex="1" />
-                            <Button mnemonicParsing="false" onAction="#checkout" prefHeight="26.0" prefWidth="193.0" text="VAI AL PAGAMENTO" GridPane.rowIndex="2" />
+                            <JFXButton mnemonicParsing="false" onAction="#cleanCart" prefHeight="26.0" prefWidth="146.0" text="SVUOTA CARRELLO" />
+                            <JFXButton mnemonicParsing="false" onAction="#backToShopping" prefHeight="26.0" prefWidth="141.0" text="VAI AGLI ACQUISTI" GridPane.rowIndex="1" />
+                            <JFXButton mnemonicParsing="false" onAction="#checkout" prefHeight="26.0" prefWidth="149.0" text="VAI AL PAGAMENTO" GridPane.rowIndex="2" />
                         </children>
                     </GridPane>
                </children>
@@ -142,4 +145,4 @@
          </right>
       </BorderPane>
    </content>
-</ScrollPane>
+</JFXScrollPane>

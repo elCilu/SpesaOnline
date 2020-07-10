@@ -16,7 +16,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import models.CartModel;
 import models.ProductModel;
 import models.ShoppingModel;
 import sample.GlobalVars;
@@ -65,7 +64,6 @@ public class CheckOutController {
 
     public ToggleGroup paymentMethodGroup;
     public ToggleGroup delivery;
-    private CartModel cart;
     private int mod;
     @FXML
     private VBox price;
@@ -97,7 +95,7 @@ public class CheckOutController {
             ConfirmedController confirmed = Loader.getController();
 
             //sending cart to the checkout page
-            confirmed.addProducts(cart, shopping);
+            confirmed.addProducts(shopping);
 
 
             stage.setScene(new Scene(Loader.getRoot()));
@@ -109,18 +107,17 @@ public class CheckOutController {
         }
     }
 
-    public void setCart(CartModel cart, int mod) {
-        this.cart = cart;
+    public void setCart(int mod) {
         if (mod == 1)
             this.mod = 4;
         if (mod == 2)
             this.mod = 2;
         this.idClient = GlobalVars.USER_ID;//TODO: passaggio dal carrello
 
-        totSpesa.setText(String.format("%.2f", cart.subTotal()));
-        puntiSpesa.setText(String.format("%02d", cart.getPoints()));
+        totSpesa.setText(String.format("%.2f", subTotal()));
+        puntiSpesa.setText(String.format("%02d", (int) subTotal()));
 
-        for (ProductModel p : cart.getProducts()) {
+        for (ProductModel p : GlobalVars.cart.keySet()) {
             //product image
             ImageView img = new ImageView();
             String path = "";
@@ -148,14 +145,14 @@ public class CheckOutController {
 
             //product quantity
             Text prodQty = new Text();
-            prodQty.setText(String.format("%d", cart.getProductQty(p)));
+            prodQty.setText(String.format("%d", GlobalVars.cart.get(p)));
 
             qty.getChildren().add(prodQty);
         }
     }
 
     private void productTotalPrice(Text prodPrice, ProductModel p) {
-        prodPrice.setText(String.format("€%.2f", cart.getTotalProductPrice(p)));
+        prodPrice.setText(String.format("€%.2f", p.getprice() * GlobalVars.cart.get(p)));
     }
 
     public void addShopping() {
@@ -164,8 +161,8 @@ public class CheckOutController {
         Date deliveryDate;
         Date tempDate;
         String deliveryH;
-        float totalCost = cart.subTotal();
-        int earnedPoints = cart.getPoints();
+        float totalCost = subTotal();
+        int earnedPoints = (int) totalCost;
         int status = 0;
         int paymentMethod;
         ZoneId defaultZoneId = ZoneId.systemDefault();
@@ -243,6 +240,15 @@ public class CheckOutController {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    private float subTotal(){
+        float tot = 0;
+
+        for(ProductModel p: GlobalVars.cart.keySet())
+            tot += p.getprice() * GlobalVars.cart.get(p);
+
+        return tot;
     }
 
 }
