@@ -1,5 +1,6 @@
 package controllers;
 
+import dao.FidelityCardDao;
 import dao.ShoppingDao;
 import enums.PaymentMethod;
 import enums.Status;
@@ -239,6 +240,7 @@ public class CheckOutController {
             // inserisco la spesa nel db
             shopping = new ShoppingModel(0, purchaseDate, deliveryDate, deliveryH, totalCost, earnedPoints, Status.values()[status], idClient, PaymentMethod.values()[paymentMethod]);
             int resultQuery = ShoppingDao.insertShopping(shopping);
+            updatePoints(idClient, (FidelityCardDao.getPoints(idClient) + earnedPoints));
 
             if (resultQuery != 0) {
                 shopping.setId(ShoppingDao.selectLast());
@@ -246,6 +248,16 @@ public class CheckOutController {
             }
 
         }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void updatePoints(int id, int qty){
+        try {
+            int resultQuery = FidelityCardDao.updateQuantity(id, qty);
+            if (resultQuery == 0)
+                throw new Exception("Errore nell'aggiornamenti dei punti fedelta'");
+
+        } catch(Exception e){
             e.printStackTrace();
         }
     }
