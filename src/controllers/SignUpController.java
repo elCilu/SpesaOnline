@@ -2,10 +2,14 @@ package controllers;
 
 import dao.ClientDao;
 import dao.CredentialDao;
+import dao.FidelityCardDao;
+import enums.PaymentMethod;
+import models.FidelityCard;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -16,6 +20,8 @@ import models.ClientModel;
 import models.CredentialModel;
 import utils.CredentialUtil;
 import utils.StringUtil;
+
+import java.util.Calendar;
 
 import static utils.StringUtil.*;
 
@@ -47,6 +53,8 @@ public class SignUpController {
     private RadioButton cashRadio;
     @FXML
     private Text actionTarget;
+    @FXML
+    private CheckBox loyaltyCardCheck;
     public ToggleGroup paymentMethodGroup;
 
     public void signUp() {
@@ -101,13 +109,13 @@ public class SignUpController {
             }
 
             if (creditCardRadio.isSelected()) {
-                paymentMethod = 1;
+                paymentMethod = 0;
             }
             else if (paypalRadio.isSelected()) {
-                paymentMethod = 2;
+                paymentMethod = 1;
             }
             else if (cashRadio.isSelected()) {
-                paymentMethod = 3;
+                paymentMethod = 2;
             }
             else {
                 actionTarget.setText("Seleziona metodo di pagamento");
@@ -115,20 +123,43 @@ public class SignUpController {
             }
 
 
-            if (CredentialDao.selectByEmail(email) != null){
+            if (CredentialDao.selectByEmail(email) != null) {
                 actionTarget.setText("Email già in uso");
                 throw new Exception("Email già presente nella tabella");
             }
 
-            int resultQuery = ClientDao.insertClient(new ClientModel(0, StringUtil.formatName(name),
-                    StringUtil.formatName(surname), address, zip, phoneNumber, email, paymentMethod));
+            int resultQuery = ClientDao.insertClient(new ClientModel(
+                            0,
+                            StringUtil.formatName(name),
+                            StringUtil.formatName(surname),
+                            address,
+                            zip,
+                            phoneNumber,
+                            email,
+                            PaymentMethod.values()[paymentMethod]
+                    )
+            );
+
             if (resultQuery != 0) {
                 byte[] salt = CredentialUtil.createSalt();
-                CredentialModel credential = new CredentialModel(0, email,
-                        CredentialUtil.generateHash(password, salt), salt);
+                CredentialModel credential = new CredentialModel(
+                        0,
+                        email,
+                        CredentialUtil.generateHash(password, salt),
+                        salt
+                );
                 resultQuery = CredentialDao.insertCredentials(credential);
+                if (loyaltyCardCheck.isSelected()) {
+                    FidelityCard fidelityCard = new FidelityCard(
+                            0,
+                            Calendar.getInstance().getTime(),
+                            0,
+                            ClientDao.selectIdByEmail(email));
+
+                    resultQuery += FidelityCardDao.insertCard(fidelityCard);
+                }
             }
-            if (resultQuery != 0){
+            if (resultQuery != 0) {
                 actionTarget.setText("Utente inserito correttamente");
             }
         } catch (Exception e){
@@ -140,7 +171,8 @@ public class SignUpController {
         try {
             Stage stage = (Stage) signupPage.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
-            stage.setScene(new Scene(root, 300, 275));
+            stage.setScene(new Scene(root));
+            stage.sizeToScene();
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();

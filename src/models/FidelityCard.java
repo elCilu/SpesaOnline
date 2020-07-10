@@ -1,12 +1,14 @@
 package models;
 
+import java.util.Date;
+
 public class FidelityCard {
     private int idCard;
-    private String emissionDate;
+    private Date emissionDate;
     private int totalPoints;
     private int idUser;
 
-    public FidelityCard(int idCard, String emissionDate, int totalPoints, int idUser) {
+    public FidelityCard(int idCard, Date emissionDate, int totalPoints, int idUser) {
         this.idCard = idCard;
         this.emissionDate = emissionDate;
         this.totalPoints = totalPoints;
@@ -21,11 +23,11 @@ public class FidelityCard {
         this.idCard = idCard;
     }
 
-    public String getEmissionDate() {
+    public Date getEmissionDate() {
         return emissionDate;
     }
 
-    public void setEmissionDate(String emissionDate) {
+    public void setEmissionDate(Date emissionDate) {
         this.emissionDate = emissionDate;
     }
 
