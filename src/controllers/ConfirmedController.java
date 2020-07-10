@@ -22,7 +22,8 @@ public class ConfirmedController {
         try {
             Stage stage = (Stage) ConfirmedPage.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
-            stage.setScene(new Scene(root, 400, 350));
+            stage.setScene(new Scene(root));
+            stage.sizeToScene();
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();

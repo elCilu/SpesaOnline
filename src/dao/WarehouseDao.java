@@ -8,9 +8,10 @@ import java.sql.SQLException;
 
 public final class WarehouseDao extends BaseDao{
 
-    private static final String GETQUANTITY_BY_ID = "select qty from Warehouse where idProduct = ?";
+    private static final String GETQUANTITY_BY_ID = "select qty from warehouse where idProduct = ?";
     private static final String UPDATE_QTY_IN_STOCK = "update warehouse set qty = ? where idProduct = ?";
-    private static final String INSERT_PRODUCT_QTY = "insert into warehouse values (?, ?, ?)";
+    private static final String INSERT_PRODUCT_QTY = "insert into warehouse values (?, ?, ?, ?)";
+
     private WarehouseDao() {
     }
 
@@ -19,9 +20,10 @@ public final class WarehouseDao extends BaseDao{
         System.out.print("Inserting product into warehouse table... \n");
         try {
             PreparedStatement statement = connection.prepareStatement(INSERT_PRODUCT_QTY);
-            statement.setInt(1, warehouse.getQty());
-            statement.setInt(2, warehouse.getQtyMin());
-            statement.setInt(3, warehouse.getQtyMax());
+            statement.setInt(1, warehouse.getIdProduct());
+            statement.setInt(2, warehouse.getQty());
+            statement.setInt(3, warehouse.getQtyMin());
+            statement.setInt(4, warehouse.getQtyMax());
             result = statement.executeUpdate();
 
             if(result != 0)
@@ -66,4 +68,5 @@ public final class WarehouseDao extends BaseDao{
         }
         return result;
     }
+
 }

@@ -5,19 +5,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<SplitPane fx:id="ManagerPage" dividerPositions="0.2663316582914573" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ManagerController">
+<SplitPane fx:id="ManagerPage" dividerPositions="0.1095679012345679" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ManagerController">
   <items>
     <AnchorPane prefHeight="50.0" prefWidth="1000.0">
-        <Text style="-fx-arc-height: 200%" text="AREA MANAGER" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="178.908203125">
+        <Text layoutX="400.0" layoutY="20.0" text="AREA MANAGER" textAlignment="CENTER" textOrigin="CENTER">
             <font>
                 <Font size="24.0" />
             </font>
         </Text>
     </AnchorPane>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="1000.0">
-        <SplitPane dividerPositions="0.31960461285008235" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="550.0" prefWidth="1000.0">
+        <SplitPane dividerPositions="0.31960461285008235" prefHeight="550.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
             <items>
-                <ScrollPane prefHeight="600.0" prefWidth="500.0">
+                <ScrollPane prefHeight="550.0" prefWidth="500.0">
                     <content>
                         <AnchorPane fx:id="shoppingsPane" minHeight="0.0" minWidth="0.0" prefWidth="600.0">
                             <children>
@@ -55,54 +55,40 @@
                     </content>
                 </ScrollPane>
 
-                <GridPane vgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0">
+                <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="500.0" vgap="10.0">
 
-                    <Text text="Aggiungi Prodotto"  GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <Text text="Aggiungi Prodotto" GridPane.columnIndex="1" GridPane.rowIndex="0">
                         <font>
                             <Font size="24.0" />
                         </font>
                     </Text>
-                    <Label text="Nome:"
-                           GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <Label text="Nome:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 
-                    <TextField fx:id="nome"
-                               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    <TextField fx:id="nome" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                    <Label text="Marca:"
-                           GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                    <Label text="Marca:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
 
-                    <TextField fx:id="marca"
-                               GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                    <TextField fx:id="marca" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                    <Label text="Quantità al pacco:"
-                           GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                    <Label text="Quantità unitaria:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
 
-                    <TextField fx:id="qtyP"
-                               GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                    <TextField fx:id="qtyP" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                    <Label text="Reparto:"
-                           GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                    <Label text="Reparto:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
 
-                    <TextField fx:id="reparto"
-                               GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                    <TextField fx:id="reparto" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-                        <Label text="Quantità unitaria:"
-                           GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                        <Label text="Quantità in magazzino:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
 
-                    <TextField fx:id="qtyS"
-                               GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                    <TextField fx:id="qtyS" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
-                    <Label text="Prezzo:"
-                           GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                    <Label text="Prezzo:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
 
-                    <TextField fx:id="prezzo"
-                               GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+                    <TextField fx:id="prezzo" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
-                    <Label text="Tag:"
-                           GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+                    <Label text="Tag:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
 
-                    <VBox fx:id="tag" prefWidth="200" prefHeight="30.0"
-                          GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+                    <VBox fx:id="tag" prefHeight="30.0" prefWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
                     <HBox alignment="BOTTOM_CENTER" prefHeight="40" prefWidth="180" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="8">
                         <Button onAction="#addNewProduct" prefHeight="40" prefWidth="180" text="Conferma" />
@@ -111,12 +97,24 @@
 
                     <Text fx:id="actionTarget" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                     <columnConstraints>
-                        <ColumnConstraints prefWidth="200.0"/>
-                        <ColumnConstraints prefWidth="200.0"/>
+                        <ColumnConstraints prefWidth="200.0" />
+                        <ColumnConstraints prefWidth="200.0" />
                     </columnConstraints>
                     <padding>
                         <Insets bottom="20.0" left="40.0" right="20.0" top="20.0" />
                     </padding>
+                  <rowConstraints>
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                  </rowConstraints>
 
                 </GridPane>
             </items>

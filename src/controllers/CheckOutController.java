@@ -5,7 +5,6 @@ import enums.PaymentMethod;
 import enums.Status;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
@@ -74,8 +73,17 @@ public class CheckOutController {
     protected void goToCart() {
         try {
             Stage stage = (Stage) CheckOutPage.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("../views/cart.fxml"));
-            stage.setScene(new Scene(root));
+            FXMLLoader Loader = new FXMLLoader();
+            Loader.setLocation(getClass().getResource("../views/cart.fxml"));
+
+            //load the parent
+            Loader.load();
+            CartController cart = Loader.getController();
+
+            //opening cart age
+            cart.setUpCart();
+
+            stage.setScene(new Scene(Loader.getRoot()));
             stage.sizeToScene();
             stage.show();
         } catch (Exception e) {
@@ -94,7 +102,7 @@ public class CheckOutController {
             Loader.load();
             ConfirmedController confirmed = Loader.getController();
 
-            //sending cart to the checkout page
+            //opening confirmed page
             confirmed.addProducts(shopping);
 
 
@@ -112,7 +120,7 @@ public class CheckOutController {
             this.mod = 4;
         if (mod == 2)
             this.mod = 2;
-        this.idClient = GlobalVars.USER_ID;//TODO: passaggio dal carrello
+        this.idClient = GlobalVars.USER_ID;
 
         totSpesa.setText(String.format("%.2f", subTotal()));
         puntiSpesa.setText(String.format("%02d", (int) subTotal()));

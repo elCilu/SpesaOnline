@@ -119,10 +119,13 @@ public class ManagerController {
 
             // inserisco qty nel
             warehouse = new WarehouseModel(0, qtyStock, 20, 100);
+            warehouse.setIdProduct(ProductDao.selectLast());
             int resultQuery1 = WarehouseDao.insertWarehouse(warehouse);
 
             if (resultQuery1 == 0) {
                 throw new Exception("Errore nell'inserimento del prodotto nel db");
+            }else{
+                actionTarget.setText("Prodotto inserito correttamente!");
             }
 
         }catch (Exception e){
