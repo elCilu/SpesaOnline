@@ -224,9 +224,7 @@ public class ShoppingController implements Initializable {
     @FXML
     protected void select(){
         products = ProductDao.select(
-                searchField.getText() == null ?
-                        "" : searchField.getText(),
-                sortBy(),
+                searchField.getText() == null ? "" : searchField.getText(), sortBy(),
                 depField.getSelectionModel().getSelectedItem() == null ?
                         "Tutto" : depField.getSelectionModel().getSelectedItem(),
                 byTag()

@@ -1,6 +1,7 @@
 package controllers;
 
 import dao.ProductShoppingDao;
+import dao.WarehouseDao;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,7 +22,8 @@ public class ConfirmedController {
         try {
             Stage stage = (Stage) ConfirmedPage.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
-            stage.setScene(new Scene(root, 400, 350));
+            stage.setScene(new Scene(root));
+            stage.sizeToScene();
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -32,7 +34,19 @@ public class ConfirmedController {
         //aggiungo i prodotti del carrello alla tabella dei prodotti comprati
         for (ProductModel product : GlobalVars.cart.keySet()) {
             addProductShopping(product.getId(), shopping.getId(), GlobalVars.cart.get(product));
+            //update warehouse
+            updateWarehouse(product.getId(), (WarehouseDao.getQuantity(product.getId()) - GlobalVars.cart.get(product)));
         }
+    }
+    public void updateWarehouse(int id, int qty){
+        try {
+            int resultQuery = WarehouseDao.updateQuantity(id, qty);
+            if (resultQuery == 0)
+                throw new Exception("Errore nell'iaggiornamento del magazzino nel db");
+
+            } catch(Exception e){
+                e.printStackTrace();
+            }
     }
 
     public void addProductShopping(int idProduct, int idShopping, int qty) {
@@ -47,7 +61,5 @@ public class ConfirmedController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
 }

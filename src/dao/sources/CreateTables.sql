@@ -185,7 +185,7 @@ IF (NOT EXISTS(SELECT 1
                WHERE TABLE_SCHEMA = 'dbo'
                  AND TABLE_NAME = 'productsOrder'))
     BEGIN
-        CREATE TABLE productsShopping
+        CREATE TABLE productsOrder
         (
             id        INT IDENTITY (1, 1) PRIMARY KEY,
             idProduct INT FOREIGN KEY REFERENCES products (id),

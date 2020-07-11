@@ -44,9 +44,9 @@ public final class ProductShoppingDao extends BaseDao {
             while (resultSet.next()) {
                 result.put(resultSet.getInt(1), resultSet.getInt(2));
             }
-            System.out.println("All productId are selected!");
+            System.out.println("All productId and qty are selected!");
         } catch (SQLException e) {
-            System.err.println("Error while selecting productId.");
+            System.err.println("Error while selecting productId and qty.");
             e.printStackTrace();
         }
         return result;

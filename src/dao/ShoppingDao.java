@@ -20,6 +20,7 @@ public final class ShoppingDao extends BaseDao {
     private static final String SELECT_LAST = "select top 1 * from shopping order by id desc";
     private static final String GET_TODAY_DELIVERY = "select * from shopping where deliveryDate = ?";
     private static final String GET_ALL_SHOPPINGS = "select * from shopping";
+    private static final String UPDATE_SHOPPING_STATUS = "update shopping set status = ? where id = ?";
 
     private ShoppingDao() {}
 
@@ -110,5 +111,19 @@ public final class ShoppingDao extends BaseDao {
             e.printStackTrace();
         }
         return shoppings;
+    }
+
+    public static int updateStatus(int id, int status) {
+        int result = 0;
+        try{
+            PreparedStatement statement = connection.prepareStatement(UPDATE_SHOPPING_STATUS);
+            statement.setInt(1, status);
+            statement.setInt(2, id);
+            result = statement.executeUpdate();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
     }
 }

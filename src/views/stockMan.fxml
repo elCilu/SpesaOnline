@@ -5,45 +5,49 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="501.0" prefWidth="1282.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.StockManController">
-<children>
-    <ScrollPane layoutY="164.0" prefWidth="1281.0">
-        <content>
-            <SplitPane dividerPositions="0.6347211311861743" prefHeight="316.0" prefWidth="1279.0">
-                <items>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="100.0">
-                     <children>
-                        <VBox fx:id="viewVBox" layoutX="14.0" layoutY="7.0" prefHeight="0.0" prefWidth="269.0" />
-                        <VBox fx:id="viewButtonsVBox" layoutX="447.0" layoutY="14.0" prefWidth="241.0" />
-                     </children></AnchorPane>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="100.0">
-                     <children>
-                        <GridPane fx:id="grid" layoutX="12.0" layoutY="1.0" prefWidth="455.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="361.0" minWidth="10.0" prefWidth="348.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.0" minWidth="10.0" prefWidth="107.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
+<ScrollPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.StockManController">
+   <content>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="1282.0">
+      <children>
+          <ScrollPane layoutY="164.0" prefWidth="1281.0">
+              <content>
+                  <SplitPane dividerPositions="0.6347211311861743" prefWidth="1279.0">
+                      <items>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="100.0">
                            <children>
-                              <VBox fx:id="visualizeShoppingVBox" prefWidth="302.0" />
-                              <VBox fx:id="shoppingVBox" prefHeight="200.0" prefWidth="318.0" GridPane.columnIndex="1" />
+                              <VBox fx:id="viewVBox" layoutX="14.0" layoutY="7.0" prefWidth="269.0" />
+                              <VBox fx:id="viewButtonsVBox" layoutX="397.0" layoutY="3.0" prefWidth="209.0" spacing="40.0" />
+                              <VBox fx:id="qtyVBox" layoutX="693.0" layoutY="3.0" prefWidth="100.0" />
                            </children>
-                        </GridPane>
-                     </children></AnchorPane>
-                </items>
-            </SplitPane>
-        </content>
-    </ScrollPane>
-    <Button fx:id="newOrderButton" layoutX="1039.0" layoutY="90.0" mnemonicParsing="false" onAction="#visualizeOrder" prefHeight="46.0" prefWidth="223.0" text="Nuovo ordine" />
-    <Text layoutX="150.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Magazzino nome" wrappingWidth="291.83984375">
-        <font>
-            <Font name="System Bold" size="24.0" />
-        </font>
-    </Text>
-    <ImageView fx:id="logo" fitHeight="62.0" fitWidth="118.0" layoutX="14.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" />
-      <Button layoutX="792.0" layoutY="90.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="223.0" text="Visualizza ordini" />
-</children>
-</AnchorPane>
+                        </AnchorPane>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="100.0">
+                           <children>
+                              <VBox layoutX="2.0" layoutY="1.0" prefHeight="312.0" prefWidth="465.0">
+                                 <children>
+                                    <HBox>
+                                       <children>
+                                          <VBox fx:id="visualizeShoppingVBox" prefWidth="302.0" />
+                                          <VBox fx:id="shoppingVBox" alignment="TOP_CENTER" prefWidth="318.0" />
+                                       </children>
+                                    </HBox>
+                                    <Button fx:id="commonButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="90.0" text="Button" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                      </items>
+                  </SplitPane>
+              </content>
+          </ScrollPane>
+          <Button fx:id="newOrderButton" layoutX="1039.0" layoutY="90.0" mnemonicParsing="false" onAction="#visualizeOrder" prefHeight="46.0" prefWidth="223.0" text="Nuovo ordine" />
+          <Text layoutX="150.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Magazzino" wrappingWidth="291.83984375">
+              <font>
+                  <Font name="System Bold" size="24.0" />
+              </font>
+          </Text>
+          <ImageView fx:id="logo" fitHeight="62.0" fitWidth="118.0" layoutX="14.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="visualizeOrdersButton" layoutX="792.0" layoutY="90.0" mnemonicParsing="false" onAction="#visualizeSendedOrders" prefHeight="46.0" prefWidth="223.0" text="Visualizza ordini" />
+      </children>
+      </AnchorPane>
+   </content>
+</ScrollPane>

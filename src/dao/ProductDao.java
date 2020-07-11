@@ -16,8 +16,26 @@ public final class ProductDao extends BaseDao {
     private static final String IS_EMPTY = "select id from products where id = 1";
     private static final String GET_QTY_IN_STOCK = "select qtyStock from products where id = ?";
     private static final String SELECT = "select * from products";
+    private static final String SELECT_LAST = "select top 1 * from products order by id desc";
 
     private ProductDao() {}
+
+    public static int selectLast(){
+        int idLast = 0;
+        try {
+            PreparedStatement statement = connection.prepareStatement(SELECT_LAST);
+            System.out.print("Selecting product with given id... ");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                idLast = resultSet.getInt(1);
+            }
+            System.out.println("Product selected!");
+        } catch (SQLException e) {
+            System.err.println("Error while selecting product.");
+            e.printStackTrace();
+        }
+        return idLast;
+    }
 
     public static int insertProduct(ProductModel productModel) {
         int result = 0;
