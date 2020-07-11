@@ -47,10 +47,39 @@ public class ManagerController {
     ProductModel product;
     WarehouseModel warehouse;
     ChoiceBox<Tag> tags = new ChoiceBox<>();
+    int dep = 1;//ManagerDao.getDep(id);  passaggio id dal login
 
 
     //visualizza lo stato delle spese
     protected void showStatus(){
+        //setto reparto in base al departo responsabile
+        if(dep == 1)
+            reparto.setText("Frutta e verdura");
+        else if(dep == 2)
+            reparto.setText("Carne");
+        else if(dep == 3)
+            reparto.setText("Pesce");
+        else if(dep == 4)
+            reparto.setText("Scatolame");
+        else if(dep == 5)
+            reparto.setText("Uova e latticini");
+        else if(dep == 6)
+            reparto.setText("Salumi e formaggi");
+        else if(dep == 7)
+            reparto.setText("Pane e pasticceria");
+        else if(dep == 8)
+            reparto.setText("Confezionati");
+        else if(dep == 9)
+            reparto.setText("Surgelati e gelati");
+        else if(dep == 10)
+            reparto.setText("Merenda e dolci");
+        else if(dep == 11)
+            reparto.setText("Acqua bevande e alcolici");
+        else if(dep == 12)
+            reparto.setText("Igiene");
+        else if(dep == 13)
+            reparto.setText("Casa");
+
         //setto a 1 le textfield che devono ricevere numeri
         qtyP.setText("1");
         qtyS.setText("1");
@@ -108,7 +137,6 @@ public class ManagerController {
                 actionTarget.setText("Tutti i campi sono obbligatori");
                 throw new Exception("Campi del sign up vuoti");
             }
-
             // inserisco prodotto nel db
             product = new ProductModel(0, name, brand, qtyPack, dep, qtyStock, price, shoppingTag);
             int resultQuery = ProductDao.insertProduct(product);
@@ -127,6 +155,11 @@ public class ManagerController {
             }else{
                 actionTarget.setText("Prodotto inserito correttamente!");
             }
+            nome.clear();
+            marca.clear();
+            qtyP.setText("1");
+            qtyS.setText("1");
+            prezzo.setText("1");
 
         }catch (Exception e){
             e.printStackTrace();
