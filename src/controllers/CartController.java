@@ -17,8 +17,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.ProductModel;
-import sample.GlobalVars;
-import utils.OSystem;
+import sample.Global;
+import utils.OSUtil;
 import utils.PngToJpg;
 
 import java.io.File;
@@ -62,8 +62,8 @@ public class CartController implements Initializable {
 
     @FXML
     public void cleanCart(){
-        if(!GlobalVars.cart.keySet().isEmpty()) {
-            GlobalVars.cart.clear();
+        if(!Global.cart.keySet().isEmpty()) {
+            Global.cart.clear();
 
             //clear delle vBox
             imgVBox.getChildren().clear();
@@ -98,7 +98,7 @@ public class CartController implements Initializable {
 
     @FXML
     public void checkout(){
-        if(GlobalVars.cart.keySet().isEmpty()){
+        if(Global.cart.keySet().isEmpty()){
             System.out.println("Il tuo carrello è vuoto!");
         }
         else {
@@ -139,11 +139,11 @@ public class CartController implements Initializable {
         System.out.println("Conversion completed");
 
         //build the path
-        if(OSystem.isWindows())
+        if(OSUtil.isWindows())
             path = "C:\\" + prodImg.getAbsolutePath() + "\\images\\";
-        if(OSystem.isUnix())
+        if(OSUtil.isUnix())
             path = "file://" + prodImg.getAbsolutePath() + "/images/";
-        if(OSystem.isMac())
+        if(OSUtil.isMac())
             path = "";
     }
 
@@ -163,17 +163,17 @@ public class CartController implements Initializable {
     }
 
     private void productTotalPrice(Text prodPrice, ProductModel p){
-        prodPrice.setText(String.format("€%.2f", p.getprice() * GlobalVars.cart.get(p)));
+        prodPrice.setText(String.format("€%.2f", p.getprice() * Global.cart.get(p)));
     }
 
     private void totals(){
         // promotion.setText(String.valueOf(cart.getPromotion));
         totalShopping.setText(String.format("€ %.2f", subTotal() + getShippingCost(mod))); // mancano i codici promozionali
-        fidelityPoints.setText(String.valueOf((int) subTotal() + " punti"));
+        fidelityPoints.setText((int) subTotal() + " punti");
     }
 
     public void setUpCart(){
-        for(ProductModel p : GlobalVars.cart.keySet()) {
+        for(ProductModel p : Global.cart.keySet()) {
             //product image
             ImageView img = new ImageView();
             img.setImage(new Image(path + "prod_" + String.format("%02d", p.getId()) +  ".jpg"));
@@ -196,13 +196,13 @@ public class CartController implements Initializable {
             for (int i = 1; i <= ProductDao.getQtyInStock(p.getId()); i++)
                 qtyBox.getItems().add(i);
 
-            qtyBox.setValue(GlobalVars.cart.get(p));
+            qtyBox.setValue(Global.cart.get(p));
             qtyBox.setPrefSize(50,35);
             qtyVBox.getChildren().add(qtyBox);
 
             qtyBox.getSelectionModel().selectedItemProperty().addListener((ChangeListener<Number>) (ov, oldValue, newValue) -> {
                 System.out.println("Trying to change the quantity");
-                GlobalVars.cart.replace(p, GlobalVars.cart.get(p), newValue.intValue());
+                Global.cart.replace(p, Global.cart.get(p), newValue.intValue());
                 productTotalPrice(prodPrice, p);
                 setShipping();
                 totals();
@@ -217,7 +217,8 @@ public class CartController implements Initializable {
             trashVBox.setAlignment(Pos.CENTER);
             trashVBox.getChildren().add(trash);
 
-            trash.setOnAction(actionEvent -> {GlobalVars.cart.remove(p, GlobalVars.cart.get(p));//non funziona bene forse
+            trash.setOnAction(actionEvent -> {
+                Global.cart.remove(p, Global.cart.get(p));//non funziona bene forse
                 imgVBox.getChildren().remove(img);
                 nameCodeVBox.getChildren().remove(prodNameCode);
                 qtyVBox.getChildren().remove(qtyBox);
@@ -238,7 +239,7 @@ public class CartController implements Initializable {
         promotion.setBackground(Background.EMPTY);
         fidelityPoints.setBackground(Background.EMPTY);
 
-        if(!GlobalVars.cart.keySet().isEmpty())
+        if(!Global.cart.keySet().isEmpty())
             messages.setText("");
 
     }
@@ -246,15 +247,15 @@ public class CartController implements Initializable {
     private float subTotal(){
         float tot = 0;
 
-        for(ProductModel p: GlobalVars.cart.keySet())
-            tot += p.getprice() * GlobalVars.cart.get(p);
+        for(ProductModel p: Global.cart.keySet())
+            tot += p.getprice() * Global.cart.get(p);
 
         return tot;
     }
 
-    private Float getShippingCost(int mod) {
-        Float shippingCost;
-        if((subTotal() >= 50 && (mod == 0 || mod == 1)) || GlobalVars.cart.isEmpty())
+    private float getShippingCost(int mod) {
+        float shippingCost;
+        if((subTotal() >= 50 && (mod == 0 || mod == 1)) || Global.cart.isEmpty())
             shippingCost = 0.0F;
         else if(mod == 1)
             shippingCost = 5.99F;

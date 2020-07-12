@@ -123,7 +123,7 @@ public class SignUpController {
             }
 
 
-            if (CredentialDao.selectByEmail(email) != null) {
+            if (CredentialDao.selectByCredential(email) != null) {
                 actionTarget.setText("Email già in uso");
                 throw new Exception("Email già presente nella tabella");
             }
@@ -170,7 +170,7 @@ public class SignUpController {
     public void backToLogin() {
         try {
             Stage stage = (Stage) signupPage.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../views/loginCustomer.fxml"));
             stage.setScene(new Scene(root));
             stage.sizeToScene();
             stage.show();

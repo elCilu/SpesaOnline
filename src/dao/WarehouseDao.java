@@ -17,7 +17,7 @@ public final class WarehouseDao extends BaseDao{
 
     public static int insertWarehouse(WarehouseModel warehouse) {
         int result = 0;
-        System.out.print("Inserting product into warehouse table... \n");
+        System.out.print("Inserting product into warehouse table... ");
         try {
             PreparedStatement statement = connection.prepareStatement(INSERT_PRODUCT_QTY);
             statement.setInt(1, warehouse.getIdProduct());
@@ -27,7 +27,7 @@ public final class WarehouseDao extends BaseDao{
             result = statement.executeUpdate();
 
             if(result != 0)
-                System.out.print("Product inserted \n");
+                System.out.println("Product inserted.");
         } catch (SQLException e) {
             e.printStackTrace();
         }

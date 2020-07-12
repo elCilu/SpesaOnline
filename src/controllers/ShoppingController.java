@@ -1,8 +1,6 @@
 package controllers;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXCheckBox;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import dao.ProductDao;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,8 +8,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,10 +15,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.ProductModel;
-import sample.GlobalVars;
-import utils.OSystem;
+import sample.Global;
 
-import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -34,9 +28,9 @@ public class ShoppingController implements Initializable {
     @FXML
     public JFXTextField searchField;           //barra di ricerca
     @FXML
-    public ListView<String> depField;       //menu a tendina a sx
+    public JFXListView<String> depField;       //menu a tendina a sx
     @FXML
-    public ChoiceBox<String> sortBy;         //ordina per prezzo/alfabetico
+    public JFXComboBox<String> sortBy;         //ordina per prezzo/alfabetico
     @FXML
     public JFXCheckBox bioFilter;              //filtra prodotti bio
     @FXML
@@ -57,17 +51,8 @@ public class ShoppingController implements Initializable {
     private VBox priceVBox;
 
     private static List<ProductModel> products = ProductDao.select("", 0, "Tutto", new int[]{0, 0, 0});
-    private static final File prodImg = new File("");
-    private String path = "";
 
     //TODO: sistema tag
-
-    protected void setPath(){
-        if(OSystem.isWindows())
-            path = "C:\\" + prodImg.getAbsolutePath() + "\\images\\";
-        if(OSystem.isUnix())
-            path = "file://" + prodImg.getAbsolutePath() + "/images/";
-    }
 
     protected int[] byTag() {
         int[] bits = {0, 0, 0};
@@ -87,15 +72,9 @@ public class ShoppingController implements Initializable {
         int indexSort = 0;
         String sorted = sortBy.getSelectionModel().getSelectedItem();
         switch (sorted) {
-            case "Prezzo cresc.":
-                indexSort = 1;
-                break;
-            case "Prezzo decresc.":
-                indexSort = 2;
-                break;
-            case "Alfabetico":
-                indexSort = 3;
-                break;
+            case "Prezzo cresc." -> indexSort = 1;
+            case "Prezzo decresc." -> indexSort = 2;
+            case "Alfabetico" -> indexSort = 3;
         }
         return indexSort;
     }
@@ -154,23 +133,11 @@ public class ShoppingController implements Initializable {
             select();
         });
 
-        //carico logo
-        setPath();
-        logoImage.setImage(new Image(path +  "shopping_logo.jpg"));
-
-        //setta button/collegamento pagina anagrafica
-        userImage.setImage(new Image(path +  "user_image.png"));
-        userImage.setFitHeight(50);
-        userImage.setFitWidth(50);
-        userImage.setOnMouseClicked(mouseEvent -> userButton());
-
-        //setta button/collegamento pagina carrello
-        cartImage.setImage(new Image(path + "cart_image.png"));
-        cartImage.setFitHeight(50);
-        cartImage.setFitWidth(50);
-        cartImage.setOnMouseClicked(mouseEvent -> cartButton());
-
+        logoImage.setImage(new Image(Global.IMG_PATH +  "shopping_logo.jpg"));
+        userImage.setImage(new Image(Global.IMG_PATH +  "user_image.png"));
+        cartImage.setImage(new Image(Global.IMG_PATH + "cart_image.png"));
         //gestione dinamica della pagina
+
         loadData();
     }
 
@@ -179,7 +146,7 @@ public class ShoppingController implements Initializable {
         for (ProductModel p : products) {
             //product image
             ImageView img = new ImageView();
-            img.setImage(new Image(path + "prod_" + String.format("%02d", p.getId()) + ".jpg"));
+            img.setImage(new Image(Global.IMG_PATH + "prod_" + String.format("%02d", p.getId()) + ".jpg"));
             img.setFitHeight(70);
             img.setFitWidth(120);
             imgVBox.getChildren().add(img);
@@ -206,7 +173,7 @@ public class ShoppingController implements Initializable {
             JFXButton addButton = new JFXButton();
             addButton.setStyle("-fx-background-color: F9AA33");
             ImageView addImage = new ImageView();
-            addImage.setImage(new Image(path + "add_button.png"));
+            addImage.setImage(new Image(Global.IMG_PATH + "add_button.png"));
             addImage.setFitHeight(25);
             addImage.setFitWidth(25);
             addButton.setGraphic(addImage);
@@ -219,8 +186,8 @@ public class ShoppingController implements Initializable {
     }
 
     private void addToCart(ProductModel p, int qty) {
-        if (GlobalVars.cart.putIfAbsent(p, qty) != null) {
-            GlobalVars.cart.replace(p, GlobalVars.cart.get(p) + qty);
+        if (Global.cart.putIfAbsent(p, qty) != null) {
+            Global.cart.replace(p, Global.cart.get(p) + qty);
         }
     }
 
