@@ -1,5 +1,6 @@
 package controllers;
 
+import dao.ProductDao;
 import dao.ProductShoppingDao;
 import dao.WarehouseDao;
 import javafx.fxml.FXML;
@@ -40,9 +41,12 @@ public class ConfirmedController {
     }
     public void updateWarehouse(int id, int qty){
         try {
+            int resultQuery1 = ProductDao.updateQuantity(id, qty);
+            if (resultQuery1 == 0)
+                throw new Exception("Errore nell'aggiornamento del qtyStock di products nel db");
             int resultQuery = WarehouseDao.updateQuantity(id, qty);
             if (resultQuery == 0)
-                throw new Exception("Errore nell'iaggiornamento del magazzino nel db");
+                throw new Exception("Errore nell'aggiornamento del magazzino nel db");
 
             } catch(Exception e){
                 e.printStackTrace();
