@@ -4,25 +4,28 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXTextField;
 import dao.ProductDao;
-import enums.Tag;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.ProductModel;
-import javafx.scene.image.ImageView;
 import sample.GlobalVars;
 import utils.OSystem;
+
 import java.io.File;
 import java.net.URL;
-import java.util.*;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class ShoppingController implements Initializable {
 
@@ -224,7 +227,9 @@ public class ShoppingController implements Initializable {
     @FXML
     protected void select(){
         products = ProductDao.select(
-                searchField.getText() == null ? "" : searchField.getText(), sortBy(),
+                searchField.getText() == null ?
+                        "" : searchField.getText(),
+                sortBy(),
                 depField.getSelectionModel().getSelectedItem() == null ?
                         "Tutto" : depField.getSelectionModel().getSelectedItem(),
                 byTag()

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -7,7 +8,7 @@
 
 <SplitPane fx:id="ManagerPage" dividerPositions="0.1095679012345679" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ManagerController">
   <items>
-    <AnchorPane prefHeight="50.0" prefWidth="1000.0">
+    <AnchorPane prefHeight="50.0" prefWidth="1000.0" style="-fx-background-color: #51C0D3;">
         <Text layoutX="400.0" layoutY="20.0" text="AREA MANAGER" textAlignment="CENTER" textOrigin="CENTER">
             <font>
                 <Font size="24.0" />
@@ -15,13 +16,13 @@
         </Text>
     </AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="550.0" prefWidth="1000.0">
-        <SplitPane dividerPositions="0.31960461285008235" prefHeight="550.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+        <SplitPane dividerPositions="0.31960461285008235" prefHeight="550.0" prefWidth="1000.0" style="-fx-background-color: #90DAE5;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
             <items>
                 <ScrollPane prefHeight="550.0" prefWidth="500.0">
                     <content>
                         <AnchorPane fx:id="shoppingsPane" minHeight="0.0" minWidth="0.0" prefWidth="600.0">
                             <children>
-                                <Label layoutX="200.0" prefHeight="30.0" prefWidth="100.0" text="LISTA SPESE">
+                                <Label layoutX="200.0" prefHeight="30.0" prefWidth="100.0" text="LISTA SPESE" textFill="#F9AA33">
                                     <font>
                                         <Font size="17.0" />
                                     </font>
@@ -57,41 +58,41 @@
 
                 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="500.0" vgap="10.0">
 
-                    <Text text="Aggiungi Prodotto" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <Label text="Aggiungi Prodotto" textFill="#F9AA33" GridPane.columnIndex="1" GridPane.rowIndex="0">
                         <font>
                             <Font size="24.0" />
                         </font>
-                    </Text>
+                    </Label>
                     <Label text="Nome:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 
-                    <TextField fx:id="nome" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    <JFXTextField fx:id="nome" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
                     <Label text="Marca:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
 
-                    <TextField fx:id="marca" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    <JFXTextField fx:id="marca" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
                     <Label text="Quantità unitaria:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
 
-                    <TextField fx:id="qtyP" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                    <JFXTextField fx:id="qtyP" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
                     <Label text="Reparto:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
 
-                    <TextField fx:id="reparto" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                    <JFXTextField fx:id="reparto" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
                         <Label text="Quantità in magazzino:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
 
-                    <TextField fx:id="qtyS" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                    <JFXTextField fx:id="qtyS" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
                     <Label text="Prezzo:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
 
-                    <TextField fx:id="prezzo" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                    <JFXTextField fx:id="prezzo" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
                     <Label text="Tag:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
 
                     <VBox fx:id="tag" prefHeight="30.0" prefWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
                     <HBox alignment="BOTTOM_CENTER" prefHeight="40" prefWidth="180" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="8">
-                        <Button onAction="#addNewProduct" prefHeight="40" prefWidth="180" text="Conferma" />
+                        <JFXButton buttonType="RAISED" onAction="#addNewProduct" prefHeight="40" prefWidth="180" style="-fx-background-color: #F9AA33;" text="Conferma" />
                     </HBox>
 
 
