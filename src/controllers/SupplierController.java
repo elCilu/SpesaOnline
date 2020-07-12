@@ -66,7 +66,7 @@ public class SupplierController implements Initializable {
         if(OSystem.isMac())
             path = "";
 
-        logo.setImage(new Image(path + "warehouse.png"));
+       // logo.setImage(new Image(path + "warehouse.png"));
         visualizeSendedOrders();
     }
 
@@ -81,7 +81,7 @@ public class SupplierController implements Initializable {
     @FXML
     public void visualizeSendedOrders(){
         refresh();
-        newOrderButton.setDisable(false);
+        //newOrderButton.setDisable(false);
         viewVBox.getChildren().clear();
         viewButtonsVBox.getChildren().clear();
         List<OrderModel> orders = OrderDao.getAllOrders();
