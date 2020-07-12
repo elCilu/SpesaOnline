@@ -66,7 +66,7 @@ public class StockManController implements Initializable {
         if(OSystem.isMac())
             path = "";
 
-        logo.setImage(new Image(path + "warehouse.png"));
+        //logo.setImage(new Image(path + "warehouse.png"));
         loadPage();
     }
 
@@ -209,7 +209,7 @@ public class StockManController implements Initializable {
 
     //invia ordine a fornitore
     public void sendOrder(){
-        OrderModel order = new OrderModel(0, getSupplier().getpIva(), 1/*GlobalVars.STOCK_MAN_ID*/);
+        OrderModel order = new OrderModel(0, 1/*getSupplier().getpIva()*/, 1/*GlobalVars.STOCK_MAN_ID*/);
         //manda ordine per reparto....
         try {
             int resultQuery = OrderDao.insertOrder(order);

@@ -31,7 +31,7 @@
                                                         <VBox fx:id="shoppingVBox" alignment="TOP_CENTER" prefWidth="318.0" />
                                                     </children>
                                                 </HBox>
-                                                <JFXButton fx:id="commonButton" buttonType="RAISED" mnemonicParsing="false" prefHeight="40.0" prefWidth="90.0" style="-fx-background-color: #FFD700;" text="Button" />
+                                                <JFXButton fx:id="commonButton" buttonType="RAISED" mnemonicParsing="false" onAction="#confirmedOrder" prefHeight="40.0" prefWidth="113.0" style="-fx-background-color: #FFD700;" text="Conferma Ordine" />
                                             </children>
                                         </VBox>
                                     </children>
@@ -39,6 +39,7 @@
                             </items>
                         </SplitPane>
                     </content>
+
                 </ScrollPane>
                 <Text layoutX="150.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fornitore " wrappingWidth="291.83984375">
                     <font>
@@ -46,9 +47,13 @@
                     </font>
                 </Text>
                 <ImageView fx:id="logo" fitHeight="62.0" fitWidth="118.0" layoutX="14.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" />
-                <HBox alignment="BOTTOM_CENTER" prefHeight="40" prefWidth="180" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="8">
-                    <JFXButton buttonType="RAISED"  prefHeight="40" prefWidth="180" style="-fx-background-color: #F9AA33;" text="Conferma" />
-                </HBox>
+                <HBox alignment="BOTTOM_CENTER" prefHeight="40" prefWidth="180" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <ButtonBar layoutX="976.0" layoutY="83.0" prefHeight="40.0" prefWidth="251.0">
+              <buttons>
+                <JFXButton mnemonicParsing="false"  prefHeight="26.0" prefWidth="245.0" style="-fx-background-color: #FFD700;" text="VISUALIZZA ORDINI CONFERMATI" />
+                  <!--onAction="#VisualizeConfirmedOrders"-->
+              </buttons>
+            </ButtonBar>
             </children>
         </AnchorPane>
     </content>

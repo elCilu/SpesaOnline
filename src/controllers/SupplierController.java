@@ -3,6 +3,7 @@ package controllers;
 import com.jfoenix.controls.JFXButton;
 import dao.*;
 import enums.Status;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -59,14 +60,14 @@ public class SupplierController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //build the path
-        if(OSystem.isWindows())
+        if (OSystem.isWindows())
             path = "C:\\" + prodImg.getAbsolutePath() + "\\images\\";
-        if(OSystem.isUnix())
+        if (OSystem.isUnix())
             path = "file://" + prodImg.getAbsolutePath() + "/images/";
-        if(OSystem.isMac())
+        if (OSystem.isMac())
             path = "";
 
-       // logo.setImage(new Image(path + "warehouse.png"));
+        // logo.setImage(new Image(path + "warehouse.png"));
         visualizeOrders();
     }
 
@@ -79,19 +80,18 @@ public class SupplierController implements Initializable {
     }*/
 
     @FXML
-    public void visualizeOrders(){
+    public void visualizeOrders() {
         //refresh();
         //newOrderButton.setDisable(false);
         viewVBox.getChildren().clear();
         viewButtonsVBox.getChildren().clear();
         List<OrderModel> orders = OrderDao.getAllOrders();
-        if(orders.isEmpty()){
+        if (orders.isEmpty()) {
             Text noOrders = new Text();
             noOrders.setText("NON CI SONO ORDINI!");
 
             viewVBox.getChildren().add(noOrders);
-        }
-        else {
+        } else {
             for (OrderModel o : orders) {
                 //short description of a shopping
                 Text orderDesc = new Text();
@@ -116,6 +116,8 @@ public class SupplierController implements Initializable {
 
     private void viewOrder(OrderModel order) {
         //refresh();
+        commonButton.setVisible(true);
+        viewButtonsVBox.setVisible(false);
         Map<Integer, Integer> shoppings = ProductOrderDao.getProductIdAndQtyByOrderId(order.getId());
         for (Integer productId : shoppings.keySet()) {
             ProductModel p = ProductDao.getProductById(productId);
@@ -132,4 +134,58 @@ public class SupplierController implements Initializable {
         }
     }
 
+    @FXML
+    public void confirmedOrder() {
+        OrderModel order = new OrderModel(0, 1/*getSupplier().getpIva()*/, 1/*GlobalVars.STOCK_MAN_ID*/);
+        Map<Integer, Integer> shoppings = ProductOrderDao.getProductIdAndQtyByOrderId(order.getId());
+        for (Integer productId : shoppings.keySet()) {
+            ProductModel p = ProductDao.getProductById(productId);
+            try {
+
+                int resultQuery = ProductDao.updateQty(p.getId(), 100);
+
+                if (resultQuery == 0) {
+                    throw new Exception("Errore nell'inserimento della quantità");
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        visualizeShoppingVBox.getChildren().clear();
+        shoppingVBox.getChildren().clear();
+        qtyVBox.getChildren().clear();
+        commonButton.setVisible(false);
+        message.setText("ORDINE CONFERMATO!");
+        message.autosize();
+        visualizeShoppingVBox.getChildren().add(message);
+    }
+
+    /*
+    public void VisualizeConfirmedOrders() {
+        visualizeShoppingVBox.getChildren().clear();
+        shoppingVBox.getChildren().clear();
+        qtyVBox.getChildren().clear();
+        commonButton.setVisible(false);
+        viewButtonsVBox.getChildren().clear();
+        List<OrderModel> orders = OrderDao.getAllOrders();
+        if(orders.isEmpty()){
+            Text noOrders = new Text();
+            noOrders.setText("NON CI SONO ORDINI!");
+
+            viewVBox.getChildren().add(noOrders);
+        }
+        else {
+            for (OrderModel o : orders) {
+                //short description of a shopping
+                Text orderDesc = new Text();
+                orderDesc.setText("Ordine n: " + o.getId() + "\nId Fornitore: " + o.getpIvaSupplier());
+
+                viewVBox.getChildren().add(orderDesc);
+
+
+            }
+        }
+    }*/
 }
+
