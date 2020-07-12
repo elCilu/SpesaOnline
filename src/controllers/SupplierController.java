@@ -67,20 +67,20 @@ public class SupplierController implements Initializable {
             path = "";
 
        // logo.setImage(new Image(path + "warehouse.png"));
-        visualizeSendedOrders();
+        visualizeOrders();
     }
 
-    void refresh(){
+    /*void refresh(){
         //refresh of containers
         visualizeShoppingVBox.getChildren().clear();
         shoppingVBox.getChildren().clear();
         qtyVBox.getChildren().clear();
         commonButton.setVisible(false);
-    }
+    }*/
 
     @FXML
-    public void visualizeSendedOrders(){
-        refresh();
+    public void visualizeOrders(){
+        //refresh();
         //newOrderButton.setDisable(false);
         viewVBox.getChildren().clear();
         viewButtonsVBox.getChildren().clear();
@@ -115,7 +115,7 @@ public class SupplierController implements Initializable {
     }
 
     private void viewOrder(OrderModel order) {
-        refresh();
+        //refresh();
         Map<Integer, Integer> shoppings = ProductOrderDao.getProductIdAndQtyByOrderId(order.getId());
         for (Integer productId : shoppings.keySet()) {
             ProductModel p = ProductDao.getProductById(productId);
