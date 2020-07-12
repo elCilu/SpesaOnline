@@ -46,11 +46,9 @@
                     </font>
                 </Text>
                 <ImageView fx:id="logo" fitHeight="62.0" fitWidth="118.0" layoutX="14.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" />
-                <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="104.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="103.0" style="-fx-background-color: #FFD700;" text="Home">
-                    <font>
-                        <Font name="System Bold" size="15.0" />
-                    </font>
-                </JFXButton>
+                <HBox alignment="BOTTOM_CENTER" prefHeight="40" prefWidth="180" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                    <JFXButton buttonType="RAISED"  prefHeight="40" prefWidth="180" style="-fx-background-color: #F9AA33;" text="Conferma" />
+                </HBox>
             </children>
         </AnchorPane>
     </content>
