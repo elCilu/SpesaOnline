@@ -5,6 +5,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXButton?>
 <SplitPane fx:id="SupplierPage" dividerPositions="0.1095679012345679" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SupplierController">
     <items>
         <AnchorPane prefHeight="50.0" prefWidth="1000.0" style="-fx-background-color: #51C0D3;">
@@ -90,9 +93,9 @@
 
                         <VBox fx:id="tag" prefHeight="30.0" prefWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
-                        <JFXHBox alignment="BOTTOM_CENTER" prefHeight="40" prefWidth="180" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                        <HBox alignment="BOTTOM_CENTER" prefHeight="40" prefWidth="180" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="8">
                             <JFXButton buttonType="RAISED" onAction="confirmedOrder" prefHeight="40" prefWidth="180" style="-fx-background-color: #F9AA33" text="Conferma"  />
-                        </JFXHBox>
+                        </HBox>
 
 
                         <Text fx:id="actionTarget" GridPane.columnIndex="1" GridPane.rowIndex="9" />
