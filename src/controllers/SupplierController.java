@@ -1,48 +1,82 @@
 package controllers;
 
 import com.jfoenix.controls.JFXButton;
-import dao.ProductDao;
-import dao.ShoppingDao;
-import dao.WarehouseDao;
-import enums.Tag;
+import dao.*;
+import enums.Status;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import models.*;
 import javafx.scene.text.Text;
-import models.ProductModel;
-import models.ShoppingModel;
-import models.WarehouseModel;
+import sample.GlobalVars;
+import utils.OSystem;
 
+//import java.awt.*;
+import java.io.File;
+import java.net.URL;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 
-public class SupplierController {
+//aggiungere la colonna status
+//aggiungere la tabella SupplierOrderDao
+//fare tableview e aggiungere una colonna solo per lo stato dei prodotti
+public class SupplierController implements Initializable {
     @FXML
-    private VBox id;
+    VBox viewButtonsVBox;
     @FXML
-    private VBox deliveryDate;
+    VBox viewVBox;
     @FXML
-    private VBox deliveryH;
+    VBox visualizeShoppingVBox;
     @FXML
-    private VBox status;
+    VBox shoppingVBox;
     @FXML
-    private TextField nome;
+    VBox qtyVBox;
     @FXML
-    private TextField marca;
+    Button commonButton;
     @FXML
-    private TextField qtyP;
+    Button newOrderButton;
     @FXML
-    private TextField reparto;
+    Button visualizeOrdersButton;
     @FXML
-    private TextField qtyS;
-    @FXML
-    private TextField prezzo;
-    @FXML
-    private VBox tag;
-    @FXML
-    private Text actionTarget;
+    ImageView logo;
+
+    Map<ProductModel, Integer> productsToRequest = new HashMap<>();
+    List<ProductModel> products = new ArrayList<>();
+    ListView<String> depProducts = new ListView<>();
+    private static final int QTYMIN = 20;
+    private static final int QTYMAX = 100;
+    private Text message = new Text();
+    private Text status = new Text();
+    private static final File prodImg = new File("");
+    private String path = "";
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        //build the path
+        if(OSystem.isWindows())
+            path = "C:\\" + prodImg.getAbsolutePath() + "\\images\\";
+        if(OSystem.isUnix())
+            path = "file://" + prodImg.getAbsolutePath() + "/images/";
+        if(OSystem.isMac())
+            path = "";
+
+        logo.setImage(new Image(path + "warehouse.png"));
+        visualizeSendedOrders();
+    }
+
+    void refresh(){
+        //refresh of containers
+        visualizeShoppingVBox.getChildren().clear();
+        shoppingVBox.getChildren().clear();
+        qtyVBox.getChildren().clear();
+        commonButton.setVisible(false);
+    }
 
     @FXML
     public void visualizeSendedOrders(){
@@ -97,3 +131,5 @@ public class SupplierController {
             shoppingVBox.getChildren().add(qty);
         }
     }
+
+}

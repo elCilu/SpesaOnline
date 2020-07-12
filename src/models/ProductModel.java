@@ -1,6 +1,8 @@
 package models;
 
-public class ProductModel {
+import enums.Tag;
+
+public class ProductModel implements Comparable<ProductModel> {
     private int id;
     private String name;
     private String brand;
@@ -8,10 +10,10 @@ public class ProductModel {
     private String dep;
     private int qtyStock;
     private float price;
-    private int tag; //TODO: collegarlo a Tag Enum
+    private Tag tag;
 
 
-    public ProductModel(int id, String name, String brand, int qtyPack, String dep, int qtyStock, float price, int tag) {
+    public ProductModel(int id, String name, String brand, int qtyPack, String dep, int qtyStock, float price, Tag tag) {
         this.id = id;
         this.name = name;
         this.brand = brand;
@@ -78,11 +80,11 @@ public class ProductModel {
         this.price = price;
     }
 
-    public int getTag() {
+    public Tag getTag() {
         return tag;
     }
 
-    public void setTag(int tag) {
+    public void setTag(Tag tag) {
         this.tag = tag;
     }
 
@@ -90,5 +92,24 @@ public class ProductModel {
         return String.format("Id: %d\nNome: %s\nMarca: %s\nQta Conf: %d\nReparto: %s\nQta Scorta: %d" +
                         "\nPrezzo: %f\nTag: %s", getId(), getName(), getBrand(), getQtyPack(), getDep(),
                 getQtyStock(), getprice(), getTag());
+    }
+
+    @Override
+    /**
+     * Ordina i prodotti in ordine di reparto..
+     * a parità di reparto li ordina per name
+     */
+    public int compareTo(ProductModel other) {
+        if(this.dep.compareTo(other.dep) < 0)
+            return -1;
+        else if(this.dep.compareTo(other.dep) > 0)
+            return 1;
+        else
+            if(this.name.compareTo(other.getName()) < 0)
+               return -1;
+            else if(this.name.compareTo(other.getName()) > 0)
+                return  1;
+             else
+                return 0;
     }
 }

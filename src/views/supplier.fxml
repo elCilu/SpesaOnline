@@ -1,136 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-
-<?import com.jfoenix.controls.JFXTextField?>
-<?import com.jfoenix.controls.JFXButton?>
-<SplitPane fx:id="SupplierPage" dividerPositions="0.1095679012345679" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SupplierController">
-    <items>
-        <AnchorPane prefHeight="50.0" prefWidth="1000.0" style="-fx-background-color: #51C0D3;">
-            <Text layoutX="400.0" layoutY="20.0" text="AREA MANAGER" textAlignment="CENTER" textOrigin="CENTER">
-                <font>
-                    <Font size="24.0" />
-                </font>
-            </Text>
+<ScrollPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SupplierController">
+    <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="1282.0" style="-fx-background-color: #51C0D3;">
+            <children>
+                <ScrollPane layoutY="164.0" prefWidth="1281.0">
+                    <content>
+                        <SplitPane dividerPositions="0.6347211311861743" prefWidth="1279.0" style="-fx-background-color: #90DAE5;">
+                            <items>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="807.0">
+                                    <children>
+                                        <VBox fx:id="viewVBox" layoutX="14.0" layoutY="7.0" prefWidth="269.0" />
+                                        <VBox fx:id="viewButtonsVBox" layoutX="397.0" layoutY="3.0" prefWidth="209.0" spacing="40.0" />
+                                        <VBox fx:id="qtyVBox" layoutX="693.0" layoutY="3.0" prefWidth="100.0" />
+                                    </children>
+                                </AnchorPane>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="100.0">
+                                    <children>
+                                        <VBox layoutX="2.0" layoutY="1.0" prefHeight="420.0" prefWidth="465.0">
+                                            <children>
+                                                <HBox>
+                                                    <children>
+                                                        <VBox fx:id="visualizeShoppingVBox" prefWidth="302.0" />
+                                                        <VBox fx:id="shoppingVBox" alignment="TOP_CENTER" prefWidth="318.0" />
+                                                    </children>
+                                                </HBox>
+                                                <JFXButton fx:id="commonButton" buttonType="RAISED" mnemonicParsing="false" prefHeight="40.0" prefWidth="90.0" style="-fx-background-color: #FFD700;" text="Button" />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </AnchorPane>
+                            </items>
+                        </SplitPane>
+                    </content>
+                </ScrollPane>
+                <Text layoutX="150.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fornitore " wrappingWidth="291.83984375">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                </Text>
+                <ImageView fx:id="logo" fitHeight="62.0" fitWidth="118.0" layoutX="14.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" />
+                <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="104.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="103.0" style="-fx-background-color: #FFD700;" text="Home">
+                    <font>
+                        <Font name="System Bold" size="15.0" />
+                    </font>
+                </JFXButton>
+            </children>
         </AnchorPane>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="550.0" prefWidth="1000.0">
-            <SplitPane dividerPositions="0.31960461285008235" prefHeight="550.0" prefWidth="1000.0" style="-fx-background-color: #90DAE5;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
-                <items>
-                    <ScrollPane prefHeight="550.0" prefWidth="500.0">
-                        <content>
-                            <AnchorPane fx:id="shoppingsPane" minHeight="0.0" minWidth="0.0" prefWidth="600.0">
-                                <children>
-                                    <Label layoutX="200.0" prefHeight="30.0" prefWidth="100.0" text="ORDINI DA CONFERMARE" textFill="#F9AA33">
-                                        <font>
-                                            <Font size="17.0" />
-                                        </font>
-                                    </Label>
-                                    <Label layoutX="15.0" layoutY="50.0" prefHeight="30.0" prefWidth="80.0" text="ID SPESA">
-                                        <font>
-                                            <Font size="12.0" />
-                                        </font>
-                                    </Label>
-                                    <Label layoutX="100.0" layoutY="50.0" prefHeight="30.0" prefWidth="133.0" text="CODICE">
-                                        <font>
-                                            <Font size="12.0" />
-                                        </font>
-                                    </Label>
-                                    <Label layoutX="230.0" layoutY="50.0" prefHeight="30.0" prefWidth="133.0" text="PARTITA IVA">
-                                        <font>
-                                            <Font size="12.0" />
-                                        </font>
-                                    </Label>
-                                    <Label layoutX="360.0" layoutY="50.0" prefHeight="30.0" prefWidth="133.0" text="ID MAGAZZINIERE">
-                                        <font>
-                                            <Font size="12.0" />
-                                        </font>
-                                    </Label>
-                                    <VBox fx:id="id" layoutX="15.0" layoutY="70.0" prefWidth="80.0" spacing="11.0" />
-                                    <VBox fx:id="deliveryDate" layoutX="100.0" layoutY="70.0" prefWidth="133.0" spacing="65.0" />
-                                    <VBox fx:id="deliveryH" layoutX="230.0" layoutY="70.0" prefWidth="133.0" spacing="65.0" />
-                                    <VBox fx:id="status" layoutX="360.0" layoutY="70.0" prefWidth="133.0" spacing="65.0" />
-                                </children>
-                            </AnchorPane>
-                        </content>
-                    </ScrollPane>
-
-                    <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="500.0" vgap="10.0">
-
-                        <Label text="Conferma ordine" textFill="#F9AA33" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                            <font>
-                                <Font size="24.0" />
-                            </font>
-                        </Label>
-                        <Label text="Nome:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-
-                        <JFXTextField fx:id="nome" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
-                        <Label text="Marca:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-
-                        <JFXTextField fx:id="marca" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-
-                        <Label text="Quantità unitaria:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-
-                        <JFXTextField fx:id="qtyP" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-
-                        <Label text="Reparto:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-
-                        <JFXTextField fx:id="reparto" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-
-                        <Label text="Quantità in magazzino:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-
-                        <JFXTextField fx:id="qtyS" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-
-                        <Label text="Prezzo:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-
-                        <JFXTextField fx:id="prezzo" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-
-                        <Label text="Tag:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-
-                        <VBox fx:id="tag" prefHeight="30.0" prefWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-
-                        <HBox alignment="BOTTOM_CENTER" prefHeight="40" prefWidth="180" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="8">
-                            <JFXButton buttonType="RAISED" onAction="confirmedOrder" prefHeight="40" prefWidth="180" style="-fx-background-color: #F9AA33" text="Conferma"  />
-                        </HBox>
-
-
-                        <Text fx:id="actionTarget" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                  <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
-                    <buttons>
-                      <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="273.0" text="CONFERMA" textFill="#51c0d3">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font></Button>
-                    </buttons>
-                  </ButtonBar>
-                        <columnConstraints>
-                            <ColumnConstraints prefWidth="200.0" />
-                            <ColumnConstraints prefWidth="200.0" />
-                        </columnConstraints>
-                        <padding>
-                            <Insets bottom="20.0" left="40.0" right="20.0" top="20.0" />
-                        </padding>
-                        <rowConstraints>
-                            <RowConstraints />
-                            <RowConstraints />
-                            <RowConstraints />
-                            <RowConstraints />
-                            <RowConstraints />
-                            <RowConstraints />
-                            <RowConstraints />
-                            <RowConstraints />
-                            <RowConstraints />
-                            <RowConstraints />
-                     <RowConstraints />
-                        </rowConstraints>
-
-                    </GridPane>
-                </items>
-            </SplitPane>
-        </AnchorPane>
-    </items>
-</SplitPane>
+    </content>
+</ScrollPane>

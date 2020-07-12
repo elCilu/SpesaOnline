@@ -1,5 +1,6 @@
 package dao;
 
+import enums.Tag;
 import models.ProductModel;
 import utils.ScriptRunner;
 
@@ -69,7 +70,7 @@ public final class DatabaseHandler extends BaseDao {
                 data = line.split(",");
                 resultQuery = ProductDao.insertProduct(new ProductModel(0, data[0], data[1],
                         Integer.parseInt(data[2]), data[3], Integer.parseInt(data[4]), Float.parseFloat(data[5]),
-                        Integer.parseInt(data[6])));
+                        Tag.values()[Integer.parseInt(data[6])]));
                 if (resultQuery == 0) {
                     connection.rollback();
                     break;

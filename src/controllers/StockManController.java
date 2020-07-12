@@ -16,7 +16,7 @@ import javafx.scene.text.Text;
 import sample.GlobalVars;
 import utils.OSystem;
 
-import java.awt.*;
+//import java.awt.*;
 import java.io.File;
 import java.net.URL;
 import java.util.*;
