@@ -1,5 +1,6 @@
 package controllers;
 
+import com.jfoenix.controls.JFXCheckBox;
 import dao.ClientDao;
 import dao.ShoppingDao;
 import enums.Status;
@@ -44,7 +45,7 @@ public class ExpressController {
             info.setText(String.format("Spesa %i, %s %s %s %s", s.getId(), c.getName(), c.getSurname(), c.getAddress(), s.getDeliveryH()));
             infoSpesa.getChildren().add(info);
 
-            CheckBox check = new CheckBox();
+            JFXCheckBox check = new JFXCheckBox();
             check.setText("Consegnata");
             checkSpesa.getChildren().add(check);
 
