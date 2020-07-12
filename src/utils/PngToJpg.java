@@ -17,8 +17,8 @@ public class PngToJpg {
         System.out.println("COnversion completed");
     }*/
     public static void changeExtension(){
-
-        for(int i = 0; i < ProductDao.getAllProducts().size(); i++){
+        int size = ProductDao.getAllProducts().size();
+        for(int i = 0; i < size; i++){
             File pngImage = new File( prodImg.getAbsolutePath() + "/images/" + "prod_" + String.format("%02d", i)  + ".png");
             File jpgImage = new File( prodImg.getAbsolutePath() + "/images/" + "prod_" + String.format("%02d", i) +  ".jpg");
 

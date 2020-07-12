@@ -1,11 +1,10 @@
 package controllers;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXScrollPane;
-import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import dao.ProductDao;
-import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +17,6 @@ import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -34,7 +32,7 @@ import java.util.*;
 
 public class CartController implements Initializable {
     @FXML
-    private JFXScrollPane cartPage;
+    private ScrollPane cartPage;
     @FXML
     private VBox imgVBox;
     @FXML
@@ -48,13 +46,15 @@ public class CartController implements Initializable {
     @FXML
     private JFXTextField totalShopping;
     @FXML
+    private JFXTextField subTotal;
+    @FXML
     private JFXTextField fidelityPoints;
     @FXML
     private JFXTextField shipping;
     @FXML
-    private RadioButton standardRadioButton;
+    private JFXRadioButton standardRadioButton;
     @FXML
-    private RadioButton expressRadioButton;
+    private JFXRadioButton expressRadioButton;
     @FXML
     private JFXTextField promotion;
     @FXML
@@ -84,7 +84,7 @@ public class CartController implements Initializable {
             fidelityPoints.setText("00.0");
 
             totalPriceLabel.setVisible(false);
-            messages.setText("IL TUO CARRELLO È VUOTO!");//trovare il modo di stamparlo proprio al centro della pagina in modo dinamico
+            messages.setText("IL TUO CARRELLO È VUOTO!");
         }
     }
 
@@ -175,8 +175,9 @@ public class CartController implements Initializable {
 
     private void totals(){
         // promotion.setText(String.valueOf(cart.getPromotion));
+        subTotal.setText(String.format("€ %.2f", subTotal()));
         totalShopping.setText(String.format("€ %.2f", subTotal() + getShippingCost(mod))); // mancano i codici promozionali
-        fidelityPoints.setText(String.valueOf((int) subTotal() + " punti"));
+        fidelityPoints.setText((int) subTotal() + " punti");
     }
 
     public void setUpCart(){
@@ -199,34 +200,18 @@ public class CartController implements Initializable {
             priceVBox.getChildren().add(prodPrice);
 
             //product quantity
-            //ChoiceBox<Integer> qtyBox = new ChoiceBox<>();
             Spinner<Integer> qtyBox = new Spinner<>();
             qtyBox.setValueFactory(new IntegerSpinnerValueFactory(1, ProductDao.getQtyInStock(p.getId()), GlobalVars.cart.get(p)));
-            qtyBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    System.out.println("Trying to change the quantity");
-                    GlobalVars.cart.replace(p, GlobalVars.cart.get(p), qtyBox.getValue());
-                    productTotalPrice(prodPrice, p);
-                    setShipping();
-                    totals();
-                }
-            });
-
-            /*for (int i = 1; i <= ProductDao.getQtyInStock(p.getId()); i++)
-                qtyBox.getItems().add(i);
-
-            qtyBox.setValue(GlobalVars.cart.get(p));*/
-            qtyBox.setPrefSize(65,35);
-            qtyVBox.getChildren().add(qtyBox);
-
-           /* qtyBox.getSelectionModel().selectedItemProperty().addListener((ChangeListener<Number>) (ov, oldValue, newValue) -> {
+            qtyBox.setOnMouseClicked(mouseEvent -> {
                 System.out.println("Trying to change the quantity");
-                GlobalVars.cart.replace(p, GlobalVars.cart.get(p), newValue.intValue());
+                GlobalVars.cart.replace(p, GlobalVars.cart.get(p), qtyBox.getValue());
                 productTotalPrice(prodPrice, p);
                 setShipping();
                 totals();
-            });*/
+            });
+
+            qtyBox.setPrefSize(65,35);
+            qtyVBox.getChildren().add(qtyBox);
 
             JFXButton trash = new JFXButton();
             ImageView trashImage = new ImageView();
@@ -234,6 +219,7 @@ public class CartController implements Initializable {
             trashImage.setFitHeight(25);
             trashImage.setFitWidth(25);
             trash.setGraphic(trashImage);
+            trash.setButtonType(JFXButton.ButtonType.RAISED);
             trashVBox.setAlignment(Pos.CENTER);
             trashVBox.getChildren().add(trash);
 

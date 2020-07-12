@@ -1,5 +1,6 @@
 package controllers;
 
+import com.jfoenix.controls.JFXButton;
 import dao.*;
 import enums.Status;
 import javafx.event.EventHandler;
@@ -9,8 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import models.*;
 import javafx.scene.text.Text;
@@ -71,7 +70,11 @@ public class StockManController implements Initializable {
         loadPage();
     }
 
-    void loadPage(){
+    public void loadPage(){
+        refresh();
+        viewVBox.getChildren().clear();
+        viewButtonsVBox.getChildren().clear();
+        newOrderButton.setDisable(false);
         for(ShoppingModel shopping : ShoppingDao.getAllShoppings()) {
             //short description of a shopping
             Text shDescription = new Text();
@@ -82,13 +85,16 @@ public class StockManController implements Initializable {
             viewVBox.getChildren().add(shDescription);
 
             //visualize button
-            Button viewButton = new Button();
+            JFXButton viewButton = new JFXButton();
             viewButton.setText("VISUALIZZA");
             viewButton.setOnAction(actionEvent -> {
                 viewShopping(shopping);
             });
+            viewButton.setStyle("-fx-background-color:  #FFD700");
+            viewButton.setButtonType(JFXButton.ButtonType.RAISED);
             viewButtonsVBox.getChildren().add(viewButton);
         }
+        commonButton.setStyle("-fx-background-color:  #FFD700");
         commonButton.setVisible(false);
     }
 
@@ -192,17 +198,18 @@ public class StockManController implements Initializable {
             visualizeShoppingVBox.getChildren().add(message);
             newOrderButton.setDisable(true);
         });
-        if(depProducts.getSelectionModel().getSelectedItem() == null)
+        if(depProducts.getSelectionModel().getSelectedItem() == null || depProducts.getSelectionModel().getSelectedItem().compareTo("Tutto") == 0)
             commonButton.setDisable(true);
         else {
             commonButton.setDisable(false);
         }
         commonButton.setVisible(true);
+        newOrderButton.setDisable(true);
     }
 
     //invia ordine a fornitore
     public void sendOrder(){
-        OrderModel order = new OrderModel(0, 1, 1/*GlobalVars.STOCK_MAN_ID*/);
+        OrderModel order = new OrderModel(0, getSupplier().getpIva(), 1/*GlobalVars.STOCK_MAN_ID*/);
         //manda ordine per reparto....
         try {
             int resultQuery = OrderDao.insertOrder(order);
@@ -234,6 +241,7 @@ public class StockManController implements Initializable {
     private void visualizeProductsPerDep() {
         viewVBox.getChildren().clear();
         viewButtonsVBox.getChildren().clear();
+        depProducts.getItems().clear();
 
         depProducts.getItems().add("Tutto");
         depProducts.getItems().add("Acqua bevande e alcolici");
@@ -256,43 +264,102 @@ public class StockManController implements Initializable {
             products = ProductDao.select(
                      "", 0, depProducts.getSelectionModel().getSelectedItem() == null ?
                             "Tutto" : depProducts.getSelectionModel().getSelectedItem(), bits);
-
-            String dep = depProducts.getSelectionModel().getSelectedItem();
-
-            if(dep == "Frutta e verdura")
-                supplier[0] = SupplierDao.getSupplier(1);
-            else if(dep == "Carne")
-                supplier[0] = SupplierDao.getSupplier(2);
-            else if(dep == "Pesce")
-                supplier[0] = SupplierDao.getSupplier(3);
-            else if(dep == "Scatolame")
-                supplier[0] = SupplierDao.getSupplier(4);
-            else if(dep == "Uova e latticini")
-                supplier[0] = SupplierDao.getSupplier(5);
-            else if(dep == "Salumi e formaggi")
-                supplier[0] = SupplierDao.getSupplier(6);
-            else if(dep == "Pane e pasticceria")
-                supplier[0] = SupplierDao.getSupplier(7);
-            else if(dep == "Confezionati")
-                supplier[0] = SupplierDao.getSupplier(8);
-            else if(dep == "Surgelati e gelati")
-                supplier[0] = SupplierDao.getSupplier(9);
-            else if(dep == "Merenda e dolci")
-                supplier[0] = SupplierDao.getSupplier(10);
-            else if(dep == "Acqua bevande e alcolici")
-                supplier[0] = SupplierDao.getSupplier(12);
-            else if(dep == "Igiene")
-                supplier[0] = SupplierDao.getSupplier(13);
-            else if(dep == "Casa")
-                supplier[0] = SupplierDao.getSupplier(14);
+            getSupplier();
             refresh();
             checkProducts();
-            visualizeOrder();
+            updateVisualizeOrders();
             Text suppName= new Text("Fornitore: " + supplier[0].getCompanyName());
             Text suppPIva = new Text("Id Fornitore: " + supplier[0].getpIva());
             visualizeShoppingVBox.getChildren().addAll(suppName, suppPIva);
-            commonButton.setDisable(false);
+
+            if(depProducts.getSelectionModel().getSelectedItem().compareTo("Tutto") == 0)
+                commonButton.setDisable(true);
+            else
+                commonButton.setDisable(false);
         });
+    }
+
+    private SupplierModel getSupplier(){
+        SupplierModel supplier = null;
+        String dep = depProducts.getSelectionModel().getSelectedItem();
+
+        if(dep == "Frutta e verdura")
+            supplier = SupplierDao.getSupplier(1);
+        else if(dep == "Carne")
+            supplier = SupplierDao.getSupplier(2);
+        else if(dep == "Pesce")
+            supplier = SupplierDao.getSupplier(3);
+        else if(dep == "Scatolame")
+            supplier = SupplierDao.getSupplier(4);
+        else if(dep == "Uova e latticini")
+            supplier = SupplierDao.getSupplier(5);
+        else if(dep == "Salumi e formaggi")
+            supplier = SupplierDao.getSupplier(6);
+        else if(dep == "Pane e pasticceria")
+            supplier = SupplierDao.getSupplier(7);
+        else if(dep == "Confezionati")
+            supplier = SupplierDao.getSupplier(8);
+        else if(dep == "Surgelati e gelati")
+            supplier = SupplierDao.getSupplier(9);
+        else if(dep == "Merenda e dolci")
+            supplier = SupplierDao.getSupplier(10);
+        else if(dep == "Acqua bevande e alcolici")
+            supplier = SupplierDao.getSupplier(12);
+        else if(dep == "Igiene")
+            supplier = SupplierDao.getSupplier(13);
+        else if(dep == "Casa")
+            supplier = SupplierDao.getSupplier(14);
+
+        return supplier;
+    }
+
+    public void updateVisualizeOrders() {
+        //refresh of containers
+        refresh();
+        viewButtonsVBox.getChildren().clear();
+        if (productsToRequest.isEmpty()){
+            Text noProducts = new Text();
+            noProducts.setText("NON CI SONO PRODOTTI DA ORDINARE!");
+            viewButtonsVBox.getChildren().add(noProducts);
+        }
+        else{
+            for (ProductModel p : productsToRequest.keySet()) {
+                //set the name of the product
+                Text product = new Text();
+                product.setText(p.getName());
+                viewButtonsVBox.getChildren().add(product);
+
+                //set the quantity
+                Text qty = new Text();
+                qty.setText(String.valueOf(productsToRequest.get(p)));
+                qtyVBox.getChildren().add(qty);
+            }
+            viewButtonsVBox.setSpacing(0);
+
+            //confirmation button
+            commonButton.setText("INVIA");
+            commonButton.setOnAction(actionEvent -> {
+                //send the order
+                sendOrder();
+                refresh();
+                viewVBox.getChildren().clear();
+                viewButtonsVBox.getChildren().clear();
+                loadPage();
+                message.setText("ORDINE INVIATO!");
+                message.autosize();
+                visualizeShoppingVBox.getChildren().add(message);
+                newOrderButton.setDisable(true);
+            });
+
+            if (depProducts.getSelectionModel().getSelectedItem() == null || depProducts.getSelectionModel().getSelectedItem().compareTo("Tutto") == 0)
+                commonButton.setDisable(true);
+            else {
+                commonButton.setDisable(false);
+            }
+            commonButton.setVisible(true);
+        }
+
+        newOrderButton.setDisable(true);
     }
 
     void refresh(){
@@ -306,23 +373,34 @@ public class StockManController implements Initializable {
     @FXML
     public void visualizeSendedOrders(){
         refresh();
+        newOrderButton.setDisable(false);
         viewVBox.getChildren().clear();
         viewButtonsVBox.getChildren().clear();
         List<OrderModel> orders = OrderDao.getAllOrders();
-        for(OrderModel o : orders){
-            //short description of a shopping
-            Text orderDesc = new Text();
-            orderDesc.setText("Ordine n: " + o.getId() + "\nId Fornitore: " + o.getpIvaSupplier());
+        if(orders.isEmpty()){
+            Text noOrders = new Text();
+            noOrders.setText("NON CI SONO ORDINI!");
 
-            viewVBox.getChildren().add(orderDesc);
+            viewVBox.getChildren().add(noOrders);
+        }
+        else {
+            for (OrderModel o : orders) {
+                //short description of a shopping
+                Text orderDesc = new Text();
+                orderDesc.setText("Ordine n: " + o.getId() + "\nId Fornitore: " + o.getpIvaSupplier());
 
-            //visualize button
-            Button viewButton = new Button();
-            viewButton.setText("VISUALIZZA");
-            viewButton.setOnAction(actionEvent -> {
-                viewOrder(o);
-            });
-            viewButtonsVBox.getChildren().add(viewButton);
+                viewVBox.getChildren().add(orderDesc);
+
+                //visualize button
+                JFXButton viewButton = new JFXButton();
+                viewButton.setText("VISUALIZZA");
+                viewButton.setOnAction(actionEvent -> {
+                    viewOrder(o);
+                });
+                viewButton.setStyle("-fx-background-color:  #FFD700");
+                viewButton.setButtonType(JFXButton.ButtonType.RAISED);
+                viewButtonsVBox.getChildren().add(viewButton);
+            }
         }
         commonButton.setVisible(false);
         viewButtonsVBox.setSpacing(5);
@@ -331,14 +409,13 @@ public class StockManController implements Initializable {
     private void viewOrder(OrderModel order) {
         refresh();
         Map<Integer, Integer> shoppings = ProductOrderDao.getProductIdAndQtyByOrderId(order.getId());
-        for (Integer productId : shoppings.keySet()){
+        for (Integer productId : shoppings.keySet()) {
             ProductModel p = ProductDao.getProductById(productId);
 
             //product name & code
             Text prodNameCode = new Text();
-            prodNameCode.setText(p.getName() + " " + p.getBrand()  + ((p.getQtyPack() != 1) ? ", " + p.getQtyPack() + "g" : ""));
+            prodNameCode.setText(p.getName() + " " + p.getBrand() + ((p.getQtyPack() != 1) ? ", " + p.getQtyPack() + "g" : ""));
             visualizeShoppingVBox.getChildren().add(prodNameCode);
-
 
             //product quantity
             Text qty = new Text();
