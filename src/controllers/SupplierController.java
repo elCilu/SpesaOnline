@@ -1,5 +1,6 @@
 package controllers;
 
+import com.jfoenix.controls.JFXButton;
 import dao.ProductDao;
 import dao.ShoppingDao;
 import dao.WarehouseDao;
@@ -14,9 +15,10 @@ import models.ShoppingModel;
 import models.WarehouseModel;
 
 import java.util.List;
+import java.util.Map;
 
 
-public class ManagerController {
+public class SupplierController {
     @FXML
     private VBox id;
     @FXML
@@ -42,133 +44,56 @@ public class ManagerController {
     @FXML
     private Text actionTarget;
 
-    private static List<ShoppingModel> shoppings = ShoppingDao.getShopping();
-
-    ProductModel product;
-    WarehouseModel warehouse;
-    ChoiceBox<Tag> tags = new ChoiceBox<>();
-    int dep = 1;//ManagerDao.getDep(id);  passaggio id dal login
-
-
-    //visualizza lo stato delle spese
-    protected void showStatus(){
-        //setto reparto in base al departo responsabile
-        if(dep == 1)
-            reparto.setText("Frutta e verdura");
-        else if(dep == 2)
-            reparto.setText("Carne");
-        else if(dep == 3)
-            reparto.setText("Pesce");
-        else if(dep == 4)
-            reparto.setText("Scatolame");
-        else if(dep == 5)
-            reparto.setText("Uova e latticini");
-        else if(dep == 6)
-            reparto.setText("Salumi e formaggi");
-        else if(dep == 7)
-            reparto.setText("Pane e pasticceria");
-        else if(dep == 8)
-            reparto.setText("Confezionati");
-        else if(dep == 9)
-            reparto.setText("Surgelati e gelati");
-        else if(dep == 10)
-            reparto.setText("Merenda e dolci");
-        else if(dep == 11)
-            reparto.setText("Acqua bevande e alcolici");
-        else if(dep == 12)
-            reparto.setText("Igiene");
-        else if(dep == 13)
-            reparto.setText("Casa");
-
-        //setto a 1 le textfield che devono ricevere numeri
-        qtyP.setText("1");
-        qtyS.setText("1");
-        prezzo.setText("1");
-        //setta la choicebox dei tag
-        for (Tag t : Tag.values())
-            tags.getItems().add(t);
-        tag.getChildren().add(tags);
-
-        for (ShoppingModel s : shoppings) {
-            //shopping id
-            Text shoppingId = new Text();
-            shoppingId.setText(String.format("%d", s.getId()));
-            id.getChildren().add(shoppingId);
-
-            //delivery date
-            Text shoppingDelivery = new Text();
-            shoppingDelivery.setText(String.format("%s", s.getDeliveryDate()));
-            deliveryDate.getChildren().add(shoppingDelivery);
-
-            //delivery time
-            Text shoppingDeliveryTime = new Text();
-            shoppingDeliveryTime.setText(String.format("%s", s.getDeliveryH()));
-            deliveryH.getChildren().add(shoppingDeliveryTime);
-
-            //shopping status
-            Text shoppingStatus = new Text();
-            shoppingStatus.setText(String.format("%s", s.getStatus()));
-            status.getChildren().add(shoppingStatus);
-        }
-
-    }
-
-    //inserimento nuovo prodotto nel db
     @FXML
-    protected void addNewProduct(){
-        String name;
-        String brand;
-        int qtyPack;
-        String dep;
-        int qtyStock;
-        float price;
-        Tag shoppingTag;
+    public void visualizeSendedOrders(){
+        refresh();
+        newOrderButton.setDisable(false);
+        viewVBox.getChildren().clear();
+        viewButtonsVBox.getChildren().clear();
+        List<OrderModel> orders = OrderDao.getAllOrders();
+        if(orders.isEmpty()){
+            Text noOrders = new Text();
+            noOrders.setText("NON CI SONO ORDINI!");
 
-        try {
-            name = nome.getText();
-            brand = marca.getText();
-            dep = reparto.getText();
-            qtyPack = Integer.parseInt(qtyP.getText());
-            qtyStock = Integer.parseInt(qtyS.getText());
-            price = Float.parseFloat(prezzo.getText());
-            shoppingTag = tags.getValue();
+            viewVBox.getChildren().add(noOrders);
+        }
+        else {
+            for (OrderModel o : orders) {
+                //short description of a shopping
+                Text orderDesc = new Text();
+                orderDesc.setText("Ordine n: " + o.getId() + "\nId Fornitore: " + o.getpIvaSupplier());
 
-            if (name.isEmpty() || brand.isEmpty() || dep.isEmpty() ||  qtyPack <= 0 || qtyStock < 0 || price <= 0) {
-                actionTarget.setText("Tutti i campi sono obbligatori");
-                throw new Exception("Campi del sign up vuoti");
+                viewVBox.getChildren().add(orderDesc);
+
+                //visualize button
+                JFXButton viewButton = new JFXButton();
+                viewButton.setText("VISUALIZZA");
+                viewButton.setOnAction(actionEvent -> {
+                    viewOrder(o);
+                });
+                viewButton.setStyle("-fx-background-color:  #FFD700");
+                viewButton.setButtonType(JFXButton.ButtonType.RAISED);
+                viewButtonsVBox.getChildren().add(viewButton);
             }
-            // inserisco prodotto nel db
-            product = new ProductModel(0, name, brand, qtyPack, dep, qtyStock, price, shoppingTag);
-            int resultQuery = ProductDao.insertProduct(product);
+        }
+        commonButton.setVisible(false);
+        viewButtonsVBox.setSpacing(5);
+    }
 
-            if (resultQuery == 0) {
-                throw new Exception("Errore nell'inserimento del prodotto nel db");
-            }
+    private void viewOrder(OrderModel order) {
+        refresh();
+        Map<Integer, Integer> shoppings = ProductOrderDao.getProductIdAndQtyByOrderId(order.getId());
+        for (Integer productId : shoppings.keySet()) {
+            ProductModel p = ProductDao.getProductById(productId);
 
-            // inserisco qty nel
-            warehouse = new WarehouseModel(0, qtyStock, 20, 100);
-            warehouse.setIdProduct(ProductDao.selectLast());
-            int resultQuery1 = WarehouseDao.insertWarehouse(warehouse);
+            //product name & code
+            Text prodNameCode = new Text();
+            prodNameCode.setText(p.getName() + " " + p.getBrand() + ((p.getQtyPack() != 1) ? ", " + p.getQtyPack() + "g" : ""));
+            visualizeShoppingVBox.getChildren().add(prodNameCode);
 
-            if (resultQuery1 == 0) {
-                throw new Exception("Errore nell'inserimento del prodotto nel db");
-            }else{
-                actionTarget.setText("Prodotto inserito correttamente!");
-            }
-            nome.clear();
-            marca.clear();
-            qtyP.setText("1");
-            qtyS.setText("1");
-            prezzo.setText("1");
-
-        }catch (Exception e){
-            e.printStackTrace();
+            //product quantity
+            Text qty = new Text();
+            qty.setText(String.valueOf(shoppings.get(productId)));
+            shoppingVBox.getChildren().add(qty);
         }
     }
-
-}
-public class SupplierController {
-    public void confirmedOrder(){
-
-    }
-}
