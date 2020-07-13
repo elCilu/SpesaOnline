@@ -14,6 +14,9 @@ public class OrderDao extends BaseDao{
     private static final String SELECT_BY_ID = "select * from orders where id = ?";
     private static final String IS_EMPTY = "select id from orders where id = 1";
     private static final String SELECT_LAST = "select top 1 * from orders order by id desc";
+    private static final String UPDATE_STATUS_CONFIRMED = "update orders set confirmed = ? where id = ?";
+    private static final String SELECT_BY_CONFIRMED = "select * from orders where confirmed = 1";
+
 
     private OrderDao() {}
 
@@ -71,7 +74,7 @@ public class OrderDao extends BaseDao{
             System.out.print("Selecting order with given id... ");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                order = new OrderModel(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3));
+                order = new OrderModel(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), 0);
             }
             System.out.println("Order selected!");
         } catch (SQLException e) {
@@ -84,7 +87,7 @@ public class OrderDao extends BaseDao{
     private static void executeQuery(List<OrderModel> orders, PreparedStatement statement) throws SQLException {
         ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {
-            orders.add(new OrderModel(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3)));
+            orders.add(new OrderModel(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), 0));
         }
     }
 
@@ -105,5 +108,33 @@ public class OrderDao extends BaseDao{
             e.printStackTrace();
         }
         return result;
+    }
+
+    public static int updateStatusConfirmed(int id, int confirmed) {
+        int result = 0;
+        try{
+            PreparedStatement statement = connection.prepareStatement(UPDATE_STATUS_CONFIRMED);
+            statement.setInt(1, confirmed);
+            statement.setInt(2, id);
+            result = statement.executeUpdate();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static List<OrderModel> getAllOrdersConfirmed() {
+        List<OrderModel> orders = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(SELECT_BY_CONFIRMED);
+            System.out.print("Selecting all orders CONFIRMED... ");
+            executeQuery(orders, statement);
+            System.out.println("All orders CONFIRMED selected!");
+        } catch (SQLException e) {
+            System.err.println("Error while selecting orders CONFIRMED.");
+            e.printStackTrace();
+        }
+        return orders;
     }
 }

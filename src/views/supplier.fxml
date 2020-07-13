@@ -50,8 +50,7 @@
                 <HBox alignment="BOTTOM_CENTER" prefHeight="40" prefWidth="180" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <ButtonBar layoutX="976.0" layoutY="83.0" prefHeight="40.0" prefWidth="251.0">
               <buttons>
-                <JFXButton mnemonicParsing="false"  prefHeight="26.0" prefWidth="245.0" style="-fx-background-color: #FFD700;" text="VISUALIZZA ORDINI CONFERMATI" />
-                  <!--onAction="#VisualizeConfirmedOrders"-->
+                <JFXButton mnemonicParsing="false" onAction="#VisualizeConfirmedOrders" prefHeight="26.0" prefWidth="245.0" style="-fx-background-color: #FFD700;" text="VISUALIZZA ORDINI CONFERMATI" />
               </buttons>
             </ButtonBar>
             </children>
