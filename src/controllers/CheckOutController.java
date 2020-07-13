@@ -182,24 +182,6 @@ public class CheckOutController {
             calendar.setTime(purchaseDate);
             int tempDay = calendar.get(DAY_OF_MONTH) + mod;
 
-            /*int tempMonth = calendar.get(MONTH);
-            int tempYear = calendar.get(YEAR);
-
-            if((tempYear % 4 == 0 && tempYear % 100 != 0) || tempYear % 400 == 0)
-                dayOnMonth[1] = 29;
-
-            tempDay = tempDay + mod;
-
-            if(tempDay > dayOnMonth[tempMonth]){
-                tempDay = tempDay - dayOnMonth[tempMonth];
-                tempMonth++;
-
-                if(tempMonth == 12){
-                    tempMonth = 0;
-                    tempYear++;
-                }
-            }*/
-
             tempDate = new GregorianCalendar(calendar.get(YEAR), calendar.get(MONTH), tempDay).getTime();
 
             if (dataConsegna.getValue() == null) {
