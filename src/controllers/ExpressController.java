@@ -32,19 +32,11 @@ public class ExpressController implements Initializable {
     @FXML
     private VBox infoSpesa, checkSpesa;
 
-    List<ShoppingModel> speseTotali = ShoppingDao.getAllShoppings();
-    List<ShoppingModel> speseOdierne = new ArrayList<>();
-    Date oggi = new Date();
-    java.sql.Date res = new java.sql.Date(oggi.getTime());
+    List<ShoppingModel> speseOdierne = ShoppingDao.getTodayDelivery();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        for(ShoppingModel s : speseTotali){
-            if(s.getPurchaseDate().equals(res))
-                speseOdierne.add(s);
-                System.out.println(s.getPurchaseDate());
-                System.out.println(res);
-        }
+        System.err.println(speseOdierne.toString());
         loadData();
     }
 
@@ -55,7 +47,7 @@ public class ExpressController implements Initializable {
         for(ShoppingModel s : speseOdierne){
             Text info = new Text();
             ClientModel c = ClientDao.selectById(s.getIdClient());
-            info.setText(String.format("Spesa %i, %s %s %s %s", s.getId(), c.getName(), c.getSurname(), c.getAddress(), s.getDeliveryH()));
+            info.setText(String.format("Spesa %d, %s %s %s %s", s.getId(), c.getName(), c.getSurname(), c.getAddress(), s.getDeliveryH()));
             infoSpesa.getChildren().add(info);
 
             CheckBox check = new CheckBox();
@@ -75,9 +67,9 @@ public class ExpressController implements Initializable {
         }
     }
 
-    public void updateShoppingStatus(int id, int status){
+    public void updateShoppingStatus(int idShopping, int status){
         try {
-            int resultQuery = ShoppingDao.updateStatus(id, status);
+            int resultQuery = ShoppingDao.updateStatus(idShopping, status);
             if (resultQuery == 0)
                 throw new Exception("Errore nell'aggiornamento dello stato dello shopping nel db");
 

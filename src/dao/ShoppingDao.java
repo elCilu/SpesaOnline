@@ -2,15 +2,12 @@ package dao;
 
 import enums.PaymentMethod;
 import enums.Status;
-import enums.Tag;
-import models.ProductModel;
 import models.ShoppingModel;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -68,28 +65,22 @@ public final class ShoppingDao extends BaseDao {
         return result;
     }
 
-    /*public static List<ShoppingModel> getTodayDelivery(){
+    public static List<ShoppingModel> getTodayDelivery(){
         List<ShoppingModel> result = new ArrayList<>();
-        java.sql.Date deliveryDate = new java.sql.Date(new Date().getTime());
+
 
         try {
             PreparedStatement statement = connection.prepareStatement(GET_TODAY_DELIVERY);
-            statement.setDate(1, deliveryDate);
+            statement.setDate(1, new java.sql.Date(new Date().getTime()));
             System.out.print("Selecting today's delivering...");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                System.out.println("sono nel while");
-                System.out.println(deliveryDate.toString());
-                System.out.print(resultSet.getDate(2));
-                if(deliveryDate.equals(resultSet.getDate(2))){
-                    result.add(new ShoppingModel(resultSet.getInt(1), resultSet.getDate(2), resultSet.getDate(3),
-                            resultSet.getString(4), resultSet.getFloat(5), resultSet.getInt(6),
-                            Status.values()[resultSet.getInt(7)], resultSet.getInt(8),
-                            PaymentMethod.values()[resultSet.getInt(9)]));
-                }
+                result.add(new ShoppingModel(resultSet.getInt(1), resultSet.getDate(2), resultSet.getDate(3),
+                        resultSet.getString(4), resultSet.getFloat(5), resultSet.getInt(6),
+                        Status.values()[resultSet.getInt(7)], resultSet.getInt(8),
+                        PaymentMethod.values()[resultSet.getInt(9)]));
             }
 
-            System.out.println(resultSet.getDate(2));
             System.out.println("All shopping selected!");
         } catch (SQLException e) {
             System.err.println("Error while selecting shopping.");
@@ -97,7 +88,7 @@ public final class ShoppingDao extends BaseDao {
         }
 
         return result;
-    }*/
+    }
 
     public static List<ShoppingModel> getAllShoppings(){    
         List<ShoppingModel> shoppings = new ArrayList<>();
@@ -120,12 +111,12 @@ public final class ShoppingDao extends BaseDao {
         return shoppings;
     }
 
-    public static int updateStatus(int id, int status) {
+    public static int updateStatus(int idShopping, int status) {
         int result = 0;
         try{
             PreparedStatement statement = connection.prepareStatement(UPDATE_SHOPPING_STATUS);
             statement.setInt(1, status);
-            statement.setInt(2, id);
+            statement.setInt(2, idShopping);
             result = statement.executeUpdate();
         }
         catch (Exception e){
