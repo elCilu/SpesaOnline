@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-
-<SplitPane fx:id="CheckOutPage" prefHeight="600.0" prefWidth="1200.0" dividerPositions="0.31960461285008235" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CheckOutController">
+<SplitPane fx:id="CheckOutPage" style="-fx-background-color: #90DAE5;" prefHeight="600.0" prefWidth="1200.0" dividerPositions="0.31960461285008235" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CheckOutController">
     <items>
         <ScrollPane prefHeight="600.0" prefWidth="600.0">
             <content>
@@ -45,11 +45,11 @@
 
         <GridPane alignment="CENTER" hgap="15.0" vgap="15.0" maxWidth="-Infinity" prefHeight="600.0" prefWidth="500.0">
 
-            <Text style="-fx-arc-height: 200%" text="CheckOut" textOrigin="CENTER" wrappingWidth="178.908203125">
+            <Label text="CheckOut" textFill="#F9AA33">
                 <font>
                     <Font size="24.0" />
                 </font>
-            </Text>
+            </Label>
 
             <Label prefHeight="25" prefWidth="180" text="Totalespesa: " GridPane.rowIndex="2" />
             <Text fx:id="totSpesa" GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -66,31 +66,31 @@
             </Text>
 
             <Label prefHeight="25" prefWidth="180" text="Data consegna: " GridPane.rowIndex="4" />
-            <DatePicker fx:id="dataConsegna" prefHeight="25.0" prefWidth="180.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <JFXDatePicker fx:id="dataConsegna" defaultColor="#F9AA33" prefHeight="25.0" prefWidth="180.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
             <Label prefHeight="25" prefWidth="180" text="Orario consegna: " GridPane.rowIndex="5" />
-            <RadioButton fx:id="mattina" mnemonicParsing="false" prefWidth="180" text="Mattina (8:00 - 12:00)" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <JFXRadioButton fx:id="mattina" selectedColor="#F9AA33" unSelectedColor="#F9AA33" mnemonicParsing="false" prefWidth="180" text="Mattina (8:00 - 12:00)" GridPane.columnIndex="1" GridPane.rowIndex="5">
                 <toggleGroup>
                     <ToggleGroup fx:id="delivery" />
                 </toggleGroup>
-            </RadioButton>
-            <RadioButton fx:id="pomeriggio" prefWidth="180" layoutX="224.0" layoutY="236.0" mnemonicParsing="false" text="Pomeriggio (14:00 - 18:00)" GridPane.columnIndex="1" GridPane.rowIndex="6">
+            </JFXRadioButton>
+            <JFXRadioButton fx:id="pomeriggio" selectedColor="#F9AA33" unSelectedColor="#F9AA33" prefWidth="180" layoutX="224.0" layoutY="236.0" mnemonicParsing="false" text="Pomeriggio (14:00 - 18:00)" GridPane.columnIndex="1" GridPane.rowIndex="6">
                 <toggleGroup>
                     <fx:reference source="delivery" />
                 </toggleGroup>
-            </RadioButton>
+            </JFXRadioButton>
 
             <Label prefHeight="25" prefWidth="180" text="Metodo di pagamento: " GridPane.rowIndex="8" />
 
-            <RadioButton fx:id="creditCardRadio" text="Carta di credito" prefWidth="180" GridPane.columnIndex="1" GridPane.rowIndex="8">
+            <JFXRadioButton fx:id="creditCardRadio" selectedColor="#F9AA33" unSelectedColor="#F9AA33" text="Carta di credito" prefWidth="180" GridPane.columnIndex="1" GridPane.rowIndex="8">
                 <HBox.margin>
                     <Insets right="3.0" />
                 </HBox.margin>
                 <toggleGroup>
                     <ToggleGroup fx:id="paymentMethodGroup" />
                 </toggleGroup>
-            </RadioButton>
-            <RadioButton fx:id="paypalRadio" text="PayPal" prefWidth="180" GridPane.columnIndex="1" GridPane.rowIndex="9">
+            </JFXRadioButton>
+            <JFXRadioButton fx:id="paypalRadio" selectedColor="#F9AA33" unSelectedColor="#F9AA33" text="PayPal" prefWidth="180" GridPane.columnIndex="1" GridPane.rowIndex="9">
                 <HBox.margin>
                     <Insets right="30.0" />
                     <Insets bottom="10.0" />
@@ -98,8 +98,8 @@
                 <toggleGroup>
                     <fx:reference source="paymentMethodGroup" />
                 </toggleGroup>
-            </RadioButton>
-            <RadioButton fx:id="cashRadio" text="Alla consegna" prefWidth="180" GridPane.columnIndex="1" GridPane.rowIndex="10">
+            </JFXRadioButton>
+            <JFXRadioButton fx:id="cashRadio" selectedColor="#F9AA33" unSelectedColor="#F9AA33" text="Alla consegna" prefWidth="180" GridPane.columnIndex="1" GridPane.rowIndex="10">
                 <HBox.margin>
                     <Insets right="30.0" />
                     <Insets bottom="10.0" />
@@ -107,14 +107,14 @@
                 <toggleGroup>
                     <fx:reference source="paymentMethodGroup" />
                 </toggleGroup>
-            </RadioButton>
+            </JFXRadioButton>
 
             <HBox alignment="BOTTOM_CENTER" prefHeight="40" prefWidth="180" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="12">
-                <Button onAction="#addShopping" prefHeight="40" prefWidth="180" text="Conferma" />
+                <JFXButton onAction="#addShopping" buttonType="RAISED" style="-fx-background-color: #F9AA33;" prefHeight="40" prefWidth="180" text="Conferma" />
             </HBox>
 
             <HBox alignment="BOTTOM_CENTER" prefHeight="40" prefWidth="180" spacing="10" GridPane.rowIndex="12">
-                <Button onAction="#goToCart" prefHeight="40" prefWidth="180" text="Torna al carrello" />
+                <JFXButton onAction="#goToCart" buttonType="RAISED" style="-fx-background-color: #F9AA33;" prefHeight="40" prefWidth="180" text="Torna al carrello" />
             </HBox>
 
             <Text fx:id="actionTarget" GridPane.columnIndex="1" GridPane.rowIndex="13" />

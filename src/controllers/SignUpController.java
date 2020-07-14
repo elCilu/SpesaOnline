@@ -1,23 +1,22 @@
 package controllers;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXRadioButton;
+import com.jfoenix.controls.JFXToggleButton;
 import dao.ClientDao;
 import dao.CredentialDao;
 import dao.FidelityCardDao;
 import enums.PaymentMethod;
+import javafx.scene.control.Label;
 import models.FidelityCard;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.RadioButton;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import models.ClientModel;
 import models.CredentialModel;
+import sample.Global;
 import utils.CredentialUtil;
 import utils.StringUtil;
 
@@ -28,7 +27,7 @@ import static utils.StringUtil.*;
 public class SignUpController {
 
     @FXML
-    private GridPane signupPage;
+    private AnchorPane signUpPage;
     @FXML
     private TextField nameField;
     @FXML
@@ -46,18 +45,17 @@ public class SignUpController {
     @FXML
     private TextField confirmPasswordField;
     @FXML
-    private RadioButton creditCardRadio;
+    private ToggleGroup paymentMethodGroup;
     @FXML
-    private RadioButton paypalRadio;
+    private Label actionLabel;
     @FXML
-    private RadioButton cashRadio;
+    private JFXToggleButton fidelityCardToggle;
     @FXML
-    private Text actionTarget;
-    @FXML
-    private CheckBox loyaltyCardCheck;
-    public ToggleGroup paymentMethodGroup;
+    private JFXButton signUpButton;
 
-    public void signUp() {
+
+    @FXML
+    private void signUp() {
         String name;
         String surname;
         String address;
@@ -81,50 +79,56 @@ public class SignUpController {
             if (name.trim().isEmpty() || surname.trim().isEmpty() || address.trim().isEmpty()
                     || zip.trim().isEmpty() || phoneNumber.trim().isEmpty() || email.trim().isEmpty()
                     || password.isEmpty() || confirmedPassword.isEmpty()) {
-                actionTarget.setText("Tutti i campi sono obbligatori");
+                actionLabel.setText("Tutti i campi sono obbligatori");
+                actionLabel.setVisible(true);
                 throw new Exception("Campi del sign up vuoti");
             } else {
                 if (!isValidName(name)) {
-                    actionTarget.setText("Nome deve essere composto solo da lettere");
+                    actionLabel.setText("Nome deve essere composto solo da lettere");
+                    actionLabel.setVisible(true);
                     throw new Exception("Nome non corretto");
                 } else if (!isValidSurname(surname)){
-                    actionTarget.setText("Cognome deve essere composto solo da lettere");
+                    actionLabel.setText("Cognome deve essere composto solo da lettere");
+                    actionLabel.setVisible(true);
                     throw new Exception("Cognome non corretto");
                 } else if (!isValidZip(zip)) {
-                    actionTarget.setText("CAP non valido");
+                    actionLabel.setText("CAP non valido");
+                    actionLabel.setVisible(true);
                     throw new Exception("CAP non corretto");
                 } else if (!isValidPhone(phoneNumber)) {
-                    actionTarget.setText("Numero non valido");
+                    actionLabel.setText("Numero non valido");
+                    actionLabel.setVisible(true);
                     throw new Exception("Numero non corretto");
                 } else if (!isValidEmail(email)) {
-                    actionTarget.setText("Email non valida");
+                    actionLabel.setText("Email non valida");
+                    actionLabel.setVisible(true);
                     throw new Exception("Email non corretta");
                 } else if (password.length() < 8) {
-                    actionTarget.setText("Password minimo 8 caratteri");
+                    actionLabel.setText("Password minimo 8 caratteri");
+                    actionLabel.setVisible(true);
                     throw new Exception("Password non valida");
                 } else if (!password.equals(confirmedPassword)) {
-                    actionTarget.setText("Le password devono essere uguali");
+                    actionLabel.setText("Le password devono essere uguali");
+                    actionLabel.setVisible(true);
                     throw new Exception("Password non uguali");
                 }
             }
 
-            if (creditCardRadio.isSelected()) {
-                paymentMethod = 0;
-            }
-            else if (paypalRadio.isSelected()) {
-                paymentMethod = 1;
-            }
-            else if (cashRadio.isSelected()) {
-                paymentMethod = 2;
-            }
-            else {
-                actionTarget.setText("Seleziona metodo di pagamento");
-                throw new Exception("Metodo pagamento non selezionato");
+            JFXRadioButton selectedRadio = (JFXRadioButton) paymentMethodGroup.getSelectedToggle();
+            switch (selectedRadio.getText()) {
+                case "Carta di credito" -> paymentMethod = 0;
+                case "Paypal" -> paymentMethod = 1;
+                case "Alla consegna" -> paymentMethod = 2;
+                default -> {
+                    actionLabel.setText("Seleziona metodo di pagamento");
+                    actionLabel.setVisible(true);
+                    throw new Exception("Metodo pagamento non selezionato");
+                }
             }
 
-
-            if (CredentialDao.selectByEmail(email) != null) {
-                actionTarget.setText("Email già in uso");
+            if (CredentialDao.selectByCredential(email) != null) {
+                actionLabel.setText("Email già in uso");
+                actionLabel.setVisible(true);
                 throw new Exception("Email già presente nella tabella");
             }
 
@@ -149,7 +153,7 @@ public class SignUpController {
                         salt
                 );
                 resultQuery = CredentialDao.insertCredentials(credential);
-                if (loyaltyCardCheck.isSelected()) {
+                if (fidelityCardToggle.isSelected()) {
                     FidelityCard fidelityCard = new FidelityCard(
                             0,
                             Calendar.getInstance().getTime(),
@@ -160,22 +164,20 @@ public class SignUpController {
                 }
             }
             if (resultQuery != 0) {
-                actionTarget.setText("Utente inserito correttamente");
+                backToLogin();
             }
         } catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    public void backToLogin() {
-        try {
-            Stage stage = (Stage) signupPage.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
-            stage.setScene(new Scene(root));
-            stage.sizeToScene();
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @FXML
+    private void setSignUpButton() {
+        signUpButton.setDisable(!signUpButton.isDisable());
+    }
+
+    @FXML
+    private void backToLogin() {
+        Global.changeScene(signUpPage, "loginCustomer");
     }
 }

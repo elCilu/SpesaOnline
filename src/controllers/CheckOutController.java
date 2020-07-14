@@ -1,11 +1,11 @@
 package controllers;
 
+import dao.FidelityCardDao;
 import dao.ShoppingDao;
 import enums.PaymentMethod;
 import enums.Status;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
@@ -18,8 +18,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.ProductModel;
 import models.ShoppingModel;
-import sample.GlobalVars;
-import utils.OSystem;
+import sample.Global;
+import utils.OSUtil;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -74,8 +74,17 @@ public class CheckOutController {
     protected void goToCart() {
         try {
             Stage stage = (Stage) CheckOutPage.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("../views/cart.fxml"));
-            stage.setScene(new Scene(root));
+            FXMLLoader Loader = new FXMLLoader();
+            Loader.setLocation(getClass().getResource("../views/cart.fxml"));
+
+            //load the parent
+            Loader.load();
+            CartController cart = Loader.getController();
+
+            //opening cart age
+            cart.setUpCart();
+
+            stage.setScene(new Scene(Loader.getRoot()));
             stage.sizeToScene();
             stage.show();
         } catch (Exception e) {
@@ -94,7 +103,7 @@ public class CheckOutController {
             Loader.load();
             ConfirmedController confirmed = Loader.getController();
 
-            //sending cart to the checkout page
+            //opening confirmed page
             confirmed.addProducts(shopping);
 
 
@@ -112,20 +121,20 @@ public class CheckOutController {
             this.mod = 4;
         if (mod == 2)
             this.mod = 2;
-        this.idClient = GlobalVars.USER_ID;//TODO: passaggio dal carrello
+        this.idClient = Global.USER_ID;
 
         totSpesa.setText(String.format("%.2f", subTotal()));
         puntiSpesa.setText(String.format("%02d", (int) subTotal()));
 
-        for (ProductModel p : GlobalVars.cart.keySet()) {
+        for (ProductModel p : Global.cart.keySet()) {
             //product image
             ImageView img = new ImageView();
             String path = "";
-            if(OSystem.isWindows())
+            if(OSUtil.isWindows())
                 path = "C:\\" + prodImg.getAbsolutePath() + "\\images\\";
-            if(OSystem.isUnix())
+            if(OSUtil.isUnix())
                 path = "file://" + prodImg.getAbsolutePath() + "/images/";
-            if(OSystem.isMac())
+            if(OSUtil.isMac())
                 path = "";
 
             img.setImage(new Image(path + "prod_" + String.format("%02d", p.getId()) +  ".jpg"));
@@ -145,14 +154,14 @@ public class CheckOutController {
 
             //product quantity
             Text prodQty = new Text();
-            prodQty.setText(String.format("%d", GlobalVars.cart.get(p)));
+            prodQty.setText(String.format("%d", Global.cart.get(p)));
 
             qty.getChildren().add(prodQty);
         }
     }
 
     private void productTotalPrice(Text prodPrice, ProductModel p) {
-        prodPrice.setText(String.format("€%.2f", p.getprice() * GlobalVars.cart.get(p)));
+        prodPrice.setText(String.format("€%.2f", p.getprice() * Global.cart.get(p)));
     }
 
     public void addShopping() {
@@ -231,6 +240,7 @@ public class CheckOutController {
             // inserisco la spesa nel db
             shopping = new ShoppingModel(0, purchaseDate, deliveryDate, deliveryH, totalCost, earnedPoints, Status.values()[status], idClient, PaymentMethod.values()[paymentMethod]);
             int resultQuery = ShoppingDao.insertShopping(shopping);
+            updatePoints(idClient, (FidelityCardDao.getPoints(idClient) + earnedPoints));
 
             if (resultQuery != 0) {
                 shopping.setId(ShoppingDao.selectLast());
@@ -241,12 +251,22 @@ public class CheckOutController {
             e.printStackTrace();
         }
     }
+    public void updatePoints(int id, int qty){
+        try {
+            int resultQuery = FidelityCardDao.updateQuantity(id, qty);
+            if (resultQuery == 0)
+                throw new Exception("Errore nell'aggiornamenti dei punti fedelta'");
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 
     private float subTotal(){
         float tot = 0;
 
-        for(ProductModel p: GlobalVars.cart.keySet())
-            tot += p.getprice() * GlobalVars.cart.get(p);
+        for(ProductModel p: Global.cart.keySet())
+            tot += p.getprice() * Global.cart.get(p);
 
         return tot;
     }

@@ -14,7 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import models.ClientModel;
 import models.CredentialModel;
-import sample.GlobalVars;
+import sample.Global;
 import utils.CredentialUtil;
 
 import java.net.URL;
@@ -69,7 +69,7 @@ public class CostumerDataController implements Initializable {
     private void loadData() {
         ClientModel client;
         try {
-            client = ClientDao.selectById(GlobalVars.USER_ID);
+            client = ClientDao.selectById(Global.USER_ID);
 
             if (client != null) {
                 nameField.setText(client.getName());
@@ -191,7 +191,7 @@ public class CostumerDataController implements Initializable {
             }
 
             int updated = ClientDao.updateById(new ClientModel(
-                    GlobalVars.USER_ID,
+                    Global.USER_ID,
                     name,
                     surname,
                     address,
@@ -204,7 +204,7 @@ public class CostumerDataController implements Initializable {
                 if (changePassword) {
                     byte[] salt = CredentialUtil.createSalt();
 
-                    CredentialModel credentials = CredentialDao.selectByEmail(email);
+                    CredentialModel credentials = CredentialDao.selectByCredential(email);
 
                     credentials.setHash(CredentialUtil.generateHash(newPassword, salt));
                     credentials.setSalt(salt);

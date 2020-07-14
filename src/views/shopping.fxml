@@ -5,9 +5,7 @@
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,6 +15,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <VBox fx:id="shoppingPage" prefHeight="804.0" prefWidth="1211.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ShoppingController">
     <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #40A6B9;" BorderPane.alignment="CENTER">
         <padding>
@@ -33,12 +33,12 @@
                 <Insets left="340.0" top="39.0"/>
             </HBox.margin>
         </JFXTextField>
-        <ImageView fx:id="userImage" fitHeight="79.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="userImage" onMouseClicked="#userButton" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
             <HBox.margin>
                 <Insets left="200.0" top="27.0"/>
             </HBox.margin>
         </ImageView>
-        <ImageView fx:id="cartImage" fitHeight="79.0" fitWidth="93.0" layoutX="1071.0" layoutY="10.0"
+        <ImageView fx:id="cartImage" onMouseClicked="#cartButton" fitHeight="50.0" fitWidth="50.0" layoutX="1071.0" layoutY="10.0"
                    pickOnBounds="true" preserveRatio="true">
             <HBox.margin>
                 <Insets left="50.0" top="27.0"/>
@@ -47,7 +47,7 @@
     </HBox>
     <BorderPane prefHeight="1000">
         <left>
-            <ListView fx:id="depField" onMouseClicked="#select" prefHeight="200.0" prefWidth="185.0" BorderPane.alignment="CENTER">
+            <JFXListView fx:id="depField" onMouseClicked="#select" prefHeight="200.0" prefWidth="185.0" BorderPane.alignment="CENTER">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
                         <String fx:value="Tutto" />
@@ -66,14 +66,14 @@
                         <String fx:value="Casa" />
                     </FXCollections>
                 </items>
-            </ListView>
+            </JFXListView>
         </left>
         <top>
             <HBox style="-fx-background-color: #51C0D3;">
                 <padding>
                     <Insets bottom="5.0" />
                 </padding>
-                <ChoiceBox fx:id="sortBy" onAction="#select" value="Seleziona...">
+                <JFXComboBox fx:id="sortBy" focusColor="#f9aa33" unFocusColor="#f9aa33" onAction="#select" value="Seleziona...">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
                             <String fx:value="Seleziona..." />
@@ -85,7 +85,7 @@
                     <HBox.margin>
                         <Insets left="50.0" top="20.0" />
                     </HBox.margin>
-                </ChoiceBox>
+                </JFXComboBox>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Filtra per:" wrappingWidth="85.21630859375">
                     <HBox.margin>
                         <Insets left="150.0" top="25.0" />

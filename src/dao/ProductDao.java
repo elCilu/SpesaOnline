@@ -6,7 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public final class ProductDao extends BaseDao {
 
@@ -16,8 +18,27 @@ public final class ProductDao extends BaseDao {
     private static final String IS_EMPTY = "select id from products where id = 1";
     private static final String GET_QTY_IN_STOCK = "select qtyStock from products where id = ?";
     private static final String SELECT = "select * from products";
+    private static final String SELECT_LAST = "select top 1 * from products order by id desc";
+    private static final String GET_ALL_QTY_STOCK = "select id, qtyStock from products";
 
     private ProductDao() {}
+
+    public static int selectLast(){
+        int idLast = 0;
+        try {
+            PreparedStatement statement = connection.prepareStatement(SELECT_LAST);
+            System.out.print("Selecting product with given id... ");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                idLast = resultSet.getInt(1);
+            }
+            System.out.println("Product selected!");
+        } catch (SQLException e) {
+            System.err.println("Error while selecting product.");
+            e.printStackTrace();
+        }
+        return idLast;
+    }
 
     public static int insertProduct(ProductModel productModel) {
         int result = 0;
@@ -207,5 +228,22 @@ public final class ProductDao extends BaseDao {
                 break;
         }
         return bits;
+    }
+
+    public static Map<Integer, Integer> getAllIDandQtyStock(){
+        Map<Integer, Integer> result = new HashMap<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(GET_ALL_QTY_STOCK);
+            System.out.print("Selecting all qtyStock... ");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                result.put(resultSet.getInt(1), resultSet.getInt(2));
+            }
+            System.out.println("All qtyStock in products selected!");
+        } catch (SQLException e) {
+            System.err.println("Error while selecting qtyStocks.");
+            e.printStackTrace();
+        }
+        return result;
     }
 }

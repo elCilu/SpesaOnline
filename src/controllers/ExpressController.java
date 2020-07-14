@@ -6,23 +6,17 @@ import dao.ShoppingDao;
 import enums.Status;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.MapChangeListener;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import models.ClientModel;
-import models.ExpressModel;
+import models.ShoppingModel;
+
 import java.util.Date;
 import java.util.List;
-import models.ShoppingModel;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 public class ExpressController {
 
