@@ -110,8 +110,8 @@ IF (NOT EXISTS(SELECT 1
         CREATE TABLE shopping
         (
             id              INT IDENTITY (1, 1) PRIMARY KEY,
-            purchasedDate   DATETIME,
-            deliveryDate    DATETIME,
+            purchasedDate   DATE,
+            deliveryDate    DATE,
             deliveryH       VARCHAR(50) NOT NULL,
             totalCost       SMALLMONEY  NOT NULL,
             earnedPoints    SMALLINT    NOT NULL,

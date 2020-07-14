@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #FFF5A0;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
+<AnchorPane fx:controller="controllers.ExpressController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #FFF5A0;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
       <Label fx:id="titleLabel" layoutX="33.0" layoutY="77.0" prefHeight="33.0" prefWidth="269.0" text="Consegne giornaliere">
          <font>
             <Font size="24.0" />
@@ -17,12 +16,9 @@
       <ScrollPane fx:id="bodyConsegne" layoutX="33.0" layoutY="123.0" prefHeight="247.0" prefWidth="535.0">
          <content>
             <AnchorPane prefHeight="244.0" prefWidth="533.0">
-               <children>
                   <VBox fx:id="infoSpesa" layoutX="14.0" layoutY="14.0" prefHeight="33.0" prefWidth="379.0" />
                   <VBox fx:id="checkSpesa" layoutX="414.0" layoutY="14.0" prefHeight="33.0" prefWidth="105.0" />
-               </children>
             </AnchorPane>
          </content>
       </ScrollPane>
-   </children>
 </AnchorPane>

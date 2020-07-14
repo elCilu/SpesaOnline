@@ -18,7 +18,7 @@ public final class ShoppingDao extends BaseDao {
 
     private static final String INSERT_SHOPPING = "insert into shopping values (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SELECT_LAST = "select top 1 * from shopping order by id desc";
-    private static final String GET_TODAY_DELIVERY = "select * from shopping where deliveryDate = ?";
+    private static final String GET_TODAY_DELIVERY = "select * from shopping where purchasedDate = ?";
     private static final String GET_ALL_SHOPPINGS = "select * from shopping";
     private static final String UPDATE_SHOPPING_STATUS = "update shopping set status = ? where id = ?";
 
@@ -68,21 +68,28 @@ public final class ShoppingDao extends BaseDao {
         return result;
     }
 
-    public static List<ShoppingModel> getTodayDelivery(Date date){
+    public static List<ShoppingModel> getTodayDelivery(){
         List<ShoppingModel> result = new ArrayList<>();
+        java.sql.Date deliveryDate = new java.sql.Date(new Date().getTime());
+
         try {
             PreparedStatement statement = connection.prepareStatement(GET_TODAY_DELIVERY);
+            statement.setDate(1, deliveryDate);
             System.out.print("Selecting today's delivering...");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                if(date.getDate() == resultSet.getDate(3).getDate() && date.getMonth() == resultSet.getDate(3).getMonth()
-                    && date.getYear() == resultSet.getDate(3).getYear()) {
+                System.out.println("sono nel while");
+                System.out.println(deliveryDate.toString());
+                System.out.print(resultSet.getDate(2));
+                if(deliveryDate.equals(resultSet.getDate(2))){
                     result.add(new ShoppingModel(resultSet.getInt(1), resultSet.getDate(2), resultSet.getDate(3),
                             resultSet.getString(4), resultSet.getFloat(5), resultSet.getInt(6),
                             Status.values()[resultSet.getInt(7)], resultSet.getInt(8),
                             PaymentMethod.values()[resultSet.getInt(9)]));
                 }
             }
+
+            System.out.println(resultSet.getDate(2));
             System.out.println("All shopping selected!");
         } catch (SQLException e) {
             System.err.println("Error while selecting shopping.");
