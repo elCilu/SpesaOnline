@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import models.ProductModel;
 import models.ProductShoppingModel;
 import models.ShoppingModel;
-import sample.GlobalVars;
+import sample.Global;
 
 public class ConfirmedController {
     @FXML
@@ -33,10 +33,10 @@ public class ConfirmedController {
 
     public void addProducts(ShoppingModel shopping) {
         //aggiungo i prodotti del carrello alla tabella dei prodotti comprati
-        for (ProductModel product : GlobalVars.cart.keySet()) {
-            addProductShopping(product.getId(), shopping.getId(), GlobalVars.cart.get(product));
+        for (ProductModel product : Global.cart.keySet()) {
+            addProductShopping(product.getId(), shopping.getId(), Global.cart.get(product));
             //update warehouse
-            updateWarehouse(product.getId(), (WarehouseDao.getQuantity(product.getId()) - GlobalVars.cart.get(product)));
+            updateWarehouse(product.getId(), (WarehouseDao.getQuantity(product.getId()) - Global.cart.get(product)));
         }
     }
     public void updateWarehouse(int id, int qty){

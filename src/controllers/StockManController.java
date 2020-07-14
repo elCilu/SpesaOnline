@@ -3,7 +3,6 @@ package controllers;
 import com.jfoenix.controls.JFXButton;
 import dao.*;
 import enums.Status;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -13,10 +12,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import models.*;
 import javafx.scene.text.Text;
-import sample.GlobalVars;
-import utils.OSystem;
+import sample.Global;
 
-import java.awt.*;
 import java.io.File;
 import java.net.URL;
 import java.util.*;
@@ -58,14 +55,6 @@ public class StockManController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //build the path
-        if(OSystem.isWindows())
-            path = "C:\\" + prodImg.getAbsolutePath() + "\\images\\";
-        if(OSystem.isUnix())
-            path = "file://" + prodImg.getAbsolutePath() + "/images/";
-        if(OSystem.isMac())
-            path = "";
-
         logo.setImage(new Image(path + "warehouse.png"));
         loadPage();
     }
@@ -209,7 +198,7 @@ public class StockManController implements Initializable {
 
     //invia ordine a fornitore
     public void sendOrder(){
-        OrderModel order = new OrderModel(0, getSupplier().getpIva(), GlobalVars.USER_ID);
+        OrderModel order = new OrderModel(0, getSupplier().getpIva(), Global.USER_ID);
         //manda ordine per reparto....
         try {
             int resultQuery = OrderDao.insertOrder(order);
