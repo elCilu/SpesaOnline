@@ -7,6 +7,7 @@ import enums.Status;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -16,10 +17,13 @@ import models.ClientModel;
 import models.ShoppingModel;
 import sample.Global;
 
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class ExpressController {
+public class ExpressController implements Initializable {
 
     @FXML
     public Label nameLabel, pivaLabel;
@@ -27,8 +31,13 @@ public class ExpressController {
     public ScrollPane bodyConsegne;
     @FXML
     private VBox infoSpesa, checkSpesa;
-    Date oggi = new Date();
-    List<ShoppingModel> speseOdierne = ShoppingDao.getTodayDelivery(oggi);
+
+    List<ShoppingModel> speseOdierne = ShoppingDao.getTodayDelivery();
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        loadData();
+    }
 
     public void loadData() {
         nameLabel.setText(ExpressDao.selectNameById(Global.USER_ID));
@@ -37,7 +46,7 @@ public class ExpressController {
         for(ShoppingModel s : speseOdierne){
             Text info = new Text();
             ClientModel c = ClientDao.selectById(s.getIdClient());
-            info.setText(String.format("Spesa %i, %s %s %s %s", s.getId(), c.getName(), c.getSurname(), c.getAddress(), s.getDeliveryH()));
+            info.setText(String.format("Spesa %d, %s %s %s %s", s.getId(), c.getName(), c.getSurname(), c.getAddress(), s.getDeliveryH()));
             infoSpesa.getChildren().add(info);
 
             CheckBox check = new CheckBox();
@@ -51,15 +60,16 @@ public class ExpressController {
                         s.setStatus(Status.DELIVERED);
                         updateShoppingStatus(s.getId(), s.getStatus().ordinal());
                     }
+                    check.setDisable(true);
                 }
             });
 
         }
     }
 
-    public void updateShoppingStatus(int id, int status){
+    public void updateShoppingStatus(int idShopping, int status){
         try {
-            int resultQuery = ShoppingDao.updateStatus(id, status);
+            int resultQuery = ShoppingDao.updateStatus(idShopping, status);
             if (resultQuery == 0)
                 throw new Exception("Errore nell'aggiornamento dello stato dello shopping nel db");
 
@@ -67,7 +77,5 @@ public class ExpressController {
             e.printStackTrace();
         }
     }
-
-
 
 }
