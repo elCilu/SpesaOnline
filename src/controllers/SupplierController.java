@@ -210,7 +210,7 @@ public class SupplierController implements Initializable {
         }
 
         //CAMBIO STATO "CONFIRMED"
-        OrderModel orderConfirmed = new OrderModel(0, 1/*getSupplier().getpIva()*/, 1/*GlobalVars.STOCK_MAN_ID*/, 0);
+        OrderModel orderConfirmed = new OrderModel(0, 1/*getSupplier().getpIva()*/, 1/*GlobalVars.STOCK_MAN_ID*/, 1);
         try {
 
             int resultQuery = OrderDao.updateStatusConfirmed(orderConfirmed.getId(), 1);
