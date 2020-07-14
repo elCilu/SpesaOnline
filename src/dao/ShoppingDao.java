@@ -68,7 +68,7 @@ public final class ShoppingDao extends BaseDao {
         return result;
     }
 
-    public static List<ShoppingModel> getTodayDelivery(){
+    /*public static List<ShoppingModel> getTodayDelivery(){
         List<ShoppingModel> result = new ArrayList<>();
         java.sql.Date deliveryDate = new java.sql.Date(new Date().getTime());
 
@@ -97,7 +97,7 @@ public final class ShoppingDao extends BaseDao {
         }
 
         return result;
-    }
+    }*/
 
     public static List<ShoppingModel> getAllShoppings(){    
         List<ShoppingModel> shoppings = new ArrayList<>();

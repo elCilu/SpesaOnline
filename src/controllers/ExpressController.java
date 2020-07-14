@@ -18,6 +18,7 @@ import models.ShoppingModel;
 import sample.Global;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -31,10 +32,19 @@ public class ExpressController implements Initializable {
     @FXML
     private VBox infoSpesa, checkSpesa;
 
-    List<ShoppingModel> speseOdierne = ShoppingDao.getTodayDelivery();
+    List<ShoppingModel> speseTotali = ShoppingDao.getAllShoppings();
+    List<ShoppingModel> speseOdierne = new ArrayList<>();
+    Date oggi = new Date();
+    java.sql.Date res = new java.sql.Date(oggi.getTime());
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        for(ShoppingModel s : speseTotali){
+            if(s.getPurchaseDate().equals(res))
+                speseOdierne.add(s);
+                System.out.println(s.getPurchaseDate());
+                System.out.println(res);
+        }
         loadData();
     }
 
