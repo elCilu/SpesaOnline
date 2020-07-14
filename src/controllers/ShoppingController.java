@@ -72,9 +72,15 @@ public class ShoppingController implements Initializable {
         int indexSort = 0;
         String sorted = sortBy.getSelectionModel().getSelectedItem();
         switch (sorted) {
-            case "Prezzo cresc." -> indexSort = 1;
-            case "Prezzo decresc." -> indexSort = 2;
-            case "Alfabetico" -> indexSort = 3;
+            case "Prezzo cresc.":
+                indexSort = 1;
+                break;
+            case "Prezzo decresc.":
+                indexSort = 2;
+                break;
+            case "Alfabetico":
+                indexSort = 3;
+                break;
         }
         return indexSort;
     }
