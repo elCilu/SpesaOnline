@@ -11,13 +11,12 @@ abstract class BaseDao {
             "jdbc:sqlserver://localhost:1433;"
                     + "database=spesaonline;" //nome db su mssql
                     + "user=SA;" //username di mssql
-                    + "password=2012Ruggiero!;" //vostra password al mssql
+                    + "password=_secret_1234;" //vostra password al mssql
                     + "loginTimeout=30;";
 
     protected static Connection createConnection() {
         try {
             System.out.print("Connecting to database...");
-            System.setProperty("java.net.preferIPv6Addresses", "true");
             connection = DriverManager.getConnection(connectionUrl);
             System.out.println("Connected to database!");
         } catch (SQLException e) {

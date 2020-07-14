@@ -88,20 +88,11 @@ public class LoginAdminController {
 
     @FXML
     private void goToAdminPage(String role) {
-        switch (role){
-            case "Corriere":
-                Global.changeScene(loginAdminPage, "express");
-                break;
-            case "Fornitore":
-                Global.changeScene(loginAdminPage, "supplier");
-                break;
-
-            case "Magazziniere":
-                Global.changeScene(loginAdminPage, "stockMan");
-                break;
-            case "Responsabile":
-                Global.changeScene(loginAdminPage, "manager");
-                break;
+        switch (role) {
+            case "Corriere" -> Global.changeScene(loginAdminPage, "express");
+            case "Fornitore" -> Global.changeScene(loginAdminPage, "supplier");
+            case "Magazziniere" -> Global.changeScene(loginAdminPage, "stockMan");
+            case "Responsabile" -> Global.changeScene(loginAdminPage, "manager");
         }
     }
 
