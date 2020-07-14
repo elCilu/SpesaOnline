@@ -17,6 +17,7 @@ abstract class BaseDao {
     protected static Connection createConnection() {
         try {
             System.out.print("Connecting to database...");
+            System.setProperty("java.net.preferIPv6Addresses", "true");
             connection = DriverManager.getConnection(connectionUrl);
             System.out.println("Connected to database!");
         } catch (SQLException e) {

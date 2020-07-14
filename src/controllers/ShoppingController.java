@@ -6,10 +6,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Spinner;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -112,15 +110,7 @@ public class ShoppingController implements Initializable {
 
     @FXML
     protected void userButton(){
-        try {
-            Stage stage = (Stage) shoppingPage.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("../views/costumerData.fxml"));
-            stage.setScene(new Scene(root, 400, 350));
-            stage.sizeToScene();
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Global.changeScene(shoppingPage, "costumerData");
     }
 
     public void refresh() {
@@ -137,9 +127,8 @@ public class ShoppingController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //gestione barra di ricerca
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            select();
-        });
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> select());
+
 
         logoImage.setImage(new Image(Global.IMG_PATH +  "shopping_logo.jpg"));
         userImage.setImage(new Image(Global.IMG_PATH +  "user_image.png"));

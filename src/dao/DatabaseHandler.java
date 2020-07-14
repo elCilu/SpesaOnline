@@ -129,7 +129,7 @@ public final class DatabaseHandler extends BaseDao {
 
     private static boolean populateManagers(List<String> deps) {
         boolean result = true;
-        int resultQuery = 0;
+        int resultQuery;
         byte [] salt;
         System.out.println("Populating manager table... ");
 
@@ -142,7 +142,8 @@ public final class DatabaseHandler extends BaseDao {
                             0,
                             deps.get(i).concat("@spesaonline.it"),
                             CredentialUtil.generateHash("responsabile", salt),
-                            salt));
+                            salt,
+                            1));
                     if (resultQuery == 0) {
                         result = false;
                         System.err.println("Something went wrong while creating manager's credentials.");
@@ -168,7 +169,7 @@ public final class DatabaseHandler extends BaseDao {
 
     private static boolean populateSuppliers(List<String> deps) {
         boolean result = true;
-        int resultQuery = 0;
+        int resultQuery;
         byte[] salt;
         try {
             for (int i = 0; i < 13; i++) {
@@ -183,7 +184,8 @@ public final class DatabaseHandler extends BaseDao {
                             0,
                             deps.get(i).concat("@fornitore.it"),
                             CredentialUtil.generateHash("fornitore", salt),
-                            salt));
+                            salt,
+                            3));
                     if (resultQuery == 0) {
                         result = false;
                         System.err.println("Something went wrong while creating supplier's credentials.");
@@ -218,7 +220,8 @@ public final class DatabaseHandler extends BaseDao {
                         0,
                         "magazziniere@spesaonline.it",
                         CredentialUtil.generateHash("magazziniere", salt),
-                        salt));
+                        salt,
+                        2));
                 if (resultQuery == 0) {
                     System.err.println("Something went wrong while creating stock man's credentials.");
                     connection.rollback();
@@ -248,7 +251,8 @@ public final class DatabaseHandler extends BaseDao {
                         0,
                         "corriere@spesaonline.it",
                         CredentialUtil.generateHash("corriere", salt),
-                        salt));
+                        salt,
+                        4));
                 if (resultQuery == 0) {
                     System.err.println("Something went wrong while creating express' credentials.");
                     connection.rollback();

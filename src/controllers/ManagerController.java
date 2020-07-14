@@ -13,7 +13,7 @@ import javafx.scene.text.Text;
 import models.ProductModel;
 import models.ShoppingModel;
 import models.WarehouseModel;
-import sample.GlobalVars;
+import sample.Global;
 
 import java.util.List;
 
@@ -49,7 +49,7 @@ public class ManagerController {
     ProductModel product;
     WarehouseModel warehouse;
     ChoiceBox<Tag> tags = new ChoiceBox<>();
-    int dep = ManagerDao.getDep(GlobalVars.USER_ID);
+    int dep = ManagerDao.getDep(Global.USER_ID);
 
 
     //visualizza lo stato delle spese

@@ -155,7 +155,8 @@ public class SignUpController {
                         0,
                         email,
                         CredentialUtil.generateHash(password, salt),
-                        salt
+                        salt,
+                        0
                 );
                 resultQuery = CredentialDao.insertCredentials(credential);
                 if (fidelityCardToggle.isSelected()) {

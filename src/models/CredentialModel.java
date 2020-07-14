@@ -5,12 +5,14 @@ public class CredentialModel {
     private String credential;
     private String hash;
     private byte[] salt;
+    private int type;
 
-    public CredentialModel(int id, String credential, String hash, byte[] salt) {
+    public CredentialModel(int id, String credential, String hash, byte[] salt, int type) {
         this.id = id;
         this.credential = credential;
         this.hash = hash;
         this.salt = salt;
+        this.type = type;
     }
 
     public int getId() {
@@ -43,5 +45,13 @@ public class CredentialModel {
 
     public void setSalt(byte[] salt) {
         this.salt = salt;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }
