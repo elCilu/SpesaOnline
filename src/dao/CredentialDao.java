@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public final class CredentialDao extends BaseDao {
-    private static final String INSERT = "insert into credentials values (?, ?, ?)";
+    private static final String INSERT = "insert into credentials values (?, ?, ?, ?)";
     //private static final String SELECT_BY_ID = "select * from credentials where id = ?";
     private static final String SELECT_CREDENTIAL = "select * from credentials where credential = ?";
     private static final String UPDATE_BY_CREDENTIAL = "update credentials set " +
@@ -23,6 +23,7 @@ public final class CredentialDao extends BaseDao {
             statement.setString(1, credential.getCredential());
             statement.setString(2, credential.getHash());
             statement.setBytes(3, credential.getSalt());
+            statement.setInt(4, credential.getType());
             result = statement.executeUpdate();
             System.out.println("Credentials inserted.");
         } catch (SQLException e) {
@@ -61,7 +62,7 @@ public final class CredentialDao extends BaseDao {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 credentials = new CredentialModel(resultSet.getInt(1), resultSet.getString(2),
-                        resultSet.getString(3), resultSet.getBytes(4));
+                        resultSet.getString(3), resultSet.getBytes(4), resultSet.getInt(5));
                 System.out.println("Credentials selected!");
             }
         } catch (SQLException e) {

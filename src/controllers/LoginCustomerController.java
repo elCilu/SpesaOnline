@@ -46,7 +46,8 @@ public class LoginCustomerController {
             }
             CredentialModel credentials = CredentialDao.selectByCredential(email);
             if (credentials != null) {
-                if (CredentialUtil.checkPassword(password, credentials.getSalt(), credentials.getHash())) {
+                if (CredentialUtil.checkPassword(password, credentials.getSalt(), credentials.getHash()) &&
+                credentials.getType() == 0) {
                     logged = true;
                     Global.USER_ID = ClientDao.selectIdByEmail(email);
                     goToShopping();

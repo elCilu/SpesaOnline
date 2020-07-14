@@ -27,51 +27,57 @@ public class LoginAdminController {
 
     @FXML
     private void login() {
-        boolean logged = false;
-
         String credential = emailField.getText();
         String password = passwordField.getText();
 
         try {
             if (credential.trim().isEmpty() || !isValidEmail(credential)) {
-                actionLabel.setText("Email non valida");
-                actionLabel.setVisible(true);
+                setActionLabel("Email non valida");
                 return;
             }
 
             if (password.isEmpty()) {
-                actionLabel.setText("Campo password vuoto");
-                actionLabel.setVisible(true);
+                setActionLabel("Campo password vuoto");
                 return;
             }
+
             CredentialModel credentials = CredentialDao.selectByCredential(credential);
             if (credentials != null) {
-
-                if (CredentialUtil.checkPassword(password, credentials.getSalt(), credentials.getHash())) {
-                    logged = true;
-                    switch (entityCombo.getSelectionModel().getSelectedItem()) {
-                        case "Corriere" -> {
+                switch (entityCombo.getSelectionModel().getSelectedItem()) {
+                    case "Corriere" -> {
+                        if (checkCredentialType(credentials, password, 4)) {
                             Global.USER_ID = ExpressDao.selectIdByEmail(credential);
                             goToAdminPage("Corriere");
-                        }
-                        case "Fornitore" -> {
-                            Global.USER_ID = SupplierDao.selectIdByEmail(credential);
-                            goToAdminPage("Fornitore");
-                        }
-                        case "Magazziniere" -> {
-                            Global.USER_ID = StockManDao.selectIdByEmail(credential);
-                            goToAdminPage("Magazziniere");
-                        }
-                        case "Responsabile" -> {
-                            Global.USER_ID = ManagerDao.selectIdByEmail(credential);
-                            goToAdminPage("Responsabile");
+                        } else {
+                            setActionLabel("Credenziali errate");
                         }
                     }
+                    case "Fornitore" -> {
+                        if (checkCredentialType(credentials, password, 3)) {
+                            Global.USER_ID = SupplierDao.selectIdByEmail(credential);
+                            goToAdminPage("Fornitore");
+                        } else {
+                            setActionLabel("Credenziali errate");
+                        }
+                    }
+                    case "Magazziniere" -> {
+                        if (checkCredentialType(credentials, password, 2)) {
+                            Global.USER_ID = StockManDao.selectIdByEmail(credential);
+                            goToAdminPage("Magazziniere");
+                        } else {
+                            setActionLabel("Credenziali errate");
+                        }
+                    }
+                    case "Responsabile" -> {
+                        if (checkCredentialType(credentials, password, 1)) {
+                            Global.USER_ID = ManagerDao.selectIdByEmail(credential);
+                            goToAdminPage("Responsabile");
+                        } else {
+                            setActionLabel("Credenziali errate");
+                        }
+                    }
+                    default -> setActionLabel("Seleziona ruolo");
                 }
-            }
-            if (!logged) {
-                actionLabel.setText("Credenziali errate");
-                actionLabel.setVisible(true);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,5 +97,14 @@ public class LoginAdminController {
     @FXML
     private void goToCustomerLogin() {
         Global.changeScene(loginAdminPage, "loginCustomer");
+    }
+
+    private void setActionLabel(String msg) {
+        actionLabel.setText(msg);
+        actionLabel.setVisible(true);
+    }
+
+    private boolean checkCredentialType(CredentialModel credentials, String password, int type){
+        return CredentialUtil.checkPassword(password, credentials.getSalt(), credentials.getHash()) && credentials.getType() == type;
     }
 }
