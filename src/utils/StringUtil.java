@@ -1,8 +1,7 @@
 package utils;
 
 public final class StringUtil {
-    private StringUtil() {
-    }
+    private StringUtil() { }
 
 
     public static String formatName(String string) {

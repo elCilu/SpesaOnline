@@ -6,20 +6,20 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<SplitPane fx:id="CheckOutPage" dividerPositions="0.31960461285008235" prefHeight="600.0" prefWidth="1300.0" style="-fx-background-color: #90DAE5;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CheckOutController">
+<SplitPane fx:id="CheckOutPage" dividerPositions="0.6635514018691588" maxHeight="600.0" prefHeight="600.0" prefWidth="1500.0" style="-fx-background-color: #90DAE5;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CheckOutController">
     <items>
-        <ScrollPane prefHeight="600.0" prefWidth="800.0">
+        <ScrollPane prefHeight="600.0" prefWidth="1000.0">
             <content>
-                <AnchorPane fx:id="cartPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="781.0" style="-fx-background-color: #90DAE5;">
+                <AnchorPane fx:id="cartPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="981.0" style="-fx-background-color: #90DAE5;">
                     <children>
-                        <AnchorPane fx:id="productsPane" minHeight="0.0" minWidth="0.0" prefHeight="585.0" prefWidth="781.0">
+                        <AnchorPane fx:id="productsPane" minHeight="0.0" minWidth="0.0" prefHeight="585.0" prefWidth="981.0">
                             <children>
-                                <Label layoutX="650.0" prefHeight="30.0" prefWidth="115.0" text="Prezzo totale ">
+                                <Label layoutX="818.0" prefHeight="30.0" prefWidth="150.0" text="Prezzo totale ">
                                     <font>
                                         <Font size="17.0" />
                                     </font>
                                 </Label>
-                                <Label layoutX="520.0" prefHeight="30.0" prefWidth="100.0" text="Quantità ">
+                                <Label layoutX="690.0" prefHeight="30.0" prefWidth="100.0" text="Quantità ">
                                     <font>
                                         <Font size="17.0" />
                                     </font>
@@ -31,8 +31,8 @@
                                 </Label>
                                 <VBox fx:id="imgs" alignment="TOP_CENTER" layoutX="15.0" layoutY="50.0" prefWidth="150.0" spacing="11.0" />
                                 <VBox fx:id="name" layoutX="200.0" layoutY="50.0" prefWidth="300.0" spacing="65.0" />
-                                <VBox fx:id="qty" layoutX="520.0" layoutY="50.0" prefWidth="100.0" spacing="65.0" />
-                                <VBox fx:id="price" layoutX="650.0" layoutY="50.0" prefWidth="100.0" spacing="65.0">
+                                <VBox fx:id="qty" layoutX="690.0" layoutY="50.0" prefWidth="100.0" spacing="65.0" />
+                                <VBox fx:id="price" layoutX="818.0" layoutY="50.0" prefWidth="100.0" spacing="65.0">
                                     <padding>
                                         <Insets left="10.0" right="10.0" />
                                     </padding>
@@ -67,7 +67,7 @@
             </Text>
 
             <Label prefHeight="25" prefWidth="180" text="Data consegna: " GridPane.rowIndex="4" />
-            <JFXDatePicker fx:id="dataConsegna" defaultColor="#F9AA33" prefHeight="25.0" prefWidth="180.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <DatePicker fx:id="dataConsegna" prefHeight="26.0" prefWidth="211.0" style="-fx-background-color: #90DAE5;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
             <Label prefHeight="25" prefWidth="180" text="Orario consegna: " GridPane.rowIndex="5" />
             <JFXRadioButton fx:id="mattina" mnemonicParsing="false" prefWidth="180" selectedColor="#F9AA33" text="Mattina (8:00 - 12:00)" unSelectedColor="#F9AA33" GridPane.columnIndex="1" GridPane.rowIndex="5">
@@ -75,7 +75,7 @@
                     <ToggleGroup fx:id="delivery" />
                 </toggleGroup>
             </JFXRadioButton>
-            <JFXRadioButton fx:id="pomeriggio" layoutX="224.0" layoutY="236.0" mnemonicParsing="false" prefWidth="180" selectedColor="#F9AA33" text="Pomeriggio (14:00 - 18:00)" unSelectedColor="#F9AA33" GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <JFXRadioButton fx:id="pomeriggio" layoutX="224.0" layoutY="236.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="228.0" selectedColor="#F9AA33" text="Pomeriggio (14:00 - 18:00)" unSelectedColor="#F9AA33" GridPane.columnIndex="1" GridPane.rowIndex="6">
                 <toggleGroup>
                     <fx:reference source="delivery" />
                 </toggleGroup>
@@ -114,14 +114,14 @@
                 <JFXButton buttonType="RAISED" onAction="#addShopping" prefHeight="40" prefWidth="180" style="-fx-background-color: #F9AA33;" text="Conferma" />
             </HBox>
 
-            <HBox alignment="BOTTOM_CENTER" prefHeight="40" prefWidth="180" spacing="10" GridPane.rowIndex="12">
+            <HBox alignment="CENTER_LEFT" prefHeight="40" prefWidth="180" spacing="10" GridPane.rowIndex="12">
                 <JFXButton buttonType="RAISED" onAction="#goToCart" prefHeight="40" prefWidth="180" style="-fx-background-color: #F9AA33;" text="Torna al carrello" />
             </HBox>
 
             <Text fx:id="actionTarget" GridPane.columnIndex="1" GridPane.rowIndex="13" />
             <columnConstraints>
                 <ColumnConstraints />
-                <ColumnConstraints />
+                <ColumnConstraints prefWidth="250" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints />

@@ -7,37 +7,37 @@ IF (NOT EXISTS(SELECT 1
         CREATE TABLE credentials
         (
             id    INT IDENTITY (1, 1) PRIMARY KEY,
-            email VARCHAR(50) UNIQUE NOT NULL,
+            credential VARCHAR(50) UNIQUE NOT NULL,
             hash  VARCHAR(64) UNIQUE NOT NULL,
             salt  BINARY(25)         NOT NULL
         )
     END
 
--- Check if table admins exists, if not creates it
+-- Check if table manager exists, if not creates it
 IF (NOT EXISTS(SELECT 1
                FROM INFORMATION_SCHEMA.TABLES
                WHERE TABLE_SCHEMA = 'dbo'
-                 AND TABLE_NAME = 'admins'))
+                 AND TABLE_NAME = 'manager'))
     BEGIN
-        create table admins
+        CREATE TABLE manager
         (
             matriculation INT IDENTITY (1, 1) PRIMARY KEY,
             name          VARCHAR(50)        NOT NULL,
             surname       VARCHAR(50)        NOT NULL,
-            role          INT                NOT NULL,
-            email         VARCHAR(50) UNIQUE NOT NULL
+            dep          INT                NOT NULL,
+            mail      VARCHAR(50) UNIQUE NOT NULL
         )
     END
 
--- Check if table stockmans exists, if not creates it
+-- Check if table stockMans exists, if not creates it
 IF (NOT EXISTS(SELECT 1
                FROM INFORMATION_SCHEMA.TABLES
                WHERE TABLE_SCHEMA = 'dbo'
-                 AND TABLE_NAME = 'stockmans'))
+                 AND TABLE_NAME = 'stockMans'))
     BEGIN
-        create table stockmans
+        CREATE TABLE stockMans
         (
-            matriculation INT IDENTITY (1, 1) PRIMARY KEY,
+            matriculation INT IDENTITY (1, 1) PRIMARY KEY ,
             name          VARCHAR(50)        NOT NULL,
             surname       VARCHAR(50)        NOT NULL,
             email         VARCHAR(50) UNIQUE NOT NULL
@@ -145,8 +145,8 @@ IF (NOT EXISTS(SELECT 1
         (
             idProduct INT FOREIGN KEY REFERENCES products (id) PRIMARY KEY,
             qty       SMALLINT NOT NULL,
-            qtyMin    SMALLINT NOT NULL,
-            qtyMax    SMALLINT NOT NULL
+            qtyMin    SMALLINT NOT NULL DEFAULT 20,
+            qtyMax    SMALLINT NOT NULL DEFAULT 100
         )
     END
 
@@ -158,7 +158,9 @@ IF (NOT EXISTS(SELECT 1
     BEGIN
         CREATE TABLE suppliers
         (
-            pIva        INT IDENTITY (1, 1) PRIMARY KEY,
+            id          INT IDENTITY (1, 1) PRIMARY KEY,
+            email       VARCHAR(50) NOT NULL,
+            pIva        INT NOT NULL,
             companyName VARCHAR(50) NOT NULL,
             dep         SMALLINT    NOT NULL
         )
@@ -174,8 +176,8 @@ IF (NOT EXISTS(SELECT 1
         CREATE TABLE orders
         (
             id           INT IDENTITY (1, 1) PRIMARY KEY,
-            pIvaSupplier INT FOREIGN KEY references suppliers (pIva),
-            matrStockMan INT FOREIGN KEY references stockmans (matriculation)
+            idSupplier INT FOREIGN KEY references suppliers (id),
+            idStockMan INT FOREIGN KEY references stockMans (matriculation)
         )
     END
 
@@ -202,7 +204,9 @@ IF (NOT EXISTS(SELECT 1
     BEGIN
         CREATE TABLE express
         (
-            pIva        INT IDENTITY (1, 1) PRIMARY KEY,
-            companyName VARCHAR(50) NOT NULL
+            id          INT IDENTITY (1, 1) PRIMARY KEY,
+            email         VARCHAR(50) UNIQUE NOT NULL,
+            pIva        INT UNIQUE NOT NULL ,
+            companyName VARCHAR(50) UNIQUE NOT NULL
         )
     END

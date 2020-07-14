@@ -10,7 +10,6 @@ public class StockManModel {
     private final String name;
     private final String surname;
     private final String username;
-    //non mi ricordo come avevamo deciso di gestire il password..
 
     public StockManModel(int matriculationNumber, String name, String surname, String username){
         this.matriculationNumber = matriculationNumber;

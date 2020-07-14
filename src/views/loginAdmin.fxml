@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="loginAdminPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="416.0" prefWidth="541.0" style="-fx-background-color: #FFF5A0;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginAdminController">
+    <Label alignment="CENTER" layoutX="67.0" layoutY="35.0" prefHeight="55.0" prefWidth="408.0" text="Area Riservata">
+        <font>
+            <Font name="FontAwesome" size="40.0" />
+        </font>
+    </Label>
+    <Pane layoutX="120.0" layoutY="111.0" prefHeight="230.0" prefWidth="302.0" style="-fx-background-color: #F5F5F5;" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="119.0" AnchorPane.topAnchor="111.0">
+        <Label fx:id="actionLabel" alignment="CENTER" layoutX="4.0" layoutY="8.0" prefHeight="26.0" prefWidth="294.0" style="-fx-background-color: red;" visible="false">
+            <font>
+                <Font name="FontAwesome" size="16.0" />
+            </font>
+        </Label>
+        <JFXComboBox fx:id="entityCombo" focusColor="#f9aa33" layoutX="68.0" layoutY="52.0" prefHeight="26.0" prefWidth="166.0" unFocusColor="#f9aa33" value="Seleziona...">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Seleziona..." />
+                    <String fx:value="Corriere" />
+                    <String fx:value="Fornitore" />
+                    <String fx:value="Magazziniere" />
+                    <String fx:value="Responsabile" />
+                </FXCollections>
+            </items>
+        </JFXComboBox>
+        <JFXTextField fx:id="emailField" focusColor="#f9aa33" labelFloat="true" layoutX="55.0" layoutY="97.0" prefHeight="26.0" prefWidth="193.0" promptText="Credenziale" unFocusColor="#09b6bc" />
+        <JFXPasswordField fx:id="passwordField" focusColor="#f9aa33" labelFloat="true" layoutX="55.0" layoutY="145.0" prefHeight="26.0" prefWidth="193.0" promptText="Password" unFocusColor="#09b6bc" />
+        <JFXButton buttonType="RAISED" layoutX="43.0" layoutY="189.0" onAction="#login" prefHeight="26.0" prefWidth="217.0" ripplerFill="WHITE" style="-fx-background-color: #90DAE5;" text="Login" />
+        <Label alignment="CENTER" layoutX="75.0" layoutY="233.0" onMouseClicked="#goToCustomerLogin" prefHeight="14.0" prefWidth="151.0" text="Accedi come cliente" textFill="#51c0d3">
+            <font>
+                <Font name="FontAwesome" size="13.0" />
+            </font>
+        </Label>
+    </Pane>
+</AnchorPane>

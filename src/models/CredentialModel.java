@@ -2,15 +2,17 @@ package models;
 
 public class CredentialModel {
     private int id;
-    private String email;
+    private String credential;
     private String hash;
     private byte[] salt;
+    private int type;
 
-    public CredentialModel(int id, String email, String hash, byte[] salt) {
+    public CredentialModel(int id, String credential, String hash, byte[] salt, int type) {
         this.id = id;
-        this.email = email;
+        this.credential = credential;
         this.hash = hash;
         this.salt = salt;
+        this.type = type;
     }
 
     public int getId() {
@@ -21,12 +23,12 @@ public class CredentialModel {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getCredential() {
+        return credential;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCredential(String credential) {
+        this.credential = credential;
     }
 
     public String getHash() {
@@ -43,5 +45,13 @@ public class CredentialModel {
 
     public void setSalt(byte[] salt) {
         this.salt = salt;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }
