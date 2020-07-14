@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,6 +17,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.ProductModel;
 import sample.Global;
+import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 
 import java.net.URL;
 import java.util.List;
@@ -168,11 +170,10 @@ public class ShoppingController implements Initializable {
             priceVBox.getChildren().add(unitPrice);
 
             //aggiungi textfield per quantità
-            TextField qty = new TextField();
-            qty.setText("1");
-            qty.setPromptText("qtà");
-            qty.setMaxSize(50, 5);
-            qtyVBox.getChildren().add(qty);
+            Spinner<Integer> qtyBox = new Spinner<>();
+            qtyBox.setValueFactory(new IntegerSpinnerValueFactory(1, ProductDao.getQtyInStock(p.getId()), 1));
+            qtyBox.setMaxSize(65, 5);
+            qtyVBox.getChildren().add(qtyBox);
             qtyVBox.setSpacing(55);
 
             //add button
@@ -187,7 +188,7 @@ public class ShoppingController implements Initializable {
             addVBox.getChildren().add(addButton);
 
             //gestione textfield qtyChoice
-            addButton.setOnMouseClicked(mouseEvent -> addToCart(p, Integer.parseInt(qty.getText())));
+            addButton.setOnMouseClicked(mouseEvent -> addToCart(p, qtyBox.getValue()));
         }
     }
 
