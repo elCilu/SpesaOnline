@@ -92,7 +92,7 @@ public final class ShoppingDao extends BaseDao {
         return result;
     }
 
-    public static List<ShoppingModel> getAllShoppings(){
+    public static List<ShoppingModel> getAllShoppings(){    
         List<ShoppingModel> shoppings = new ArrayList<>();
 
         try{
