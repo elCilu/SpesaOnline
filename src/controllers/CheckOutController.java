@@ -18,8 +18,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.ProductModel;
 import models.ShoppingModel;
-import sample.GlobalVars;
-import utils.OSystem;
+import sample.Global;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -31,8 +30,7 @@ import java.util.GregorianCalendar;
 import static java.util.Calendar.*;
 
 public class CheckOutController {
-    private static final File prodImg = new File("");
-    //private int[] dayOnMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
     public ShoppingModel shopping;
     @FXML
     private VBox imgs;
@@ -121,23 +119,16 @@ public class CheckOutController {
             this.mod = 4;
         if (mod == 2)
             this.mod = 2;
-        this.idClient = GlobalVars.USER_ID;
+        this.idClient = Global.USER_ID;
 
         totSpesa.setText(String.format("%.2f", subTotal()));
         puntiSpesa.setText(String.format("%02d", (int) subTotal()));
 
-        for (ProductModel p : GlobalVars.cart.keySet()) {
+        for (ProductModel p : Global.cart.keySet()) {
             //product image
             ImageView img = new ImageView();
-            String path = "";
-            if(OSystem.isWindows())
-                path = "C:\\" + prodImg.getAbsolutePath() + "\\images\\";
-            if(OSystem.isUnix())
-                path = "file://" + prodImg.getAbsolutePath() + "/images/";
-            if(OSystem.isMac())
-                path = "";
 
-            img.setImage(new Image(path + "prod_" + String.format("%02d", p.getId()) +  ".jpg"));
+            img.setImage(new Image(Global.IMG_PATH + "prod_" + String.format("%02d", p.getId()) +  ".jpg"));
             img.setFitHeight(70);
             img.setFitWidth(120);
             imgs.getChildren().add(img);
@@ -154,14 +145,14 @@ public class CheckOutController {
 
             //product quantity
             Text prodQty = new Text();
-            prodQty.setText(String.format("%d", GlobalVars.cart.get(p)));
+            prodQty.setText(String.format("%d", Global.cart.get(p)));
 
             qty.getChildren().add(prodQty);
         }
     }
 
     private void productTotalPrice(Text prodPrice, ProductModel p) {
-        prodPrice.setText(String.format("€%.2f", p.getprice() * GlobalVars.cart.get(p)));
+        prodPrice.setText(String.format("€%.2f", p.getprice() * Global.cart.get(p)));
     }
 
     public void addShopping() {
@@ -181,24 +172,6 @@ public class CheckOutController {
             Calendar calendar = getInstance();
             calendar.setTime(purchaseDate);
             int tempDay = calendar.get(DAY_OF_MONTH) + mod;
-
-            /*int tempMonth = calendar.get(MONTH);
-            int tempYear = calendar.get(YEAR);
-
-            if((tempYear % 4 == 0 && tempYear % 100 != 0) || tempYear % 400 == 0)
-                dayOnMonth[1] = 29;
-
-            tempDay = tempDay + mod;
-
-            if(tempDay > dayOnMonth[tempMonth]){
-                tempDay = tempDay - dayOnMonth[tempMonth];
-                tempMonth++;
-
-                if(tempMonth == 12){
-                    tempMonth = 0;
-                    tempYear++;
-                }
-            }*/
 
             tempDate = new GregorianCalendar(calendar.get(YEAR), calendar.get(MONTH), tempDay).getTime();
 
@@ -265,8 +238,8 @@ public class CheckOutController {
     private float subTotal(){
         float tot = 0;
 
-        for(ProductModel p: GlobalVars.cart.keySet())
-            tot += p.getprice() * GlobalVars.cart.get(p);
+        for(ProductModel p: Global.cart.keySet())
+            tot += p.getprice() * Global.cart.get(p);
 
         return tot;
     }

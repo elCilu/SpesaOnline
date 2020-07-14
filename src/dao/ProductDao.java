@@ -6,7 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public final class ProductDao extends BaseDao {
 
@@ -17,8 +19,8 @@ public final class ProductDao extends BaseDao {
     private static final String GET_QTY_IN_STOCK = "select qtyStock from products where id = ?";
     private static final String SELECT = "select * from products";
     private static final String SELECT_LAST = "select top 1 * from products order by id desc";
-    private static final String UPDATE_PRODUCT_QTY = "update products set qtyStock = ? where id = ?";
-
+    private static final String UPDATE_QTY_IN_STOCK = "update products set qtyStock = ? where id = ?";
+    private static final String GET_ALL_QTY_STOCK = "select id, qtyStock from products";
 
     private ProductDao() {}
 
@@ -196,6 +198,22 @@ public final class ProductDao extends BaseDao {
         return result;
     }
 
+    //aggiorna quantità di un prodotto
+
+    public static int updateQuantity(int idProduct, int newQty) {
+        int result = 0;
+        try{
+            PreparedStatement statement = connection.prepareStatement(UPDATE_QTY_IN_STOCK);
+            statement.setInt(1, newQty);
+            statement.setInt(2, idProduct);
+            result = statement.executeUpdate();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     static int[] setBits(Tag tag){
         int[] bits = {0, 0, 0};
         switch (tag) {
@@ -229,15 +247,18 @@ public final class ProductDao extends BaseDao {
         return bits;
     }
 
-    public static int updateQty(int id, int qtyStock) {
-        int result = 0;
-        try{
-            PreparedStatement statement = connection.prepareStatement(UPDATE_PRODUCT_QTY);
-            statement.setInt(1, qtyStock);
-            statement.setInt(2, id);
-            result = statement.executeUpdate();
-        }
-        catch (Exception e){
+    public static Map<Integer, Integer> getAllIDandQtyStock(){
+        Map<Integer, Integer> result = new HashMap<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(GET_ALL_QTY_STOCK);
+            System.out.print("Selecting all qtyStock... ");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                result.put(resultSet.getInt(1), resultSet.getInt(2));
+            }
+            System.out.println("All qtyStock in products selected!");
+        } catch (SQLException e) {
+            System.err.println("Error while selecting qtyStocks.");
             e.printStackTrace();
         }
         return result;

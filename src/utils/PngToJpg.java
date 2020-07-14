@@ -10,12 +10,6 @@ import java.io.IOException;
 
 public class PngToJpg {
     private static final File prodImg = new File("");
- /*   public static void main( String[] args){
-        File pngImage = new File("/home/king_cheikh/Scrivania/prova.png");
-        File jpgImage = new File("/home/king_cheikh/Scrivania/prova.jpg");
-        changeExtension(pngImage, jpgImage);
-        System.out.println("COnversion completed");
-    }*/
     public static void changeExtension(){
         int size = ProductDao.getAllProducts().size();
         for(int i = 0; i < size; i++){
@@ -33,7 +27,6 @@ public class PngToJpg {
                     e.printStackTrace();
                 }
         }
-
 
     }
 }
