@@ -1,7 +1,11 @@
 package controllers;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXRadioButton;
+import com.jfoenix.controls.JFXScrollPane;
+import com.jfoenix.controls.JFXTextField;
 import dao.ProductDao;
-import javafx.beans.value.ChangeListener;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,16 +13,17 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.ProductModel;
-import sample.Global;
-import utils.OSUtil;
+import sample.GlobalVars;
+import utils.OSystem;
 import utils.PngToJpg;
 
 import java.io.File;
@@ -27,7 +32,7 @@ import java.util.*;
 
 public class CartController implements Initializable {
     @FXML
-    private AnchorPane cartPage;
+    private ScrollPane cartPage;
     @FXML
     private VBox imgVBox;
     @FXML
@@ -39,17 +44,19 @@ public class CartController implements Initializable {
     @FXML
     private VBox priceVBox;
     @FXML
-    private TextField totalShopping;
+    private JFXTextField totalShopping;
     @FXML
-    private TextField fidelityPoints;
+    private JFXTextField subTotal;
     @FXML
-    private TextField shipping;
+    private JFXTextField fidelityPoints;
     @FXML
-    private RadioButton standardRadioButton;
+    private JFXTextField shipping;
     @FXML
-    private RadioButton expressRadioButton;
+    private JFXRadioButton standardRadioButton;
     @FXML
-    private TextField promotion;
+    private JFXRadioButton expressRadioButton;
+    @FXML
+    private JFXTextField promotion;
     @FXML
     private Label totalPriceLabel;
     @FXML
@@ -62,8 +69,8 @@ public class CartController implements Initializable {
 
     @FXML
     public void cleanCart(){
-        if(!Global.cart.keySet().isEmpty()) {
-            Global.cart.clear();
+        if(!GlobalVars.cart.keySet().isEmpty()) {
+            GlobalVars.cart.clear();
 
             //clear delle vBox
             imgVBox.getChildren().clear();
@@ -77,7 +84,7 @@ public class CartController implements Initializable {
             fidelityPoints.setText("00.0");
 
             totalPriceLabel.setVisible(false);
-            messages.setText("IL TUO CARRELLO È VUOTO!");//trovare il modo di stamparlo proprio al centro della pagina in modo dinamico
+            messages.setText("IL TUO CARRELLO È VUOTO!");
         }
     }
 
@@ -98,7 +105,7 @@ public class CartController implements Initializable {
 
     @FXML
     public void checkout(){
-        if(Global.cart.keySet().isEmpty()){
+        if(GlobalVars.cart.keySet().isEmpty()){
             System.out.println("Il tuo carrello è vuoto!");
         }
         else {
@@ -139,11 +146,11 @@ public class CartController implements Initializable {
         System.out.println("Conversion completed");
 
         //build the path
-        if(OSUtil.isWindows())
+        if(OSystem.isWindows())
             path = "C:\\" + prodImg.getAbsolutePath() + "\\images\\";
-        if(OSUtil.isUnix())
+        if(OSystem.isUnix())
             path = "file://" + prodImg.getAbsolutePath() + "/images/";
-        if(OSUtil.isMac())
+        if(OSystem.isMac())
             path = "";
     }
 
@@ -163,17 +170,18 @@ public class CartController implements Initializable {
     }
 
     private void productTotalPrice(Text prodPrice, ProductModel p){
-        prodPrice.setText(String.format("€%.2f", p.getprice() * Global.cart.get(p)));
+        prodPrice.setText(String.format("€%.2f", p.getprice() * GlobalVars.cart.get(p)));
     }
 
     private void totals(){
         // promotion.setText(String.valueOf(cart.getPromotion));
+        subTotal.setText(String.format("€ %.2f", subTotal()));
         totalShopping.setText(String.format("€ %.2f", subTotal() + getShippingCost(mod))); // mancano i codici promozionali
         fidelityPoints.setText((int) subTotal() + " punti");
     }
 
     public void setUpCart(){
-        for(ProductModel p : Global.cart.keySet()) {
+        for(ProductModel p : GlobalVars.cart.keySet()) {
             //product image
             ImageView img = new ImageView();
             img.setImage(new Image(path + "prod_" + String.format("%02d", p.getId()) +  ".jpg"));
@@ -192,40 +200,35 @@ public class CartController implements Initializable {
             priceVBox.getChildren().add(prodPrice);
 
             //product quantity
-            ChoiceBox<Integer> qtyBox = new ChoiceBox<>();
-            for (int i = 1; i <= ProductDao.getQtyInStock(p.getId()); i++)
-                qtyBox.getItems().add(i);
-
-            qtyBox.setValue(Global.cart.get(p));
-            qtyBox.setPrefSize(50,35);
-            qtyVBox.getChildren().add(qtyBox);
-
-            qtyBox.getSelectionModel().selectedItemProperty().addListener((ChangeListener<Number>) (ov, oldValue, newValue) -> {
+            Spinner<Integer> qtyBox = new Spinner<>();
+            qtyBox.setValueFactory(new IntegerSpinnerValueFactory(1, ProductDao.getQtyInStock(p.getId()), GlobalVars.cart.get(p)));
+            qtyBox.setOnMouseClicked(mouseEvent -> {
                 System.out.println("Trying to change the quantity");
-                Global.cart.replace(p, Global.cart.get(p), newValue.intValue());
+                GlobalVars.cart.replace(p, GlobalVars.cart.get(p), qtyBox.getValue());
                 productTotalPrice(prodPrice, p);
                 setShipping();
                 totals();
             });
 
-            Button trash = new Button();
+            qtyBox.setPrefSize(65,35);
+            qtyVBox.getChildren().add(qtyBox);
+
+            JFXButton trash = new JFXButton();
             ImageView trashImage = new ImageView();
             trashImage.setImage(new Image(path + "trash.jpg"));
             trashImage.setFitHeight(25);
             trashImage.setFitWidth(25);
             trash.setGraphic(trashImage);
+            trash.setButtonType(JFXButton.ButtonType.RAISED);
             trashVBox.setAlignment(Pos.CENTER);
             trashVBox.getChildren().add(trash);
 
-            trash.setOnAction(actionEvent -> {
-                Global.cart.remove(p, Global.cart.get(p));//non funziona bene forse
+            trash.setOnAction(actionEvent -> {GlobalVars.cart.remove(p, GlobalVars.cart.get(p));//non funziona bene forse
                 imgVBox.getChildren().remove(img);
                 nameCodeVBox.getChildren().remove(prodNameCode);
                 qtyVBox.getChildren().remove(qtyBox);
                 trashVBox.getChildren().remove(trash);
                 priceVBox.getChildren().remove(prodPrice);
-                //Text t = new Text("Product removed!");
-                messages.setText("Product removed!");
                 totals();
             });
         }
@@ -239,7 +242,7 @@ public class CartController implements Initializable {
         promotion.setBackground(Background.EMPTY);
         fidelityPoints.setBackground(Background.EMPTY);
 
-        if(!Global.cart.keySet().isEmpty())
+        if(!GlobalVars.cart.keySet().isEmpty())
             messages.setText("");
 
     }
@@ -247,15 +250,15 @@ public class CartController implements Initializable {
     private float subTotal(){
         float tot = 0;
 
-        for(ProductModel p: Global.cart.keySet())
-            tot += p.getprice() * Global.cart.get(p);
+        for(ProductModel p: GlobalVars.cart.keySet())
+            tot += p.getprice() * GlobalVars.cart.get(p);
 
         return tot;
     }
 
-    private float getShippingCost(int mod) {
-        float shippingCost;
-        if((subTotal() >= 50 && (mod == 0 || mod == 1)) || Global.cart.isEmpty())
+    private Float getShippingCost(int mod) {
+        Float shippingCost;
+        if((subTotal() >= 50 && (mod == 0 || mod == 1)) || GlobalVars.cart.isEmpty())
             shippingCost = 0.0F;
         else if(mod == 1)
             shippingCost = 5.99F;

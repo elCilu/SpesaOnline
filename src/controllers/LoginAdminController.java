@@ -44,39 +44,41 @@ public class LoginAdminController {
             CredentialModel credentials = CredentialDao.selectByCredential(credential);
             if (credentials != null) {
                 switch (entityCombo.getSelectionModel().getSelectedItem()) {
-                    case "Corriere" -> {
+                    case "Corriere":
+
                         if (checkCredentialType(credentials, password, 4)) {
                             Global.USER_ID = ExpressDao.selectIdByEmail(credential);
                             goToAdminPage("Corriere");
                         } else {
                             setActionLabel("Credenziali errate");
                         }
-                    }
-                    case "Fornitore" -> {
+                        break;
+                    case "Fornitore":
                         if (checkCredentialType(credentials, password, 3)) {
                             Global.USER_ID = SupplierDao.selectIdByEmail(credential);
                             goToAdminPage("Fornitore");
                         } else {
                             setActionLabel("Credenziali errate");
                         }
-                    }
-                    case "Magazziniere" -> {
+                        break;
+                    case "Magazziniere":
                         if (checkCredentialType(credentials, password, 2)) {
                             Global.USER_ID = StockManDao.selectIdByEmail(credential);
                             goToAdminPage("Magazziniere");
                         } else {
                             setActionLabel("Credenziali errate");
                         }
-                    }
-                    case "Responsabile" -> {
+                        break;
+                    case "Responsabile":
                         if (checkCredentialType(credentials, password, 1)) {
                             Global.USER_ID = ManagerDao.selectIdByEmail(credential);
                             goToAdminPage("Responsabile");
                         } else {
                             setActionLabel("Credenziali errate");
                         }
-                    }
-                    default -> setActionLabel("Seleziona ruolo");
+                        break;
+                    default:
+                        setActionLabel("Seleziona ruolo");
                 }
             }
         } catch (Exception e) {
@@ -87,10 +89,19 @@ public class LoginAdminController {
     @FXML
     private void goToAdminPage(String role) {
         switch (role){
-            case "Corriere" -> Global.changeScene(loginAdminPage, "express");
-            case "Fornitore" -> Global.changeScene(loginAdminPage, "supplier");
-            case "Magazziniere" -> Global.changeScene(loginAdminPage, "stockMan");
-            case "Responsabile" -> Global.changeScene(loginAdminPage, "manager");
+            case "Corriere":
+                Global.changeScene(loginAdminPage, "express");
+                break;
+            case "Fornitore":
+                Global.changeScene(loginAdminPage, "supplier");
+                break;
+
+            case "Magazziniere":
+                Global.changeScene(loginAdminPage, "stockMan");
+                break;
+            case "Responsabile":
+                Global.changeScene(loginAdminPage, "manager");
+                break;
         }
     }
 

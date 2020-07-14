@@ -19,6 +19,7 @@ public final class ProductDao extends BaseDao {
     private static final String GET_QTY_IN_STOCK = "select qtyStock from products where id = ?";
     private static final String SELECT = "select * from products";
     private static final String SELECT_LAST = "select top 1 * from products order by id desc";
+    private static final String UPDATE_QTY_IN_STOCK = "update products set qtyStock = ? where id = ?";
     private static final String GET_ALL_QTY_STOCK = "select id, qtyStock from products";
 
     private ProductDao() {}
@@ -131,7 +132,7 @@ public final class ProductDao extends BaseDao {
         return products;
     }
 
-    static ProductModel getProductById(int id) {
+    public static ProductModel getProductById(int id) {
         ProductModel product = null;
         try {
             PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID);
@@ -192,6 +193,22 @@ public final class ProductDao extends BaseDao {
             }
         } catch (SQLException e) {
             System.err.println("Error while checking products.");
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    //aggiorna quantità di un prodotto
+
+    public static int updateQuantity(int idProduct, int newQty) {
+        int result = 0;
+        try{
+            PreparedStatement statement = connection.prepareStatement(UPDATE_QTY_IN_STOCK);
+            statement.setInt(1, newQty);
+            statement.setInt(2, idProduct);
+            result = statement.executeUpdate();
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
         return result;

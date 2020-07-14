@@ -1,1 +1,1 @@
-drop table if exists loyaltyCards, productsShopping, products, shopping, clients, managers, credentials;
+drop table if exists loyaltyCards, productsShopping, products, shopping, clients, manager, credentials, admins, express, orders, productsOrder, stockmans, suppliers, warehouse;

@@ -1,5 +1,6 @@
 package controllers;
 
+import dao.ProductDao;
 import dao.ProductShoppingDao;
 import dao.WarehouseDao;
 import javafx.fxml.FXML;
@@ -11,7 +12,7 @@ import javafx.stage.Stage;
 import models.ProductModel;
 import models.ProductShoppingModel;
 import models.ShoppingModel;
-import sample.Global;
+import sample.GlobalVars;
 
 public class ConfirmedController {
     @FXML
@@ -21,7 +22,7 @@ public class ConfirmedController {
     protected void goToLogIn() {
         try {
             Stage stage = (Stage) ConfirmedPage.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("../views/loginCustomer.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
             stage.setScene(new Scene(root));
             stage.sizeToScene();
             stage.show();
@@ -32,17 +33,20 @@ public class ConfirmedController {
 
     public void addProducts(ShoppingModel shopping) {
         //aggiungo i prodotti del carrello alla tabella dei prodotti comprati
-        for (ProductModel product : Global.cart.keySet()) {
-            addProductShopping(product.getId(), shopping.getId(), Global.cart.get(product));
+        for (ProductModel product : GlobalVars.cart.keySet()) {
+            addProductShopping(product.getId(), shopping.getId(), GlobalVars.cart.get(product));
             //update warehouse
-            updateWarehouse(product.getId(), (WarehouseDao.getQuantity(product.getId()) - Global.cart.get(product)));
+            updateWarehouse(product.getId(), (WarehouseDao.getQuantity(product.getId()) - GlobalVars.cart.get(product)));
         }
     }
     public void updateWarehouse(int id, int qty){
         try {
+            int resultQuery1 = ProductDao.updateQuantity(id, qty);
+            if (resultQuery1 == 0)
+                throw new Exception("Errore nell'aggiornamento del qtyStock di products nel db");
             int resultQuery = WarehouseDao.updateQuantity(id, qty);
             if (resultQuery == 0)
-                throw new Exception("Errore nell'iaggiornamento del magazzino nel db");
+                throw new Exception("Errore nell'aggiornamento del magazzino nel db");
 
             } catch(Exception e){
                 e.printStackTrace();

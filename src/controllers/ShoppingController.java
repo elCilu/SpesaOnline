@@ -7,7 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Spinner;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.ProductModel;
 import sample.Global;
+import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 
 import java.net.URL;
 import java.util.List;
@@ -71,9 +72,15 @@ public class ShoppingController implements Initializable {
         int indexSort = 0;
         String sorted = sortBy.getSelectionModel().getSelectedItem();
         switch (sorted) {
-            case "Prezzo cresc." -> indexSort = 1;
-            case "Prezzo decresc." -> indexSort = 2;
-            case "Alfabetico" -> indexSort = 3;
+            case "Prezzo cresc.":
+                indexSort = 1;
+                break;
+            case "Prezzo decresc.":
+                indexSort = 2;
+                break;
+            case "Alfabetico":
+                indexSort = 3;
+                break;
         }
         return indexSort;
     }
@@ -103,7 +110,7 @@ public class ShoppingController implements Initializable {
 
     @FXML
     protected void userButton(){
-        Global.changeScene(shoppingPage, "customerData");
+        Global.changeScene(shoppingPage, "costumerData");
     }
 
     public void refresh() {
@@ -121,6 +128,7 @@ public class ShoppingController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //gestione barra di ricerca
         searchField.textProperty().addListener((observable, oldValue, newValue) -> select());
+
 
         logoImage.setImage(new Image(Global.IMG_PATH +  "shopping_logo.jpg"));
         userImage.setImage(new Image(Global.IMG_PATH +  "user_image.png"));
@@ -151,11 +159,10 @@ public class ShoppingController implements Initializable {
             priceVBox.getChildren().add(unitPrice);
 
             //aggiungi textfield per quantità
-            TextField qty = new TextField();
-            qty.setText("1");
-            qty.setPromptText("qtà");
-            qty.setMaxSize(50, 5);
-            qtyVBox.getChildren().add(qty);
+            Spinner<Integer> qtyBox = new Spinner<>();
+            qtyBox.setValueFactory(new IntegerSpinnerValueFactory(1, ProductDao.getQtyInStock(p.getId()), 1));
+            qtyBox.setMaxSize(65, 5);
+            qtyVBox.getChildren().add(qtyBox);
             qtyVBox.setSpacing(55);
 
             //add button
@@ -170,7 +177,7 @@ public class ShoppingController implements Initializable {
             addVBox.getChildren().add(addButton);
 
             //gestione textfield qtyChoice
-            addButton.setOnMouseClicked(mouseEvent -> addToCart(p, Integer.parseInt(qty.getText())));
+            addButton.setOnMouseClicked(mouseEvent -> addToCart(p, qtyBox.getValue()));
         }
     }
 

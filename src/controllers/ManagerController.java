@@ -1,5 +1,6 @@
 package controllers;
 
+import dao.ManagerDao;
 import dao.ProductDao;
 import dao.ShoppingDao;
 import dao.WarehouseDao;
@@ -12,6 +13,7 @@ import javafx.scene.text.Text;
 import models.ProductModel;
 import models.ShoppingModel;
 import models.WarehouseModel;
+import sample.Global;
 
 import java.util.List;
 
@@ -42,12 +44,12 @@ public class ManagerController {
     @FXML
     private Text actionTarget;
 
-    private static List<ShoppingModel> shoppings = ShoppingDao.getShopping();
+    private static List<ShoppingModel> shoppings = ShoppingDao.getAllShoppings();
 
     ProductModel product;
     WarehouseModel warehouse;
     ChoiceBox<Tag> tags = new ChoiceBox<>();
-    int dep = 1;//ManagerDao.getDep(id);  passaggio id dal login
+    int dep = ManagerDao.getDep(Global.USER_ID);
 
 
     //visualizza lo stato delle spese
