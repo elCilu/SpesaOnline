@@ -30,7 +30,7 @@ public class ExpressController {
     Date oggi = new Date();
     List<ShoppingModel> speseOdierne = ShoppingDao.getTodayDelivery(oggi);
 
-    private void loadData() {
+    public void loadData() {
         nameLabel.setText(ExpressDao.selectNameById(Global.USER_ID));
         pivaLabel.setText(ExpressDao.selectPivaById(Global.USER_ID));
 
