@@ -36,7 +36,6 @@ public class ExpressController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.err.println(speseOdierne.toString());
         loadData();
     }
 
@@ -61,6 +60,7 @@ public class ExpressController implements Initializable {
                         s.setStatus(Status.DELIVERED);
                         updateShoppingStatus(s.getId(), s.getStatus().ordinal());
                     }
+                    check.setDisable(true);
                 }
             });
 
