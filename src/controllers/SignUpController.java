@@ -116,14 +116,19 @@ public class SignUpController {
 
             JFXRadioButton selectedRadio = (JFXRadioButton) paymentMethodGroup.getSelectedToggle();
             switch (selectedRadio.getText()) {
-                case "Carta di credito" -> paymentMethod = 0;
-                case "Paypal" -> paymentMethod = 1;
-                case "Alla consegna" -> paymentMethod = 2;
-                default -> {
+                case "Carta di credito" :
+                    paymentMethod = 0;
+                    break;
+                case "Paypal":
+                    paymentMethod = 1;
+                    break;
+                case "Alla consegna":
+                    paymentMethod = 2;
+                    break;
+                default:
                     actionLabel.setText("Seleziona metodo di pagamento");
                     actionLabel.setVisible(true);
                     throw new Exception("Metodo pagamento non selezionato");
-                }
             }
 
             if (CredentialDao.selectByCredential(email) != null) {

@@ -204,7 +204,7 @@ public class CostumerDataController implements Initializable {
                 if (changePassword) {
                     byte[] salt = CredentialUtil.createSalt();
 
-                    CredentialModel credentials = CredentialDao.selectByEmail(email);
+                    CredentialModel credentials = CredentialDao.selectByCredential(email);
 
                     credentials.setHash(CredentialUtil.generateHash(newPassword, salt));
                     credentials.setSalt(salt);

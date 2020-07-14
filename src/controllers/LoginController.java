@@ -49,7 +49,7 @@ public class LoginController {
             if (password.isEmpty()) {
                 throw new Exception("Campo password vuoto.");
             }
-            CredentialModel credentials = CredentialDao.selectByEmail(email);
+            CredentialModel credentials = CredentialDao.selectByCredential(email);
             if (credentials != null) {
                 if (CredentialUtil.checkPassword(password, credentials.getSalt(), credentials.getHash())) {
                     logged = true;

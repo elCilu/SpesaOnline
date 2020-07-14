@@ -5,14 +5,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ExpressDao extends BaseDao{
-    private static final String INSERT_STOCK_MAN = "insert into stockMans values (?, ?, ?)";
+    private static final String INSERT_EXPRESS = "insert into express values (?, ?, ?)";
     private static final String SELECT_ID_BY_EMAIL = "select id from express where email = ?";
 
     public static int insertExpress(String email, int pIva, String companyName) {
         int result = 0;
         System.out.print("Inserting express into express table... ");
         try {
-            PreparedStatement statement = connection.prepareStatement(INSERT_STOCK_MAN);
+            PreparedStatement statement = connection.prepareStatement(INSERT_EXPRESS);
             statement.setString(1, email);
             statement.setInt(2, pIva);
             statement.setString(3, companyName);

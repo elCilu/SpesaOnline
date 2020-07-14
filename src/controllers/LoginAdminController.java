@@ -50,22 +50,26 @@ public class LoginAdminController {
                 if (CredentialUtil.checkPassword(password, credentials.getSalt(), credentials.getHash())) {
                     logged = true;
                     switch (entityCombo.getSelectionModel().getSelectedItem()) {
-                        case "Corriere" -> {
+                        case "Corriere":
+
                             Global.USER_ID = ExpressDao.selectIdByEmail(credential);
                             goToAdminPage("Corriere");
-                        }
-                        case "Fornitore" -> {
+                            break;
+                        case "Fornitore":
+
                             Global.USER_ID = SupplierDao.selectIdByEmail(credential);
                             goToAdminPage("Fornitore");
-                        }
-                        case "Magazziniere" -> {
+                            break;
+                        case "Magazziniere":
+
                             Global.USER_ID = StockManDao.selectIdByEmail(credential);
                             goToAdminPage("Magazziniere");
-                        }
-                        case "Responsabile" -> {
+                            break;
+                        case "Responsabile":
+
                             Global.USER_ID = ManagerDao.selectIdByEmail(credential);
                             goToAdminPage("Responsabile");
-                        }
+                            break;
                     }
                 }
             }
@@ -81,10 +85,18 @@ public class LoginAdminController {
     @FXML
     private void goToAdminPage(String role) {
         switch (role){
-            case "Corriere" -> Global.changeScene(loginAdminPage, "express");
-            case "Fornitore" -> Global.changeScene(loginAdminPage, "supplier");
-            case "Magazziniere" -> Global.changeScene(loginAdminPage, "stockMan");
-            case "Responsabile" -> Global.changeScene(loginAdminPage, "manager");
+            case "Corriere":
+                Global.changeScene(loginAdminPage, "express");
+                break;
+            case "Fornitore":
+                Global.changeScene(loginAdminPage, "supplier");
+                break;
+            case "Magazziniere":
+                Global.changeScene(loginAdminPage, "stockMan");
+                break;
+            case "Responsabile":
+                Global.changeScene(loginAdminPage, "manager");
+                break;
         }
     }
 
