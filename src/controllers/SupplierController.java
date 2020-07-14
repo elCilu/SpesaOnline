@@ -47,15 +47,11 @@ public class SupplierController implements Initializable {
     @FXML
     ImageView logo;
 
-    Map<ProductModel, Integer> productsToRequest = new HashMap<>();
-    List<ProductModel> products = new ArrayList<>();
-    ListView<String> depProducts = new ListView<>();
-    private static final int QTYMIN = 20;
-    private static final int QTYMAX = 100;
     private Text message = new Text();
     private Text status = new Text();
     private static final File prodImg = new File("");
     private String path = "";
+    Map<Integer, Integer> shop;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -173,7 +169,7 @@ public class SupplierController implements Initializable {
         //refresh();
         commonButton.setVisible(true);
         viewButtonsVBox.setVisible(false);
-        Map<Integer, Integer> shop = ProductOrderDao.getProductIdAndQtyByOrderId(order.getId());
+        shop = ProductOrderDao.getProductIdAndQtyByOrderId(order.getId());
         for (Integer productId : shop.keySet()) {
             ProductModel p = ProductDao.getProductById(productId);
 
@@ -191,10 +187,10 @@ public class SupplierController implements Initializable {
 
     @FXML
     public void confirmedOrder() {
-        OrderModel order = new OrderModel(0, 1/*getSupplier().getpIva()*/, 1/*GlobalVars.STOCK_MAN_ID*/, 0);
-        Map<Integer, Integer> shopping = ProductOrderDao.getProductIdAndQtyByOrderId(order.getId());
+        //OrderModel order = new OrderModel(0, 1/*getSupplier().getpIva()*/, 1/*GlobalVars.STOCK_MAN_ID*/, 0);
+        //Map<Integer, Integer> shopping = ProductOrderDao.getProductIdAndQtyByOrderId(order.getId());
         //CAMBIO QUANTITA'
-        for (Integer productId : shopping.keySet()) {
+        for (Integer productId : shop.keySet()) {
             ProductModel p = ProductDao.getProductById(productId);
             try {
 
@@ -210,10 +206,10 @@ public class SupplierController implements Initializable {
         }
 
         //CAMBIO STATO "CONFIRMED"
-        OrderModel orderConfirmed = new OrderModel(0, 1/*getSupplier().getpIva()*/, 1/*GlobalVars.STOCK_MAN_ID*/, 1);
+        //OrderModel orderConfirmed = new OrderModel(0, 1/*getSupplier().getpIva()*/, 1/*GlobalVars.STOCK_MAN_ID*/, 1);
         try {
 
-            int resultQuery = OrderDao.updateStatusConfirmed(orderConfirmed.getId(), 1);
+            int resultQuery = OrderDao.updateStatusConfirmed(shop.getId(), 1);
 
             if (resultQuery == 0) {
                 throw new Exception("Errore nel cambio di stato confermato");
