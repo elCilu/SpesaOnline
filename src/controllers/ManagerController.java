@@ -6,6 +6,7 @@ import dao.ShoppingDao;
 import dao.WarehouseDao;
 import enums.Tag;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -15,10 +16,12 @@ import models.ShoppingModel;
 import models.WarehouseModel;
 import sample.Global;
 
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 
 
-public class ManagerController {
+public class ManagerController implements Initializable {
     @FXML
     private VBox id;
     @FXML
@@ -44,17 +47,15 @@ public class ManagerController {
     @FXML
     private Text actionTarget;
 
-    private static List<ShoppingModel> shoppings = ShoppingDao.getAllShoppings();
+    private static final List<ShoppingModel> shoppings = ShoppingDao.getAllShoppings();
 
     ProductModel product;
     WarehouseModel warehouse;
     ChoiceBox<Tag> tags = new ChoiceBox<>();
     int dep = ManagerDao.getDep(Global.USER_ID);
 
-
-    //visualizza lo stato delle spese
-    protected void showStatus(){
-        //setto reparto in base al departo responsabile
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         if(dep == 1)
             reparto.setText("Frutta e verdura");
         else if(dep == 2)
@@ -112,8 +113,8 @@ public class ManagerController {
             shoppingStatus.setText(String.format("%s", s.getStatus()));
             status.getChildren().add(shoppingStatus);
         }
-
     }
+
 
     //inserimento nuovo prodotto nel db
     @FXML
@@ -132,7 +133,7 @@ public class ManagerController {
             dep = reparto.getText();
             qtyPack = Integer.parseInt(qtyP.getText());
             qtyStock = Integer.parseInt(qtyS.getText());
-            price = Float.parseFloat(prezzo.getText());
+            price = Float.parseFloat(prezzo.getText().replace(',', '.'));
             shoppingTag = tags.getValue();
 
             if (name.isEmpty() || brand.isEmpty() || dep.isEmpty() ||  qtyPack <= 0 || qtyStock < 0 || price <= 0) {
