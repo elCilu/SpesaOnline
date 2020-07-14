@@ -120,7 +120,6 @@ public final class ProductDao extends BaseDao {
             toConcat += " order by name";
         }
         try {
-            System.err.println(SELECT.concat(toConcat));
             PreparedStatement statement = connection.prepareStatement(SELECT.concat(toConcat));
             System.out.print("Selecting products with filters... ");
             executeQuery(products, statement);

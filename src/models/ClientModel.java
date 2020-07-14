@@ -11,8 +11,9 @@ public class ClientModel {
     private String phoneNumber;
     private String email;
     private PaymentMethod idPaymentMethod;
+    private Integer points_cards;
 
-    public ClientModel(int id, String name, String surname, String address, String zip, String phoneNumber, String email, PaymentMethod idPaymentMethod) {
+    public ClientModel(int id, String name, String surname, String address, String zip, String phoneNumber, String email, PaymentMethod idPaymentMethod, Integer points_cards) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -21,6 +22,7 @@ public class ClientModel {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.idPaymentMethod = idPaymentMethod;
+        this.points_cards = points_cards;
     }
 
     public int getId() {
@@ -87,6 +89,13 @@ public class ClientModel {
         this.idPaymentMethod = idPaymentMethod;
     }
 
+    public Integer getPoints_cards() {
+        return points_cards;
+    }
+
+    public void setPoints_cards(Integer points_cards) {
+        this.points_cards = points_cards;
+    }
 }
 
 

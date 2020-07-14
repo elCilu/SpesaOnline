@@ -1,17 +1,20 @@
 package controllers;
 
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import dao.ClientDao;
 import dao.CredentialDao;
 import enums.PaymentMethod;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import models.ClientModel;
 import models.CredentialModel;
 import sample.Global;
@@ -44,11 +47,11 @@ public class CostumerDataController implements Initializable {
     @FXML
     private Label newPasswordLabel;
     @FXML
-    private TextField newPasswordField;
+    private PasswordField newPasswordField;
     @FXML
     private Label passwordCheckLabel;
     @FXML
-    private TextField passwordCheckField;
+    private PasswordField passwordCheckField;
     @FXML
     private ToggleGroup paymentMethodGroup;
     @FXML
@@ -59,6 +62,8 @@ public class CostumerDataController implements Initializable {
     private RadioButton cashRadio;
     @FXML
     private Text actionTarget;
+    @FXML
+    private TextField pointsField;
 
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -78,6 +83,8 @@ public class CostumerDataController implements Initializable {
                 zipField.setText(client.getZip());
                 phoneNumberField.setText(client.getPhoneNumber());
                 emailField.setText(client.getEmail());
+                pointsField.setText(client.getPoints_cards()+"");
+
 
                 if (client.getIdPaymentMethod() == PaymentMethod.CREDIT_CARD) {
                     paymentMethodGroup.selectToggle(creditCardRadio);
@@ -198,7 +205,8 @@ public class CostumerDataController implements Initializable {
                     zip,
                     phoneNumber,
                     email,
-                    paymentMethod));
+                    paymentMethod,
+                    0));
 
             if (updated != 0) {
                 if (changePassword) {
@@ -227,4 +235,28 @@ public class CostumerDataController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    public void visualizeShops() {
+        try {
+            Stage stage = (Stage) costumerData.getScene().getWindow();
+            FXMLLoader Loader = new FXMLLoader();
+            Loader.setLocation(getClass().getResource("/views/viewShops.fxml"));
+
+            //load the parent
+            Loader.load();
+            ViewShopsController confirmed = Loader.getController();
+
+            //opening confirmed page
+            //confirmed.addProducts(shopping);
+
+
+            stage.setScene(new Scene(Loader.getRoot()));
+            stage.sizeToScene();
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

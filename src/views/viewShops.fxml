@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ViewShopsController">
+    <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="1282.0" style="-fx-background-color: #51C0D3;">
+            <children>
+                <ScrollPane layoutY="164.0" prefWidth="1281.0">
+                    <content>
+                        <SplitPane dividerPositions="0.6347211311861743" prefWidth="1279.0" style="-fx-background-color: #90DAE5;">
+                            <items>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="807.0">
+                                    <children>
+                                        <VBox fx:id="viewVBox" layoutX="14.0" layoutY="7.0" prefWidth="269.0" />
+                                        <VBox fx:id="viewButtonsVBox" layoutX="397.0" layoutY="3.0" prefWidth="209.0" spacing="40.0" />
+                                        <VBox fx:id="qtyVBox" layoutX="693.0" layoutY="3.0" prefWidth="100.0" />
+                                    </children>
+                                </AnchorPane>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="100.0">
+                                    <children>
+                                        <VBox layoutX="2.0" layoutY="1.0" prefHeight="420.0" prefWidth="465.0">
+                                            <children>
+                                                <HBox>
+                                                    <children>
+                                                        <VBox fx:id="visualizeShoppingVBox" prefWidth="302.0" />
+                                                        <VBox fx:id="shoppingVBox" alignment="TOP_CENTER" prefWidth="318.0" />
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </AnchorPane>
+                            </items>
+                        </SplitPane>
+                    </content>
+
+                </ScrollPane>
+                <Text layoutX="150.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SPESE EFFETTUATE " wrappingWidth="291.83984375">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                </Text>
+                <ImageView fx:id="logo" fitHeight="62.0" fitWidth="118.0" layoutX="14.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" />
+                <HBox alignment="BOTTOM_CENTER" prefHeight="40" prefWidth="180" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                <ButtonBar layoutX="976.0" layoutY="83.0" prefHeight="40.0" prefWidth="251.0" />
+            </children>
+        </AnchorPane>
+    </content>
+</ScrollPane>
