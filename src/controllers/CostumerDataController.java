@@ -3,8 +3,11 @@ package controllers;
 import dao.ClientDao;
 import dao.CredentialDao;
 import enums.PaymentMethod;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -12,6 +15,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import models.ClientModel;
 import models.CredentialModel;
 import sample.Global;
@@ -227,4 +231,29 @@ public class CostumerDataController implements Initializable {
             e.printStackTrace();
         }
     }
+
+   /* public void visualizeShops(ActionEvent actionEvent) {
+        try {
+            Stage stage = (Stage) CostumerDataController.getScene().getWindow();
+            FXMLLoader Loader = new FXMLLoader();
+            Loader.setLocation(getClass().getResource("../views/confirmed.fxml"));
+
+            //load the parent
+            Loader.load();
+            ConfirmedController confirmed = Loader.getController();
+
+            //opening confirmed page
+            confirmed.addProducts(shopping);
+
+
+            stage.setScene(new Scene(Loader.getRoot()));
+            stage.sizeToScene();
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    */
+
 }

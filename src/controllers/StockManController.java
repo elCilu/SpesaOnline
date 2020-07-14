@@ -198,7 +198,7 @@ public class StockManController implements Initializable {
 
     //invia ordine a fornitore
     public void sendOrder(){
-        OrderModel order = new OrderModel(0, getSupplier().getpIva(), Global.USER_ID);
+        OrderModel order = new OrderModel(0, getSupplier().getpIva(), Global.USER_ID, 0);
         //manda ordine per reparto....
         try {
             int resultQuery = OrderDao.insertOrder(order);

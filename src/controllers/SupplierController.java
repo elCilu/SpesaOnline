@@ -14,8 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import models.*;
 import javafx.scene.text.Text;
-import sample.GlobalVars;
-import utils.OSystem;
+import sample.Global;
 
 //import java.awt.*;
 import java.io.File;
@@ -55,13 +54,7 @@ public class SupplierController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //build the path
-        if (OSystem.isWindows())
-            path = "C:\\" + prodImg.getAbsolutePath() + "\\images\\";
-        if (OSystem.isUnix())
-            path = "file://" + prodImg.getAbsolutePath() + "/images/";
-        if (OSystem.isMac())
-            path = "";
+
 
         // logo.setImage(new Image(path + "warehouse.png"));
         visualizeOrders();
@@ -194,7 +187,7 @@ public class SupplierController implements Initializable {
             ProductModel p = ProductDao.getProductById(productId);
             try {
 
-                int resultQuery = ProductDao.updateQty(p.getId(), 100);
+                int resultQuery = ProductDao.updateQuantity(p.getId(), 100);
 
                 if (resultQuery == 0) {
                     throw new Exception("Errore nell'inserimento della quantità");
@@ -209,7 +202,7 @@ public class SupplierController implements Initializable {
         //OrderModel orderConfirmed = new OrderModel(0, 1/*getSupplier().getpIva()*/, 1/*GlobalVars.STOCK_MAN_ID*/, 1);
         try {
 
-            int resultQuery = OrderDao.updateStatusConfirmed(shop.getId(), 1);
+            int resultQuery = OrderDao.updateStatusConfirmed(shop, 1);
 
             if (resultQuery == 0) {
                 throw new Exception("Errore nel cambio di stato confermato");

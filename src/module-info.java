@@ -6,6 +6,7 @@ module SpesaOnline {
     requires com.jfoenix;
     requires java.desktop;
 
+
     opens controllers to javafx.fxml;
     opens sample;
 }
