@@ -9,7 +9,8 @@ IF (NOT EXISTS(SELECT 1
             id    INT IDENTITY (1, 1) PRIMARY KEY,
             credential VARCHAR(50) UNIQUE NOT NULL,
             hash  VARCHAR(64) UNIQUE NOT NULL,
-            salt  BINARY(25)         NOT NULL
+            salt  BINARY(25)         NOT NULL,
+            type  TINYINT            NOT NULL
         )
     END
 
@@ -177,7 +178,8 @@ IF (NOT EXISTS(SELECT 1
         (
             id           INT IDENTITY (1, 1) PRIMARY KEY,
             idSupplier INT FOREIGN KEY references suppliers (id),
-            idStockMan INT FOREIGN KEY references stockMans (matriculation)
+            idStockMan INT FOREIGN KEY references stockMans (matriculation),
+            confirmed TINYINT NOT NULL
         )
     END
 

@@ -51,6 +51,7 @@ public class SupplierController implements Initializable {
     private static final File prodImg = new File("");
     private String path = "";
     Map<Integer, Integer> shop;
+    private OrderModel currentOrder = null;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -160,6 +161,7 @@ public class SupplierController implements Initializable {
 
     private void viewOrder(OrderModel order) {
         //refresh();
+        currentOrder = order;
         commonButton.setVisible(true);
         viewButtonsVBox.setVisible(false);
         shop = ProductOrderDao.getProductIdAndQtyByOrderId(order.getId());
@@ -183,11 +185,12 @@ public class SupplierController implements Initializable {
         //OrderModel order = new OrderModel(0, 1/*getSupplier().getpIva()*/, 1/*GlobalVars.STOCK_MAN_ID*/, 0);
         //Map<Integer, Integer> shopping = ProductOrderDao.getProductIdAndQtyByOrderId(order.getId());
         //CAMBIO QUANTITA'
+
         for (Integer productId : shop.keySet()) {
             ProductModel p = ProductDao.getProductById(productId);
             try {
 
-                int resultQuery = ProductDao.updateQuantity(p.getId(), 100);
+                int resultQuery = ProductDao.updateQuantity(p.getId(), shop.get(productId));
 
                 if (resultQuery == 0) {
                     throw new Exception("Errore nell'inserimento della quantità");
@@ -200,17 +203,18 @@ public class SupplierController implements Initializable {
 
         //CAMBIO STATO "CONFIRMED"
         //OrderModel orderConfirmed = new OrderModel(0, 1/*getSupplier().getpIva()*/, 1/*GlobalVars.STOCK_MAN_ID*/, 1);
-        try {
+        if (currentOrder!=null)
+            try {
+                int idOrder = currentOrder.getId();
+                int resultQuery = OrderDao.updateStatusConfirmed(idOrder, 1);
 
-            int resultQuery = OrderDao.updateStatusConfirmed(shop, 1);
+                if (resultQuery == 0) {
+                    throw new Exception("Errore nel cambio di stato confermato");
+                }
 
-            if (resultQuery == 0) {
-                throw new Exception("Errore nel cambio di stato confermato");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         //svuoto pagina + lascio messaggio "ordine confermato!"
         visualizeShoppingVBox.getChildren().clear();

@@ -21,6 +21,8 @@ public final class ShoppingDao extends BaseDao {
     private static final String GET_TODAY_DELIVERY = "select * from shopping where deliveryDate = ?";
     private static final String GET_ALL_SHOPPINGS = "select * from shopping";
     private static final String UPDATE_SHOPPING_STATUS = "update shopping set status = ? where id = ?";
+    private static final String GET_SHOPPINGS_BY_USER_ID = "select * from shopping where idUser = ?";
+
 
     private ShoppingDao() {}
 
@@ -125,5 +127,27 @@ public final class ShoppingDao extends BaseDao {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public static List<ShoppingModel> getShoppingsByIdUser(int idUser){
+        List<ShoppingModel> shoppings = new ArrayList<>();
+
+        try{
+            PreparedStatement statement = connection.prepareStatement(GET_SHOPPINGS_BY_USER_ID);
+            statement.setInt(1, idUser);
+            System.out.print("Selecting shoppings...");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                shoppings.add(new ShoppingModel(resultSet.getInt(1), resultSet.getDate(2),
+                        resultSet.getDate(3), resultSet.getString(4), resultSet.getInt(5),
+                        resultSet.getInt(6),Status.values()[resultSet.getInt(7)], resultSet.getInt(8),
+                        PaymentMethod.values()[resultSet.getInt(9)]));
+            }
+            System.out.println("All shoppings are selected!");
+        }catch (SQLException e){
+            System.out.println("Errore while selecting all shoppings.");
+            e.printStackTrace();
+        }
+        return shoppings;
     }
 }

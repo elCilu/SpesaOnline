@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDao extends BaseDao{
-    private static final String INSERT_ORDER = "insert into orders values (?, ?)";
+    private static final String INSERT_ORDER = "insert into orders values (?, ?, ?)";
     private static final String SELECT_ALL = "select * from orders";
     private static final String SELECT_BY_ID = "select * from orders where id = ?";
     private static final String IS_EMPTY = "select id from orders where id = 1";
@@ -44,6 +44,7 @@ public class OrderDao extends BaseDao{
             PreparedStatement statement = connection.prepareStatement(INSERT_ORDER);
             statement.setInt(1, orderModel.getpIvaSupplier());
             statement.setInt(2, orderModel.getMatrStockMan());
+            statement.setInt(3, orderModel.getConfirmed());
             result = statement.executeUpdate();
             System.out.println("Order inserted.");
         } catch (SQLException e) {

@@ -19,7 +19,7 @@ public final class ProductDao extends BaseDao {
     private static final String GET_QTY_IN_STOCK = "select qtyStock from products where id = ?";
     private static final String SELECT = "select * from products";
     private static final String SELECT_LAST = "select top 1 * from products order by id desc";
-    private static final String UPDATE_QTY_IN_STOCK = "update products set qtyStock = ? where id = ?";
+    private static final String UPDATE_QTY_IN_STOCK = "update products set qtyStock = qtyStock + ? where id = ?";
     private static final String GET_ALL_QTY_STOCK = "select id, qtyStock from products";
 
     private ProductDao() {}

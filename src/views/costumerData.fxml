@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane id="costumerData" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="855.0" prefWidth="1247.0" style="-fx-background-color: #90DAE5;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CostumerDataController">
+<GridPane fx:id="costumerData" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="855.0" prefWidth="1247.0" style="-fx-background-color: #90DAE5;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CostumerDataController">
 
     <Text id="welcome-text" fill="#f9aa33" text="Anagrafica del cliente" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER">
       <font>
@@ -16,27 +16,27 @@
 
     <Text text="Nome:" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
 
-    <JFXTextField fx:id="nameField" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+    <TextField fx:id="nameField" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
 
     <Text fill="BLACK" text="Cognome:" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
 
-    <JFXTextField fx:id="surnameField" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+    <TextField fx:id="surnameField" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
 
     <Text fill="BLACK" text="Indirizzo:" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
 
-    <JFXTextField fx:id="addressField" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+    <TextField fx:id="addressField" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
 
     <Label text="CAP:" textFill="BLACK" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-    <JFXTextField fx:id="zipField" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+    <TextField fx:id="zipField" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
 
     <Label text="Numero di telefono:" textFill="BLACK" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
-    <JFXTextField fx:id="phoneNumberField" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+    <TextField fx:id="phoneNumberField" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
 
     <Label text="Email:" textFill="BLACK" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
-    <JFXTextField fx:id="emailField" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+    <TextField fx:id="emailField" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="6" />
 
     <Label fx:id="passwordLabel" text="Password:" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
@@ -46,15 +46,19 @@
 
     <Label fx:id="newPasswordLabel" text="Nuova password:" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="8" />
 
-    <JFXPasswordField fx:id="newPasswordField" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+    <PasswordField fx:id="newPasswordField" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+
+    <Label text="Punti fedeltà:" textFill="BLACK" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+
+    <TextField fx:id="pointsField" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="10" />
 
     <Label fx:id="passwordCheckLabel" text="Conferma password:" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="9" />
 
-    <JFXPasswordField fx:id="passwordCheckField" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+    <PasswordField fx:id="passwordCheckField" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="9" />
 
-    <Label text="Metodo di pagamento:" textFill="BLACK" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+    <Label text="Metodo di pagamento:" textFill="BLACK" GridPane.columnIndex="1" GridPane.rowIndex="11" />
 
-    <JFXRadioButton fx:id="creditCardRadio" text="Carta di credito" textFill="BLACK" GridPane.columnIndex="2" GridPane.rowIndex="10">
+    <JFXRadioButton fx:id="creditCardRadio" text="Carta di credito" textFill="BLACK" GridPane.columnIndex="2" GridPane.rowIndex="11">
         <HBox.margin>
             <Insets right="3.0" />
         </HBox.margin>
@@ -62,7 +66,7 @@
             <ToggleGroup fx:id="paymentMethodGroup" />
         </toggleGroup>
     </JFXRadioButton>
-    <JFXRadioButton fx:id="paypalRadio" text="PayPal" textFill="BLACK" GridPane.columnIndex="2" GridPane.rowIndex="11">
+    <JFXRadioButton fx:id="paypalRadio" text="PayPal" textFill="BLACK" GridPane.columnIndex="2" GridPane.rowIndex="12">
         <HBox.margin>
             <Insets right="30.0" />
             <Insets bottom="10.0" />
@@ -71,7 +75,7 @@
             <fx:reference source="paymentMethodGroup" />
         </toggleGroup>
     </JFXRadioButton>
-    <JFXRadioButton fx:id="cashRadio" text="Alla consegna" textFill="BLACK" GridPane.columnIndex="2" GridPane.rowIndex="12">
+    <JFXRadioButton fx:id="cashRadio" text="Alla consegna" textFill="BLACK" GridPane.columnIndex="2" GridPane.rowIndex="13">
         <HBox.margin>
             <Insets right="30.0" />
             <Insets bottom="10.0" />
@@ -81,18 +85,18 @@
         </toggleGroup>
     </JFXRadioButton>
 
-    <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="13">
+    <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="14">
         <JFXButton contentDisplay="CENTER" depthTest="ENABLE" nodeOrientation="LEFT_TO_RIGHT" onAction="#modify" prefHeight="26.0" prefWidth="90.0" style="-fx-background-color: #F9AA33;" text="Modifica" textOverrun="WORD_ELLIPSIS" wrapText="true">
             <cursor>
                 <Cursor fx:constant="TEXT" />
             </cursor>
         </JFXButton>
     </HBox>
-    <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="2" GridPane.rowIndex="13">
+    <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="2" GridPane.rowIndex="14">
         <JFXButton onAction="#save" prefHeight="26.0" prefWidth="90.0" style="-fx-background-color: #F9AA33;" text="Salva" />
     </HBox>
-    <Text fx:id="actionTarget" GridPane.columnIndex="2" GridPane.rowIndex="14" />
-   <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="16">
+    <Text fx:id="actionTarget" GridPane.columnIndex="2" GridPane.rowIndex="15" />
+   <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="17">
      <buttons>
        <JFXButton fx:id="shops" mnemonicParsing="false" onAction="#visualizeShops" prefHeight="60.0" prefWidth="190.0" style="-fx-background-color: #F9AA33;" text="VISUALIZZA SPESE EFFETTUATE" />
      </buttons>
@@ -112,6 +116,7 @@
       <RowConstraints />
       <RowConstraints />
       <RowConstraints />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
       <RowConstraints />
       <RowConstraints />
       <RowConstraints />

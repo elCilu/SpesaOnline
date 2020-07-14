@@ -145,7 +145,8 @@ public class SignUpController {
                             zip,
                             phoneNumber,
                             email,
-                            PaymentMethod.values()[paymentMethod]
+                            PaymentMethod.values()[paymentMethod],
+                    0
                     )
             );
 

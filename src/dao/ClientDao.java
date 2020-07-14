@@ -10,7 +10,8 @@ import java.sql.SQLException;
 public final class ClientDao extends BaseDao {
 
     private static final String INSERT_USER = "insert into clients values (?, ?, ?, ?, ?, ?, ?)";
-    private static final String SELECT_BY_ID = "select * from clients where id = ?";
+    private static final String SELECT_BY_ID = "select clients.*, loyaltyCards.points from clients join loyaltyCards on idUser=clients.id where clients.id = ?";
+    //private static final String SELECT_BY_ID = "select * from clients where id = ?";
     private static final String SELECT_ID_BY_EMAIL = "select id from clients where email = ?";
     private static final String UPDATE_BY_ID = "update clients set " +
             "name = ?, surname = ?, address = ?, zip = ?, phoneNumber = ?, email = ?, paymentMethod = ? " +
@@ -48,7 +49,10 @@ public final class ClientDao extends BaseDao {
                         resultSet.getString(5),
                         resultSet.getString(6),
                         resultSet.getString(7),
-                        PaymentMethod.values()[resultSet.getInt(8)]);
+                        PaymentMethod.values()[resultSet.getInt(8)],
+                        resultSet.getInt(9)
+                );
+
             }
             System.out.println("Client with given id selected.");
         } catch (SQLException e) {

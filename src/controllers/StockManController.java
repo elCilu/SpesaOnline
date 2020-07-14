@@ -55,7 +55,7 @@ public class StockManController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        logo.setImage(new Image(path + "warehouse.png"));
+        //logo.setImage(new Image(path + "warehouse.png"));
         loadPage();
     }
 
@@ -198,7 +198,7 @@ public class StockManController implements Initializable {
 
     //invia ordine a fornitore
     public void sendOrder(){
-        OrderModel order = new OrderModel(0, getSupplier().getpIva(), Global.USER_ID, 0);
+        OrderModel order = new OrderModel(0, getSupplier().getpIva(), 1, 0);
         //manda ordine per reparto....
         try {
             int resultQuery = OrderDao.insertOrder(order);
