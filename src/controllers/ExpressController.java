@@ -1,6 +1,7 @@
 package controllers;
 
 import dao.ClientDao;
+import dao.ExpressDao;
 import dao.ShoppingDao;
 import enums.Status;
 import javafx.beans.value.ChangeListener;
@@ -13,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import models.ClientModel;
 import models.ShoppingModel;
+import sample.Global;
 
 import java.util.Date;
 import java.util.List;
@@ -28,9 +30,9 @@ public class ExpressController {
     Date oggi = new Date();
     List<ShoppingModel> speseOdierne = ShoppingDao.getTodayDelivery(oggi);
 
-    private void loadData() {
-        nameLabel.setText("/IN FASE DI LOGIN*/.getCompanyName()");
-        pivaLabel.setText("/IN FASE DI LOGIN*/.getpIva");
+    public void loadData() {
+        nameLabel.setText(ExpressDao.selectNameById(Global.USER_ID));
+        pivaLabel.setText(ExpressDao.selectPivaById(Global.USER_ID));
 
         for(ShoppingModel s : speseOdierne){
             Text info = new Text();
@@ -45,11 +47,24 @@ public class ExpressController {
             check.selectedProperty().addListener(new ChangeListener<Boolean>() {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-                    if(check.isSelected())
+                    if(check.isSelected()) {
                         s.setStatus(Status.DELIVERED);
+                        updateShoppingStatus(s.getId(), s.getStatus().ordinal());
+                    }
                 }
             });
 
+        }
+    }
+
+    public void updateShoppingStatus(int id, int status){
+        try {
+            int resultQuery = ShoppingDao.updateStatus(id, status);
+            if (resultQuery == 0)
+                throw new Exception("Errore nell'aggiornamento dello stato dello shopping nel db");
+
+        } catch(Exception e){
+            e.printStackTrace();
         }
     }
 

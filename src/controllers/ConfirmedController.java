@@ -22,7 +22,7 @@ public class ConfirmedController {
     protected void goToLogIn() {
         try {
             Stage stage = (Stage) ConfirmedPage.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../views/loginCustomer.fxml"));
             stage.setScene(new Scene(root));
             stage.sizeToScene();
             stage.show();

@@ -52,8 +52,6 @@ public class CartController implements Initializable {
     @FXML
     private JFXRadioButton expressRadioButton;
     @FXML
-    private JFXTextField promotion;
-    @FXML
     private Label totalPriceLabel;
     @FXML
     private Text messages;
@@ -160,9 +158,8 @@ public class CartController implements Initializable {
     }
 
     private void totals(){
-        // promotion.setText(String.valueOf(cart.getPromotion));
         subTotal.setText(String.format("€ %.2f", subTotal()));
-        totalShopping.setText(String.format("€ %.2f", subTotal() + getShippingCost(mod))); // mancano i codici promozionali
+        totalShopping.setText(String.format("€ %.2f", subTotal() + getShippingCost(mod)));
         fidelityPoints.setText((int) subTotal() + " punti");
     }
 
@@ -225,7 +222,6 @@ public class CartController implements Initializable {
 
         totals();
         totalShopping.setBackground(Background.EMPTY);
-        promotion.setBackground(Background.EMPTY);
         fidelityPoints.setBackground(Background.EMPTY);
 
         if(!Global.cart.keySet().isEmpty())

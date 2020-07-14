@@ -55,7 +55,7 @@ public class StockManController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        logo.setImage(new Image(path + "warehouse.png"));
+        logo.setImage(new Image(Global.IMG_PATH + "warehouse.png"));
         loadPage();
     }
 
@@ -108,7 +108,12 @@ public class StockManController implements Initializable {
         status.setText(shopping.getStatus().toString());
         visualizeShoppingVBox.getChildren().add(status);
         commonButton.setText("CONFERMA");
-        //Button statusButton = new Button();
+
+        if(shopping.getStatus() == Status.CONFIRMED)
+            commonButton.setDisable(false);
+        else
+            commonButton.setDisable(true);
+
         commonButton.setOnAction(actionEvent -> {
             modifyStatus(shopping);
             commonButton.setDisable(true);
@@ -198,7 +203,7 @@ public class StockManController implements Initializable {
 
     //invia ordine a fornitore
     public void sendOrder(){
-        OrderModel order = new OrderModel(0, getSupplier().getpIva(), Global.USER_ID);
+        OrderModel order = new OrderModel(0, getSupplier().getpIva(), Global.USER_ID, 0);
         //manda ordine per reparto....
         try {
             int resultQuery = OrderDao.insertOrder(order);
@@ -247,18 +252,17 @@ public class StockManController implements Initializable {
         depProducts.getItems().add("Surgelati e gelati");
         depProducts.getItems().add("Uova e latticini");
         viewVBox.getChildren().add(depProducts);
-        final SupplierModel[] supplier = {null};
         depProducts.setOnMouseClicked(mouseEvent -> {
             int[] bits = {0, 0, 0};
             products = ProductDao.select(
                      "", 0, depProducts.getSelectionModel().getSelectedItem() == null ?
                             "Tutto" : depProducts.getSelectionModel().getSelectedItem(), bits);
-            getSupplier();
+            SupplierModel supplier =  getSupplier();
             refresh();
             checkProducts();
             updateVisualizeOrders();
-            Text suppName= new Text("Fornitore: " + supplier[0].getCompanyName());
-            Text suppPIva = new Text("Id Fornitore: " + supplier[0].getpIva());
+            Text suppName= new Text("Fornitore: " + supplier.getCompanyName());
+            Text suppPIva = new Text("Id Fornitore: " + supplier.getpIva());
             visualizeShoppingVBox.getChildren().addAll(suppName, suppPIva);
 
             if(depProducts.getSelectionModel().getSelectedItem().compareTo("Tutto") == 0)
@@ -273,31 +277,31 @@ public class StockManController implements Initializable {
         String dep = depProducts.getSelectionModel().getSelectedItem();
 
         if(dep == "Frutta e verdura")
-            supplier = SupplierDao.getSupplier(1);
+            supplier = SupplierDao.getSupplier(0);
         else if(dep == "Carne")
-            supplier = SupplierDao.getSupplier(2);
+            supplier = SupplierDao.getSupplier(1);
         else if(dep == "Pesce")
-            supplier = SupplierDao.getSupplier(3);
+            supplier = SupplierDao.getSupplier(2);
         else if(dep == "Scatolame")
-            supplier = SupplierDao.getSupplier(4);
+            supplier = SupplierDao.getSupplier(3);
         else if(dep == "Uova e latticini")
-            supplier = SupplierDao.getSupplier(5);
+            supplier = SupplierDao.getSupplier(4);
         else if(dep == "Salumi e formaggi")
-            supplier = SupplierDao.getSupplier(6);
+            supplier = SupplierDao.getSupplier(5);
         else if(dep == "Pane e pasticceria")
-            supplier = SupplierDao.getSupplier(7);
+            supplier = SupplierDao.getSupplier(6);
         else if(dep == "Confezionati")
-            supplier = SupplierDao.getSupplier(8);
+            supplier = SupplierDao.getSupplier(7);
         else if(dep == "Surgelati e gelati")
-            supplier = SupplierDao.getSupplier(9);
+            supplier = SupplierDao.getSupplier(8);
         else if(dep == "Merenda e dolci")
-            supplier = SupplierDao.getSupplier(10);
+            supplier = SupplierDao.getSupplier(9);
         else if(dep == "Acqua bevande e alcolici")
-            supplier = SupplierDao.getSupplier(12);
+            supplier = SupplierDao.getSupplier(10);
         else if(dep == "Igiene")
-            supplier = SupplierDao.getSupplier(13);
+            supplier = SupplierDao.getSupplier(11);
         else if(dep == "Casa")
-            supplier = SupplierDao.getSupplier(14);
+            supplier = SupplierDao.getSupplier(12);
 
         return supplier;
     }
