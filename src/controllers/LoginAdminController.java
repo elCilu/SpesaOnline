@@ -3,9 +3,12 @@ package controllers;
 import com.jfoenix.controls.JFXComboBox;
 import dao.*;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import models.CredentialModel;
 import sample.Global;
 import utils.CredentialUtil;
@@ -100,7 +103,24 @@ public class LoginAdminController {
                 Global.changeScene(loginAdminPage, "stockMan");
                 break;
             case "Responsabile":
-                Global.changeScene(loginAdminPage, "manager");
+                try {
+                    Stage stage = (Stage) loginAdminPage.getScene().getWindow();
+                    FXMLLoader Loader = new FXMLLoader();
+                    Loader.setLocation(getClass().getResource("../views/manager.fxml"));
+
+                    //load the parent
+                    Loader.load();
+                    ManagerController controller = Loader.getController();
+
+                    //opening cart age
+                    controller.showStatus();
+
+                    stage.setScene(new Scene(Loader.getRoot()));
+                    stage.sizeToScene();
+                    stage.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
         }
     }
