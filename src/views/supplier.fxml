@@ -53,6 +53,11 @@
                 <JFXButton mnemonicParsing="false" onAction="#VisualizeConfirmedOrders" prefHeight="26.0" prefWidth="245.0" style="-fx-background-color: #FFD700;" text="VISUALIZZA ORDINI CONFERMATI" />
               </buttons>
             </ButtonBar>
+                <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="104.0" mnemonicParsing="false" onAction="#visualizeOrdersHOME" prefHeight="46.0" prefWidth="103.0" style="-fx-background-color: #FFD700;" text="Home">
+                    <font>
+                        <Font name="System Bold" size="15.0" />
+                    </font>
+                </JFXButton>
             </children>
         </AnchorPane>
     </content>

@@ -170,11 +170,11 @@ public class SupplierController implements Initializable {
     }
 
     private void viewOrder(OrderModel order) {
-        refresh();
+        //refresh();
         commonButton.setVisible(true);
-
-        Map<Integer, Integer> shopp = ProductOrderDao.getProductIdAndQtyByOrderId(order.getId());
-        for (Integer productId : shopp.keySet()) {
+        viewButtonsVBox.setVisible(false);
+        Map<Integer, Integer> shop = ProductOrderDao.getProductIdAndQtyByOrderId(order.getId());
+        for (Integer productId : shop.keySet()) {
             ProductModel p = ProductDao.getProductById(productId);
 
             //product name & code
@@ -184,7 +184,7 @@ public class SupplierController implements Initializable {
 
             //product quantity
             Text qty = new Text();
-            qty.setText(String.valueOf(shopp.get(productId)));
+            qty.setText(String.valueOf(shop.get(productId)));
             shoppingVBox.getChildren().add(qty);
         }
     }
@@ -263,5 +263,60 @@ public class SupplierController implements Initializable {
         viewButtonsVBox.setSpacing(5);
     }
 
+    @FXML
+    public void visualizeOrdersHOME(){
+        //refresh();
+        //newOrderButton.setDisable(false);
+        viewVBox.getChildren().clear();
+        viewButtonsVBox.getChildren().clear();
+        List<OrderModel> orders = OrderDao.getAllOrders();
+        if(orders.isEmpty()){
+            Text noOrders = new Text();
+            noOrders.setText("NON CI SONO ORDINI!");
+
+            viewVBox.getChildren().add(noOrders);
+        }
+        else {
+            for (OrderModel o : orders) {
+                //short description of a shopping
+                Text orderDesc = new Text();
+                orderDesc.setText("Ordine n: " + o.getId() + "\nId Fornitore: " + o.getpIvaSupplier());
+
+                viewVBox.getChildren().add(orderDesc);
+
+                //visualize button
+                JFXButton viewButton = new JFXButton();
+                viewButton.setText("VISUALIZZA");
+                viewButton.setOnAction(actionEvent -> {
+                    viewOrderHOME(o);
+                });
+                viewButton.setStyle("-fx-background-color:  #FFD700");
+                viewButton.setButtonType(JFXButton.ButtonType.RAISED);
+                viewButtonsVBox.getChildren().add(viewButton);
+            }
+        }
+        commonButton.setVisible(false);
+        viewButtonsVBox.setSpacing(5);
+    }
+
+    private void viewOrderHOME(OrderModel order) {
+        //refresh();
+        commonButton.setVisible(true);
+        viewButtonsVBox.setVisible(true);
+        Map<Integer, Integer> shop = ProductOrderDao.getProductIdAndQtyByOrderId(order.getId());
+        for (Integer productId : shop.keySet()) {
+            ProductModel p = ProductDao.getProductById(productId);
+
+            //product name & code
+            Text prodNameCode = new Text();
+            prodNameCode.setText(p.getName() + " " + p.getBrand() + ((p.getQtyPack() != 1) ? ", " + p.getQtyPack() + "g" : ""));
+            visualizeShoppingVBox.getChildren().add(prodNameCode);
+
+            //product quantity
+            Text qty = new Text();
+            qty.setText(String.valueOf(shop.get(productId)));
+            shoppingVBox.getChildren().add(qty);
+        }
+    }
 }
 
