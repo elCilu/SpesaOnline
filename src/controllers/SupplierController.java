@@ -69,60 +69,6 @@ public class SupplierController implements Initializable {
         commonButton.setVisible(false);
     }
 
-    /*@FXML
-    public void visualizeOrders() {
-        //refresh();
-        //newOrderButton.setDisable(false);
-        viewVBox.getChildren().clear();
-        viewButtonsVBox.getChildren().clear();
-        List<OrderModel> orders = OrderDao.getAllOrders();
-        if (orders.isEmpty()) {
-            Text noOrders = new Text();
-            noOrders.setText("NON CI SONO ORDINI!");
-
-            viewVBox.getChildren().add(noOrders);
-        } else {
-            for (OrderModel o : orders) {
-                //short description of a shopping
-                Text orderDesc = new Text();
-                orderDesc.setText("Ordine n: " + o.getId() + "\nId Fornitore: " + o.getpIvaSupplier());
-
-                viewVBox.getChildren().add(orderDesc);
-
-                //visualize button
-                JFXButton viewButton = new JFXButton();
-                viewButton.setText("VISUALIZZA");
-                viewButton.setOnAction(actionEvent -> {
-                    viewOrder(o);
-                });
-                viewButton.setStyle("-fx-background-color:  #FFD700");
-                viewButton.setButtonType(JFXButton.ButtonType.RAISED);
-                viewButtonsVBox.getChildren().add(viewButton);
-            }
-        }
-        commonButton.setVisible(false);
-        viewButtonsVBox.setSpacing(5);
-    }
-
-    private void viewOrder(OrderModel order) {
-        //refresh();
-        commonButton.setVisible(true);
-        viewButtonsVBox.setVisible(false);
-        Map<Integer, Integer> shop = ProductOrderDao.getProductIdAndQtyByOrderId(order.getId());
-        for (Integer productId : shop.keySet()) {
-            ProductModel p = ProductDao.getProductById(productId);
-
-            //product name & code
-            Text prodNameCode = new Text();
-            prodNameCode.setText(p.getName() + " " + p.getBrand() + ((p.getQtyPack() != 1) ? ", " + p.getQtyPack() + "g" : ""));
-            visualizeShoppingVBox.getChildren().add(prodNameCode);
-
-            //product quantity
-            Text qty = new Text();
-            qty.setText(String.valueOf(shop.get(productId)));
-            shoppingVBox.getChildren().add(qty);
-        }
-    }*/
     @FXML
     public void visualizeOrders(){
         //refresh();
@@ -161,6 +107,8 @@ public class SupplierController implements Initializable {
 
     private void viewOrder(OrderModel order) {
         //refresh();
+        viewVBox.getChildren().clear();
+
         currentOrder = order;
         commonButton.setVisible(true);
         viewButtonsVBox.setVisible(false);
@@ -190,7 +138,7 @@ public class SupplierController implements Initializable {
             ProductModel p = ProductDao.getProductById(productId);
             try {
 
-                int resultQuery = ProductDao.updateQuantity(p.getId(), shop.get(productId));
+                int resultQuery = ProductDao.updateQuantityAdd(p.getId(), shop.get(productId));
 
                 if (resultQuery == 0) {
                     throw new Exception("Errore nell'inserimento della quantità");
@@ -228,6 +176,7 @@ public class SupplierController implements Initializable {
 
 
     public void VisualizeConfirmedOrders() {
+        viewVBox.getChildren().clear();
         visualizeShoppingVBox.getChildren().clear();
         shoppingVBox.getChildren().clear();
         qtyVBox.getChildren().clear();
