@@ -83,21 +83,11 @@
                                         <Font size="14.0" />
                                     </font>
                                 </Label>
-                                <Label prefHeight="30.0" prefWidth="180.0" text="Codice riscatto punti" GridPane.rowIndex="8">
-                                    <font>
-                                        <Font size="14.0" />
-                                    </font>
-                                </Label>
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="TOTALE SPESA" wrappingWidth="154.4638671875" GridPane.rowIndex="14">
                                     <font>
                                         <Font name="System Bold Italic" size="15.0" />
                                     </font>
                                 </Text>
-                                <JFXTextField fx:id="promotion" editable="false" GridPane.rowIndex="9">
-                                    <font>
-                                        <Font size="14.0" />
-                                    </font>
-                                </JFXTextField>
                                 <JFXTextField fx:id="totalShopping" editable="false" prefHeight="84.0" prefWidth="585.0" GridPane.rowIndex="15">
                                     <font>
                                         <Font name="System Bold Italic" size="15.0" />
