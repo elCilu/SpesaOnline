@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -28,35 +27,35 @@
             <ScrollPane prefHeight="550.0" prefWidth="500.0" style="-fx-background-color: #FFF5A0;">
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="531.0" prefWidth="493.0" style="-fx-background-color: #FFF5A0;">
                     <AnchorPane layoutX="2.0" minHeight="0.0" minWidth="0.0" prefHeight="77.0" prefWidth="490.0">
-                        <Label layoutX="169.0" layoutY="20.0" prefHeight="30.0" prefWidth="152.0" text="LISTA SPESE">
+                        <Label layoutX="169.0" layoutY="10.0" prefHeight="30.0" prefWidth="152.0" text="LISTA SPESE">
                             <font>
                                 <Font size="24.0" />
                             </font>
                         </Label>
-                        <Label layoutX="14.0" layoutY="50.0" prefHeight="30.0" prefWidth="80.0" text="ID SPESA">
+                        <Label layoutX="14.0" layoutY="40.0" prefHeight="30.0" prefWidth="80.0" text="ID SPESA">
                             <font>
                                 <Font size="12.0" />
                             </font>
                         </Label>
-                        <Label layoutX="99.0" layoutY="50.0" prefHeight="30.0" prefWidth="133.0" text="DATA CONSEGNA">
+                        <Label layoutX="99.0" layoutY="40.0" prefHeight="30.0" prefWidth="133.0" text="DATA CONSEGNA">
                             <font>
                                 <Font size="12.0" />
                             </font>
                         </Label>
-                        <Label layoutX="229.0" layoutY="50.0" prefHeight="30.0" prefWidth="133.0" text="FASCIA ORARIA">
+                        <Label layoutX="229.0" layoutY="40.0" prefHeight="30.0" prefWidth="133.0" text="FASCIA ORARIA">
                             <font>
                                 <Font size="12.0" />
                             </font>
                         </Label>
-                        <Label layoutX="359.0" layoutY="50.0" prefHeight="30.0" prefWidth="133.0" text="STATO SPESA">
+                        <Label layoutX="359.0" layoutY="40.0" prefHeight="30.0" prefWidth="133.0" text="STATO SPESA">
                             <font>
                                 <Font size="12.0" />
                             </font>
                         </Label>
                         <VBox fx:id="id" layoutX="15.0" layoutY="70.0" prefWidth="80.0" spacing="11.0" />
-                        <VBox fx:id="deliveryDate" layoutX="100.0" layoutY="70.0" prefWidth="133.0" spacing="65.0" />
-                        <VBox fx:id="deliveryH" layoutX="230.0" layoutY="65.0" prefWidth="133.0" spacing="65.0" />
-                        <VBox fx:id="status" layoutX="360.0" layoutY="70.0" prefWidth="133.0" spacing="65.0" />
+                        <VBox fx:id="deliveryDate" layoutX="100.0" layoutY="70.0" prefWidth="133.0" spacing="11.0" />
+                        <VBox fx:id="deliveryH" layoutX="230.0" layoutY="70.0" prefWidth="133.0" spacing="11.0" />
+                        <VBox fx:id="status" layoutX="360.0" layoutY="70.0" prefWidth="133.0" spacing="11.0" />
                     </AnchorPane>
                 </AnchorPane>
             </ScrollPane>
@@ -100,7 +99,6 @@
                     <JFXButton buttonType="RAISED" onAction="#addNewProduct" prefHeight="40" prefWidth="180" style="-fx-background-color: #F9AA33;" text="Conferma" />
                 </HBox>
 
-
                 <Text fx:id="actionTarget" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                 <columnConstraints>
                     <ColumnConstraints prefWidth="200.0" />
@@ -109,18 +107,6 @@
                 <padding>
                     <Insets bottom="20.0" left="40.0" right="20.0" top="20.0" />
                 </padding>
-                <rowConstraints>
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                </rowConstraints>
 
             </GridPane>
         </SplitPane>

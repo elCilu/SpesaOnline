@@ -48,7 +48,8 @@ public final class ClientDao extends BaseDao {
                         resultSet.getString(5),
                         resultSet.getString(6),
                         resultSet.getString(7),
-                        PaymentMethod.values()[resultSet.getInt(8)]);
+                        PaymentMethod.values()[resultSet.getInt(8)],
+                        0);
             }
             System.out.println("Client with given id selected.");
         } catch (SQLException e) {

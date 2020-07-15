@@ -51,11 +51,10 @@ public class StockManController implements Initializable {
     private Text message = new Text();
     private Text status = new Text();
     private static final File prodImg = new File("");
-    private String path = "";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        logo.setImage(new Image(path + "warehouse.png"));
+        logo.setImage(new Image(Global.IMG_PATH + "warehouse.png"));
         loadPage();
     }
 
