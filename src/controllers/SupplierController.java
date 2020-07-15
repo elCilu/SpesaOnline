@@ -107,6 +107,8 @@ public class SupplierController implements Initializable {
 
     private void viewOrder(OrderModel order) {
         //refresh();
+        viewVBox.getChildren().clear();
+
         currentOrder = order;
         commonButton.setVisible(true);
         viewButtonsVBox.setVisible(false);
@@ -136,7 +138,7 @@ public class SupplierController implements Initializable {
             ProductModel p = ProductDao.getProductById(productId);
             try {
 
-                int resultQuery = ProductDao.updateQuantity(p.getId(), shop.get(productId));
+                int resultQuery = ProductDao.updateQuantityAdd(p.getId(), shop.get(productId));
 
                 if (resultQuery == 0) {
                     throw new Exception("Errore nell'inserimento della quantità");
@@ -174,6 +176,7 @@ public class SupplierController implements Initializable {
 
 
     public void VisualizeConfirmedOrders() {
+        viewVBox.getChildren().clear();
         visualizeShoppingVBox.getChildren().clear();
         shoppingVBox.getChildren().clear();
         qtyVBox.getChildren().clear();

@@ -20,6 +20,7 @@ public final class ProductDao extends BaseDao {
     private static final String SELECT = "select * from products";
     private static final String SELECT_LAST = "select top 1 * from products order by id desc";
     private static final String UPDATE_QTY_IN_STOCK = "update products set qtyStock = ? where id = ?";
+    private static final String UPDATE_QTY_IN_STOCK_ADD = "update products set qtyStock = qtyStock + ? where id = ?";
     private static final String GET_ALL_QTY_STOCK = "select id, qtyStock from products";
 
     private ProductDao() {}
@@ -258,6 +259,20 @@ public final class ProductDao extends BaseDao {
             System.out.println("All qtyStock in products selected!");
         } catch (SQLException e) {
             System.err.println("Error while selecting qtyStocks.");
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static int updateQuantityAdd(int idProduct, int newQty) {
+        int result = 0;
+        try{
+            PreparedStatement statement = connection.prepareStatement(UPDATE_QTY_IN_STOCK_ADD);
+            statement.setInt(1, newQty);
+            statement.setInt(2, idProduct);
+            result = statement.executeUpdate();
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
         return result;
