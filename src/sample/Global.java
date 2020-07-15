@@ -21,7 +21,7 @@ public class Global {
     protected static String setPath(){
         String path = "";
         if(OSUtil.isWindows())
-            path = "C:\\" + new File("").getAbsolutePath() + "\\images\\";
+            path = "file:\\" + new File("").getAbsolutePath() + "\\images\\";
         if(OSUtil.isUnix())
             path = "file://" + new File("").getAbsolutePath() + "/images/";
         return path;

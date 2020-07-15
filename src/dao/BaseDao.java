@@ -9,7 +9,7 @@ abstract class BaseDao {
     static Connection connection = createConnection();
     private static final String connectionUrl =
             "jdbc:sqlserver://localhost:1433;"
-                    + "database=master;" //nome db su mssql
+                    + "database=spesaonline;" //nome db su mssql
                     + "user=SA;" //username di mssql
                     + "password=_secret_1234;" //vostra password al mssql
                     + "loginTimeout=30;";
